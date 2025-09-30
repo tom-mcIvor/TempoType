@@ -35,3 +35,21 @@ server/uploads/
 # Database
 *.db
 *.sqlite
+
+# Audio files and transcriptions
+audio-source-files/
+transcriptions/
+
+# Python virtual environments
+whisper-env/
+venv/
+env/
+.env
+
+# Secrets and API keys
+*.key
+*.pem
+.env.*
+config/secrets.json
+server/.env.*
+client-secrets.json
