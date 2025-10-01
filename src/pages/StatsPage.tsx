@@ -6,51 +6,91 @@ import {
   CheckCircleIcon,
 } from '@heroicons/react/24/solid'
 
-const StatsPage: React.FC = () => {
+interface StatsPageProps {
+  isDarkMode?: boolean
+}
+
+const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
   return (
-    <div className="py-8 pr-8">
+    <div className={`py-8 pr-8 transition-colors duration-300 ${
+      isDarkMode ? 'text-gray-100' : 'text-gray-900'
+    }`}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             📊 Your Statistics
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className={`text-lg transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Track your typing progress and achievements
           </p>
         </div>
 
         {/* Key Metrics */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className={`backdrop-blur-sm rounded-2xl p-6 shadow-xl text-center transition-colors duration-300 ${
+            isDarkMode
+              ? 'bg-gray-800/90 border border-gray-700/50'
+              : 'bg-white/80 border border-white/20'
+          }`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+              isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100'
+            }`}>
               <ChartBarIcon className="h-6 w-6 text-blue-600" />
             </div>
             <div className="text-3xl font-bold text-blue-600 mb-1">85</div>
-            <div className="text-sm text-gray-600">Average WPM</div>
+            <div className={`text-sm transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>Average WPM</div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className={`backdrop-blur-sm rounded-2xl p-6 shadow-xl text-center transition-colors duration-300 ${
+            isDarkMode
+              ? 'bg-gray-800/90 border border-gray-700/50'
+              : 'bg-white/80 border border-white/20'
+          }`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+              isDarkMode ? 'bg-green-900/50' : 'bg-green-100'
+            }`}>
               <CheckCircleIcon className="h-6 w-6 text-green-600" />
             </div>
             <div className="text-3xl font-bold text-green-600 mb-1">94%</div>
-            <div className="text-sm text-gray-600">Accuracy</div>
+            <div className={`text-sm transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>Accuracy</div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 text-center">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className={`backdrop-blur-sm rounded-2xl p-6 shadow-xl text-center transition-colors duration-300 ${
+            isDarkMode
+              ? 'bg-gray-800/90 border border-gray-700/50'
+              : 'bg-white/80 border border-white/20'
+          }`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+              isDarkMode ? 'bg-purple-900/50' : 'bg-purple-100'
+            }`}>
               <ClockIcon className="h-6 w-6 text-purple-600" />
             </div>
             <div className="text-3xl font-bold text-purple-600 mb-1">2.5h</div>
-            <div className="text-sm text-gray-600">Practice Time</div>
+            <div className={`text-sm transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>Practice Time</div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 text-center">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+          <div className={`backdrop-blur-sm rounded-2xl p-6 shadow-xl text-center transition-colors duration-300 ${
+            isDarkMode
+              ? 'bg-gray-800/90 border border-gray-700/50'
+              : 'bg-white/80 border border-white/20'
+          }`}>
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+              isDarkMode ? 'bg-orange-900/50' : 'bg-orange-100'
+            }`}>
               <TrophyIcon className="h-6 w-6 text-orange-600" />
             </div>
             <div className="text-3xl font-bold text-orange-600 mb-1">12</div>
-            <div className="text-sm text-gray-600">Achievements</div>
+            <div className={`text-sm transition-colors duration-300 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>Achievements</div>
           </div>
         </div>
 

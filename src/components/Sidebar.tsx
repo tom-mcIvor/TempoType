@@ -3,23 +3,25 @@ import {
   HomeIcon,
   PlayIcon,
   ChartBarIcon,
-  CogIcon,
   MicrophoneIcon,
+  SunIcon,
+  MoonIcon,
 } from '@heroicons/react/24/outline'
 import {
   HomeIcon as HomeIconSolid,
   PlayIcon as PlayIconSolid,
   ChartBarIcon as ChartBarIconSolid,
-  CogIcon as CogIconSolid,
   MicrophoneIcon as MicrophoneIconSolid,
 } from '@heroicons/react/24/solid'
 
 interface SidebarProps {
   currentView: string
   onViewChange: (view: string) => void
+  isDarkMode: boolean
+  onToggleDarkMode: () => void
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode, onToggleDarkMode }) => {
   const navigationItems = [
     {
       id: 'home',
@@ -49,13 +51,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
       iconSolid: MicrophoneIconSolid,
       description: 'Browse Content',
     },
-    {
-      id: 'settings',
-      name: 'Settings',
-      icon: CogIcon,
-      iconSolid: CogIconSolid,
-      description: 'Preferences',
-    },
   ]
 
   return (
@@ -67,24 +62,25 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
         top: 0,
         width: '320px',
         height: '100vh',
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: isDarkMode ? 'rgba(17, 24, 39, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(20px)',
-        borderRight: '1px solid rgba(229, 231, 235, 0.5)',
+        borderRight: isDarkMode ? '1px solid rgba(75, 85, 99, 0.5)' : '1px solid rgba(229, 231, 235, 0.5)',
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         zIndex: 1000,
         overflowY: 'auto',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        transition: 'all 0.3s ease',
       }}
     >
       {/* Header */}
       <div
         style={{
           padding: '24px',
-          borderBottom: '1px solid rgba(229, 231, 235, 0.5)',
+          borderBottom: isDarkMode ? '1px solid rgba(75, 85, 99, 0.5)' : '1px solid rgba(229, 231, 235, 0.5)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <div
             style={{
               width: '40px',
@@ -115,10 +111,43 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
             >
               TempoType
             </h1>
-            <p style={{ fontSize: '12px', color: '#6b7280', margin: 0 }}>
+            <p style={{ fontSize: '12px', color: isDarkMode ? '#9ca3af' : '#6b7280', margin: 0 }}>
               Adaptive Typing Practice
             </p>
           </div>
+        </div>
+        
+        {/* Dark Mode Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <SunIcon style={{ width: '16px', height: '16px', color: isDarkMode ? '#6b7280' : '#f59e0b' }} />
+          <button
+            onClick={onToggleDarkMode}
+            style={{
+              width: '44px',
+              height: '24px',
+              borderRadius: '12px',
+              backgroundColor: isDarkMode ? '#3b82f6' : '#d1d5db',
+              position: 'relative',
+              transition: 'all 0.3s ease',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+          >
+            <div
+              style={{
+                width: '20px',
+                height: '20px',
+                borderRadius: '50%',
+                backgroundColor: 'white',
+                position: 'absolute',
+                top: '2px',
+                left: isDarkMode ? '22px' : '2px',
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+              }}
+            />
+          </button>
+          <MoonIcon style={{ width: '16px', height: '16px', color: isDarkMode ? '#3b82f6' : '#6b7280' }} />
         </div>
       </div>
 
@@ -146,20 +175,21 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
                   background: isActive
                     ? 'linear-gradient(to right, #3b82f6, #8b5cf6)'
                     : 'transparent',
-                  color: isActive ? 'white' : '#4b5563',
+                  color: isActive ? 'white' : (isDarkMode ? '#d1d5db' : '#4b5563'),
                   textAlign: 'left',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.backgroundColor =
-                      'rgba(243, 244, 246, 0.8)'
-                    e.currentTarget.style.color = '#1f2937'
+                    e.currentTarget.style.backgroundColor = isDarkMode
+                      ? 'rgba(55, 65, 81, 0.8)'
+                      : 'rgba(243, 244, 246, 0.8)'
+                    e.currentTarget.style.color = isDarkMode ? '#f3f4f6' : '#1f2937'
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
                     e.currentTarget.style.backgroundColor = 'transparent'
-                    e.currentTarget.style.color = '#4b5563'
+                    e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#4b5563'
                   }
                 }}
               >
@@ -167,14 +197,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
                   style={{
                     width: '20px',
                     height: '20px',
-                    color: isActive ? 'white' : '#6b7280',
+                    color: isActive ? 'white' : (isDarkMode ? '#9ca3af' : '#6b7280'),
                   }}
                 />
                 <div style={{ flex: 1, textAlign: 'left' }}>
                   <div
                     style={{
                       fontWeight: '500',
-                      color: isActive ? 'white' : '#1f2937',
+                      color: isActive ? 'white' : (isDarkMode ? '#f3f4f6' : '#1f2937'),
                     }}
                   >
                     {item.name}
@@ -182,7 +212,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
                   <div
                     style={{
                       fontSize: '12px',
-                      color: isActive ? 'rgba(219, 234, 254, 0.8)' : '#6b7280',
+                      color: isActive ? 'rgba(219, 234, 254, 0.8)' : (isDarkMode ? '#9ca3af' : '#6b7280'),
                     }}
                   >
                     {item.description}
@@ -204,7 +234,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
           })}
         </div>
       </nav>
-
     </div>
   )
 }
