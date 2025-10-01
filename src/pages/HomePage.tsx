@@ -6,7 +6,7 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigateToDemo }) => {
   return (
-    <div className="p-8">
+    <div className="py-8 pr-8">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">

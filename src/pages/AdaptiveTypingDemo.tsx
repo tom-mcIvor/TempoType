@@ -28,8 +28,8 @@ a unique game of cricket was just then going forward to the intense diversion of
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-8">
-      <div className="max-w-5xl mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-8 pr-8">
+      <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-3 shadow-lg mb-6">

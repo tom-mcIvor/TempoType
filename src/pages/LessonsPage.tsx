@@ -2,7 +2,7 @@ import React from 'react'
 
 const LessonsPage: React.FC = () => {
   return (
-    <div className="p-8">
+    <div className="py-8 pr-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
@@ -40,7 +40,9 @@ const LessonsPage: React.FC = () => {
           {/* Intermediate Lessons */}
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20">
             <div className="text-3xl mb-3">🚀</div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">Intermediate</h3>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">
+              Intermediate
+            </h3>
             <p className="text-gray-600 text-sm mb-4">
               Build speed and accuracy with common words and phrases
             </p>
@@ -87,7 +89,8 @@ const LessonsPage: React.FC = () => {
         <div className="mt-8 bg-blue-50 rounded-2xl p-6">
           <h3 className="text-lg font-bold text-blue-800 mb-2">Coming Soon!</h3>
           <p className="text-blue-700">
-            We're working on comprehensive typing lessons. For now, try our adaptive audio typing feature!
+            We're working on comprehensive typing lessons. For now, try our
+            adaptive audio typing feature!
           </p>
         </div>
       </div>

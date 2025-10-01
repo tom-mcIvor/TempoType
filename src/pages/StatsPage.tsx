@@ -8,7 +8,7 @@ import {
 
 const StatsPage: React.FC = () => {
   return (
-    <div className="p-8">
+    <div className="py-8 pr-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
