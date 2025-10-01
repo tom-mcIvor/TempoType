@@ -30,7 +30,7 @@ function App() {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <div className="flex-1 flex items-center justify-center min-h-screen overflow-auto">
+      <div className="sidebar-tab-container">
         {currentView === 'adaptiveTyping' ? (
           <AdaptiveTyping
             audioSrc="/fateoffenella_01_various_64kb.mp3"

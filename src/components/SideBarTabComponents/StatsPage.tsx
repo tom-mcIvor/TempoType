@@ -13,22 +13,15 @@ interface StatsPageProps {
 const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
   return (
     <div
-      className={`StatsPage w-full max-w-6xl py-8 px-8 transition-colors duration-300 ${
+      className={`StatsPage sidebar-tab-content stats-content transition-colors duration-300 ${
         isDarkMode ? 'text-gray-100' : 'text-gray-900'
       }`}
     >
-      <div className="w-full">
+      <div className="center-content">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             📊 Your Statistics
           </h1>
-          <p
-            className={`text-lg transition-colors duration-300 ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}
-          >
-            Track your typing progress and achievements
-          </p>
         </div>
 
         {/* Key Metrics */}
@@ -166,20 +159,6 @@ const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
           >
             <div className="text-center">
               <div className="text-2xl mb-2">📈</div>
-              <div
-                className={`transition-colors duration-300 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                }`}
-              >
-                Chart visualization coming soon!
-              </div>
-              <div
-                className={`text-sm mt-1 transition-colors duration-300 ${
-                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                }`}
-              >
-                Track your WPM and accuracy improvements
-              </div>
             </div>
           </div>
         </div>

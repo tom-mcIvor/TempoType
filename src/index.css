@@ -66,3 +66,46 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* Custom centering utilities for SideBarTab components */
+.sidebar-tab-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.sidebar-tab-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.homepage-content {
+  max-width: 80rem; /* 1280px */
+}
+
+.adaptive-typing-content {
+  max-width: 64rem; /* 1024px */
+}
+
+.stats-content {
+  max-width: 96rem; /* 1536px */
+}
+
+/* Ensure proper centering for all content */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
