@@ -33,7 +33,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <Sidebar currentView={currentView} onViewChange={setCurrentView} />
-      <div className="ml-80">
+      <div
+        style={{
+          marginLeft: '321px', // 320px sidebar width + 1px border
+          minHeight: '100vh'
+        }}
+      >
         {renderCurrentView()}
       </div>
     </div>

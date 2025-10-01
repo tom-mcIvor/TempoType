@@ -77,7 +77,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
   ]
 
   return (
-    <div 
+    <div
       className="sidebar-container"
       style={{
         position: 'fixed',
@@ -96,14 +96,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
       }}
     >
       {/* Header */}
-      <div 
+      <div
         style={{
           padding: '24px',
-          borderBottom: '1px solid rgba(229, 231, 235, 0.5)'
+          borderBottom: '1px solid rgba(229, 231, 235, 0.5)',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div 
+          <div
             style={{
               width: '40px',
               height: '40px',
@@ -111,20 +111,24 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
               borderRadius: '12px',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
-            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>T</span>
+            <span
+              style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}
+            >
+              T
+            </span>
           </div>
           <div>
-            <h1 
+            <h1
               style={{
                 fontSize: '20px',
                 fontWeight: 'bold',
                 background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                margin: 0
+                margin: 0,
               }}
             >
               TempoType
@@ -157,15 +161,16 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
-                  background: isActive 
-                    ? 'linear-gradient(to right, #3b82f6, #8b5cf6)' 
+                  background: isActive
+                    ? 'linear-gradient(to right, #3b82f6, #8b5cf6)'
                     : 'transparent',
                   color: isActive ? 'white' : '#4b5563',
-                  textAlign: 'left'
+                  textAlign: 'left',
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.backgroundColor = 'rgba(243, 244, 246, 0.8)'
+                    e.currentTarget.style.backgroundColor =
+                      'rgba(243, 244, 246, 0.8)'
                     e.currentTarget.style.color = '#1f2937'
                   }
                 }}
@@ -176,39 +181,39 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
                   }
                 }}
               >
-                <Icon 
-                  style={{ 
-                    width: '20px', 
+                <Icon
+                  style={{
+                    width: '20px',
                     height: '20px',
-                    color: isActive ? 'white' : '#6b7280'
-                  }} 
+                    color: isActive ? 'white' : '#6b7280',
+                  }}
                 />
                 <div style={{ flex: 1, textAlign: 'left' }}>
-                  <div 
-                    style={{ 
+                  <div
+                    style={{
                       fontWeight: '500',
-                      color: isActive ? 'white' : '#1f2937'
+                      color: isActive ? 'white' : '#1f2937',
                     }}
                   >
                     {item.name}
                   </div>
-                  <div 
-                    style={{ 
+                  <div
+                    style={{
                       fontSize: '12px',
-                      color: isActive ? 'rgba(219, 234, 254, 0.8)' : '#6b7280'
+                      color: isActive ? 'rgba(219, 234, 254, 0.8)' : '#6b7280',
                     }}
                   >
                     {item.description}
                   </div>
                 </div>
                 {isActive && (
-                  <div 
+                  <div
                     style={{
                       width: '8px',
                       height: '8px',
                       backgroundColor: 'white',
                       borderRadius: '50%',
-                      opacity: 0.8
+                      opacity: 0.8,
                     }}
                   />
                 )}
@@ -219,22 +224,30 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
       </nav>
 
       {/* Footer */}
-      <div 
+      <div
         style={{
           padding: '16px',
-          borderTop: '1px solid rgba(229, 231, 235, 0.5)'
+          borderTop: '1px solid rgba(229, 231, 235, 0.5)',
         }}
       >
-        <div 
+        <div
           style={{
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))',
+            background:
+              'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))',
             borderRadius: '12px',
             padding: '16px',
-            border: '1px solid rgba(59, 130, 246, 0.2)'
+            border: '1px solid rgba(59, 130, 246, 0.2)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <div 
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '8px',
+            }}
+          >
+            <div
               style={{
                 width: '32px',
                 height: '32px',
@@ -242,13 +255,19 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
                 borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
               }}
             >
               <span style={{ fontSize: '14px' }}>🎯</span>
             </div>
             <div>
-              <div style={{ fontWeight: '600', color: '#1f2937', fontSize: '14px' }}>
+              <div
+                style={{
+                  fontWeight: '600',
+                  color: '#1f2937',
+                  fontSize: '14px',
+                }}
+              >
                 Pro Tip
               </div>
               <div style={{ fontSize: '12px', color: '#4b5563' }}>
