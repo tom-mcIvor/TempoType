@@ -31,12 +31,12 @@ function App() {
   }
 
   return (
-    <React.Fragment>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-        <Sidebar currentView={currentView} onViewChange={setCurrentView} />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      <Sidebar currentView={currentView} onViewChange={setCurrentView} />
+      <div className="ml-80">
+        {renderCurrentView()}
       </div>
-      <div>{renderCurrentView()}</div>
-    </React.Fragment>
+    </div>
   )
 }
 
