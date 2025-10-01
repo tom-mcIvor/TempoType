@@ -4,8 +4,6 @@ import {
   PlayIcon,
   ChartBarIcon,
   CogIcon,
-  QuestionMarkCircleIcon,
-  BookOpenIcon,
   MicrophoneIcon,
 } from '@heroicons/react/24/outline'
 import {
@@ -13,8 +11,6 @@ import {
   PlayIcon as PlayIconSolid,
   ChartBarIcon as ChartBarIconSolid,
   CogIcon as CogIconSolid,
-  QuestionMarkCircleIcon as QuestionMarkCircleIconSolid,
-  BookOpenIcon as BookOpenIconSolid,
   MicrophoneIcon as MicrophoneIconSolid,
 } from '@heroicons/react/24/solid'
 
@@ -40,13 +36,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
       description: 'Practice with AI',
     },
     {
-      id: 'lessons',
-      name: 'Lessons',
-      icon: BookOpenIcon,
-      iconSolid: BookOpenIconSolid,
-      description: 'Structured Learning',
-    },
-    {
       id: 'stats',
       name: 'Statistics',
       icon: ChartBarIcon,
@@ -66,13 +55,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
       icon: CogIcon,
       iconSolid: CogIconSolid,
       description: 'Preferences',
-    },
-    {
-      id: 'help',
-      name: 'Help & Support',
-      icon: QuestionMarkCircleIcon,
-      iconSolid: QuestionMarkCircleIconSolid,
-      description: 'Get Assistance',
     },
   ]
 
