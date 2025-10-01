@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import HomePage from './pages/HomePage'
 import AdaptiveTypingDemo from './pages/AdaptiveTypingDemo'
@@ -31,10 +31,12 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      <Sidebar currentView={currentView} onViewChange={setCurrentView} />
-      <div className="ml-80 pl-8">{renderCurrentView()}</div>
-    </div>
+    <React.Fragment>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+        <Sidebar currentView={currentView} onViewChange={setCurrentView} />
+      </div>
+      <div>{renderCurrentView()}</div>
+    </React.Fragment>
   )
 }
 
