@@ -223,63 +223,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
         </div>
       </nav>
 
-      {/* Footer */}
-      <div
-        style={{
-          padding: '16px',
-          borderTop: '1px solid rgba(229, 231, 235, 0.5)',
-        }}
-      >
-        <div
-          style={{
-            background:
-              'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))',
-            borderRadius: '12px',
-            padding: '16px',
-            border: '1px solid rgba(59, 130, 246, 0.2)',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '8px',
-            }}
-          >
-            <div
-              style={{
-                width: '32px',
-                height: '32px',
-                background: 'linear-gradient(135deg, #10b981, #059669)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <span style={{ fontSize: '14px' }}>🎯</span>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontWeight: '600',
-                  color: '#1f2937',
-                  fontSize: '14px',
-                }}
-              >
-                Pro Tip
-              </div>
-              <div style={{ fontSize: '12px', color: '#4b5563' }}>
-                Practice daily for best results!
-              </div>
-            </div>
-          </div>
-          <div style={{ fontSize: '12px', color: '#6b7280' }}>
-            Consistent practice improves muscle memory and typing speed.
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
