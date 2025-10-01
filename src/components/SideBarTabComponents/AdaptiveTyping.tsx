@@ -153,11 +153,11 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
 
   return (
     <div
-      className={`min-h-screen flex items-start justify-center transition-colors duration-300 ${
+      className={`AdaptiveTyping w-full max-w-4xl p-6 transition-colors duration-300 ${
         isDarkMode ? 'text-gray-100' : 'text-gray-900'
       }`}
     >
-      <div className="w-full max-w-4xl mx-auto p-6 text-center">
+      <div className="w-full text-center">
         {/* Header */}
         <div className="text-center mb-6">
           <div
@@ -167,7 +167,9 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 : 'bg-white/80 border border-white/20'
             }`}
           >
-            <div className="text-lg">🎧</div>
+            <div className="text-base" style={{ fontSize: '16px' }}>
+              🎧
+            </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Adaptive Audio Typing
             </h1>
@@ -244,15 +246,17 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
             </div>
             <div className="text-center">
               <div className="text-xl mb-1">
-                {typingStats.currentWPM < 60
-                  ? '🐢'
-                  : typingStats.currentWPM < 100
-                  ? '🚶'
-                  : typingStats.currentWPM < 140
-                  ? '🏃'
-                  : typingStats.currentWPM < 180
-                  ? '🚀'
-                  : '⚡'}
+                {typingStats.currentWPM < 60 ? (
+                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🐢</span>
+                ) : typingStats.currentWPM < 100 ? (
+                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🚶</span>
+                ) : typingStats.currentWPM < 140 ? (
+                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🏃</span>
+                ) : typingStats.currentWPM < 180 ? (
+                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🚀</span>
+                ) : (
+                  <span style={{ fontSize: '16px', lineHeight: 1 }}>⚡</span>
+                )}
               </div>
               <div
                 className={`text-xs font-medium transition-colors duration-300 ${
@@ -303,15 +307,24 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                     className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium text-sm"
                   >
                     {isPlaying ? (
-                      <PauseIcon className="h-4 w-4" />
+                      <PauseIcon
+                        className="h-4 w-4"
+                        style={{ width: '24px', height: '24px' }}
+                      />
                     ) : (
-                      <PlayIcon className="h-4 w-4" />
+                      <PlayIcon
+                        className="h-4 w-4"
+                        style={{ width: '24px', height: '24px' }}
+                      />
                     )}
                     <span>{isPlaying ? 'Pause' : 'Play Audio'}</span>
                   </button>
 
                   <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-md px-3 py-1 shadow-sm">
-                    <ClockIcon className="h-4 w-4 text-blue-600" />
+                    <ClockIcon
+                      className="h-4 w-4 text-blue-600"
+                      style={{ width: '24px', height: '24px' }}
+                    />
                     <span className="font-medium text-gray-700 text-sm">
                       {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
@@ -319,7 +332,10 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <SpeakerWaveIcon className="h-4 w-4 text-purple-600" />
+                  <SpeakerWaveIcon
+                    className="h-4 w-4 text-purple-600"
+                    style={{ width: '24px', height: '24px' }}
+                  />
                   <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium px-3 py-1 rounded-md text-sm">
                     {playbackRate.toFixed(2)}x Speed
                   </div>
@@ -355,7 +371,10 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
               <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border border-blue-100 rounded-xl overflow-hidden">
                 <div className="p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <ChartBarIcon className="h-4 w-4 text-blue-600" />
+                    <ChartBarIcon
+                      className="h-4 w-4 text-blue-600"
+                      style={{ width: '24px', height: '24px' }}
+                    />
                     <h3 className="text-sm font-bold text-gray-800">
                       Live Performance Stats
                     </h3>
@@ -427,6 +446,7 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                   <div className="bg-blue-500 rounded-full p-1 mt-1">
                     <svg
                       className="h-3 w-3 text-white"
+                      style={{ width: '12px', height: '12px' }}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -463,6 +483,7 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                   <div className="bg-amber-500 rounded-full p-1 mt-1">
                     <svg
                       className="h-3 w-3 text-white"
+                      style={{ width: '12px', height: '12px' }}
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -625,7 +646,9 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
               isDarkMode ? 'text-amber-300' : 'text-amber-800'
             }`}
           >
-            <span className="text-lg">💡</span>
+            <span className="text-base" style={{ fontSize: '16px' }}>
+              💡
+            </span>
             Pro Tips for Best Results
           </h3>
           <div className="grid md:grid-cols-2 gap-3">

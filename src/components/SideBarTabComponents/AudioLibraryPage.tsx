@@ -9,7 +9,7 @@ const AudioLibraryPage: React.FC<AudioLibraryPageProps> = ({
 }) => {
   return (
     <div
-      className={`py-8 pr-8 transition-colors duration-300 ${
+      className={`AudioLibraryPage py-8 pr-8 transition-colors duration-300 ${
         isDarkMode ? 'text-gray-100' : 'text-gray-900'
       }`}
     >

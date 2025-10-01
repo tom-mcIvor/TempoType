@@ -13,11 +13,11 @@ interface StatsPageProps {
 const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
   return (
     <div
-      className={`py-8 pr-8 transition-colors duration-300 ${
+      className={`StatsPage w-full max-w-6xl py-8 px-8 transition-colors duration-300 ${
         isDarkMode ? 'text-gray-100' : 'text-gray-900'
       }`}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
             📊 Your Statistics
@@ -45,7 +45,10 @@ const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
                 isDarkMode ? 'bg-blue-900/50' : 'bg-blue-100'
               }`}
             >
-              <ChartBarIcon className="h-6 w-6 text-blue-600" />
+              <ChartBarIcon
+                className="h-6 w-6 text-blue-600"
+                style={{ width: '24px', height: '24px' }}
+              />
             </div>
             <div className="text-3xl font-bold text-blue-600 mb-1">85</div>
             <div
@@ -69,7 +72,10 @@ const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
                 isDarkMode ? 'bg-green-900/50' : 'bg-green-100'
               }`}
             >
-              <CheckCircleIcon className="h-6 w-6 text-green-600" />
+              <CheckCircleIcon
+                className="h-6 w-6 text-green-600"
+                style={{ width: '24px', height: '24px' }}
+              />
             </div>
             <div className="text-3xl font-bold text-green-600 mb-1">94%</div>
             <div
@@ -93,7 +99,10 @@ const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
                 isDarkMode ? 'bg-purple-900/50' : 'bg-purple-100'
               }`}
             >
-              <ClockIcon className="h-6 w-6 text-purple-600" />
+              <ClockIcon
+                className="h-6 w-6 text-purple-600"
+                style={{ width: '24px', height: '24px' }}
+              />
             </div>
             <div className="text-3xl font-bold text-purple-600 mb-1">2.5h</div>
             <div
@@ -117,7 +126,10 @@ const StatsPage: React.FC<StatsPageProps> = ({ isDarkMode = false }) => {
                 isDarkMode ? 'bg-orange-900/50' : 'bg-orange-100'
               }`}
             >
-              <TrophyIcon className="h-6 w-6 text-orange-600" />
+              <TrophyIcon
+                className="h-6 w-6 text-orange-600"
+                style={{ width: '24px', height: '24px' }}
+              />
             </div>
             <div className="text-3xl font-bold text-orange-600 mb-1">12</div>
             <div

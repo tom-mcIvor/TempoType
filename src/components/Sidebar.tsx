@@ -21,31 +21,37 @@ interface SidebarProps {
   onToggleDarkMode: () => void
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode, onToggleDarkMode }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  currentView,
+  onViewChange,
+  isDarkMode,
+  onToggleDarkMode,
+}) => {
+  console.log('Sidebar rendered, isDarkMode=', isDarkMode)
   const navigationItems = [
     {
-      id: 'home',
+      id: 'homePage',
       name: 'Home',
       icon: HomeIcon,
       iconSolid: HomeIconSolid,
       description: 'Welcome & Overview',
     },
     {
-      id: 'demo',
+      id: 'adaptiveTyping',
       name: 'Adaptive Typing',
       icon: PlayIcon,
       iconSolid: PlayIconSolid,
       description: 'Practice with AI',
     },
     {
-      id: 'stats',
+      id: 'statsPage',
       name: 'Statistics',
       icon: ChartBarIcon,
       iconSolid: ChartBarIconSolid,
       description: 'Track Progress',
     },
     {
-      id: 'audio',
+      id: 'audioLibraryPage',
       name: 'Audio Library',
       icon: MicrophoneIcon,
       iconSolid: MicrophoneIconSolid,
@@ -55,32 +61,43 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
 
   return (
     <div
-      className="sidebar-container"
+      className="Sidebar sidebar-container"
       style={{
-        position: 'fixed',
-        left: 0,
-        top: 0,
         width: '320px',
-        height: '100vh',
-        backgroundColor: isDarkMode ? 'rgba(17, 24, 39, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+        minHeight: '100vh',
+        backgroundColor: isDarkMode
+          ? 'rgba(17, 24, 39, 0.95)'
+          : 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(20px)',
-        borderRight: isDarkMode ? '1px solid rgba(75, 85, 99, 0.5)' : '1px solid rgba(229, 231, 235, 0.5)',
+        borderRight: isDarkMode
+          ? '1px solid rgba(75, 85, 99, 0.5)'
+          : '1px solid rgba(229, 231, 235, 0.5)',
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-        zIndex: 1000,
         overflowY: 'auto',
         display: 'flex',
         flexDirection: 'column',
+        flexShrink: 0,
         transition: 'all 0.3s ease',
+        outline: '2px solid rgba(255, 0, 0, 0.05)',
       }}
     >
       {/* Header */}
       <div
         style={{
           padding: '24px',
-          borderBottom: isDarkMode ? '1px solid rgba(75, 85, 99, 0.5)' : '1px solid rgba(229, 231, 235, 0.5)',
+          borderBottom: isDarkMode
+            ? '1px solid rgba(75, 85, 99, 0.5)'
+            : '1px solid rgba(229, 231, 235, 0.5)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            marginBottom: '16px',
+          }}
+        >
           <div
             style={{
               width: '40px',
@@ -111,15 +128,27 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
             >
               TempoType
             </h1>
-            <p style={{ fontSize: '12px', color: isDarkMode ? '#9ca3af' : '#6b7280', margin: 0 }}>
+            <p
+              style={{
+                fontSize: '12px',
+                color: isDarkMode ? '#9ca3af' : '#6b7280',
+                margin: 0,
+              }}
+            >
               Adaptive Typing Practice
             </p>
           </div>
         </div>
-        
+
         {/* Dark Mode Toggle */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <SunIcon style={{ width: '16px', height: '16px', color: isDarkMode ? '#6b7280' : '#f59e0b' }} />
+          <SunIcon
+            style={{
+              width: '16px',
+              height: '16px',
+              color: isDarkMode ? '#6b7280' : '#f59e0b',
+            }}
+          />
           <button
             onClick={onToggleDarkMode}
             style={{
@@ -147,7 +176,13 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
               }}
             />
           </button>
-          <MoonIcon style={{ width: '16px', height: '16px', color: isDarkMode ? '#3b82f6' : '#6b7280' }} />
+          <MoonIcon
+            style={{
+              width: '16px',
+              height: '16px',
+              color: isDarkMode ? '#3b82f6' : '#6b7280',
+            }}
+          />
         </div>
       </div>
 
@@ -175,7 +210,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
                   background: isActive
                     ? 'linear-gradient(to right, #3b82f6, #8b5cf6)'
                     : 'transparent',
-                  color: isActive ? 'white' : (isDarkMode ? '#d1d5db' : '#4b5563'),
+                  color: isActive
+                    ? 'white'
+                    : isDarkMode
+                    ? '#d1d5db'
+                    : '#4b5563',
                   textAlign: 'left',
                 }}
                 onMouseEnter={(e) => {
@@ -183,13 +222,17 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
                     e.currentTarget.style.backgroundColor = isDarkMode
                       ? 'rgba(55, 65, 81, 0.8)'
                       : 'rgba(243, 244, 246, 0.8)'
-                    e.currentTarget.style.color = isDarkMode ? '#f3f4f6' : '#1f2937'
+                    e.currentTarget.style.color = isDarkMode
+                      ? '#f3f4f6'
+                      : '#1f2937'
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
                     e.currentTarget.style.backgroundColor = 'transparent'
-                    e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#4b5563'
+                    e.currentTarget.style.color = isDarkMode
+                      ? '#d1d5db'
+                      : '#4b5563'
                   }
                 }}
               >
@@ -197,14 +240,22 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
                   style={{
                     width: '20px',
                     height: '20px',
-                    color: isActive ? 'white' : (isDarkMode ? '#9ca3af' : '#6b7280'),
+                    color: isActive
+                      ? 'white'
+                      : isDarkMode
+                      ? '#9ca3af'
+                      : '#6b7280',
                   }}
                 />
                 <div style={{ flex: 1, textAlign: 'left' }}>
                   <div
                     style={{
                       fontWeight: '500',
-                      color: isActive ? 'white' : (isDarkMode ? '#f3f4f6' : '#1f2937'),
+                      color: isActive
+                        ? 'white'
+                        : isDarkMode
+                        ? '#f3f4f6'
+                        : '#1f2937',
                     }}
                   >
                     {item.name}
@@ -212,7 +263,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
                   <div
                     style={{
                       fontSize: '12px',
-                      color: isActive ? 'rgba(219, 234, 254, 0.8)' : (isDarkMode ? '#9ca3af' : '#6b7280'),
+                      color: isActive
+                        ? 'rgba(219, 234, 254, 0.8)'
+                        : isDarkMode
+                        ? '#9ca3af'
+                        : '#6b7280',
                     }}
                   >
                     {item.description}
