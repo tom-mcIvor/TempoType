@@ -30,7 +30,11 @@ function App() {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <div className="sidebar-tab-container">
+      <div className={`sidebar-tab-container transition-colors duration-300 ${
+        isDarkMode
+          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100'
+          : 'bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 text-gray-900'
+      }`}>
         {currentView === 'adaptiveTyping' ? (
           <AdaptiveTyping
             audioSrc="/fateoffenella_01_various_64kb.mp3"
@@ -44,7 +48,6 @@ function App() {
           <AudioLibraryPage isDarkMode={isDarkMode} />
         ) : (
           <HomePage
-            onNavigateToDemo={() => setCurrentView('adaptiveTyping')}
             isDarkMode={isDarkMode}
           />
         )}

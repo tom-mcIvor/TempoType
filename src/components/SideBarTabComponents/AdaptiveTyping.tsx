@@ -120,6 +120,13 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
       }`}
     >
       <div className="center-content">
+        {/* Main Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            TempoType
+          </h1>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-6">
           <div
@@ -129,9 +136,9 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 : 'bg-white/80 border border-white/20'
             }`}
           >
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Adaptive Audio Typing
-            </h1>
+            </h2>
           </div>
         </div>
 
@@ -333,7 +340,6 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 }}
                 isDarkMode={isDarkMode}
                 disabled={!isPlaying}
-                showMetrics={false} // We'll use the existing stats display above
                 className="mb-4"
               />
             </div>
