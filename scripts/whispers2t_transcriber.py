@@ -28,9 +28,9 @@ def transcribe_file(audio_path, model_size="medium", output_dir="transcriptions"
         # Create output directory
         os.makedirs(output_dir, exist_ok=True)
         
-        # Load model
+        # Load model with CPU device and float32 compute type for compatibility
         print(f"Loading {model_size} model...")
-        model = whisper_s2t.load_model(model_size)
+        model = whisper_s2t.load_model(model_size, compute_type="float32", device="cpu")
         
         # Transcribe
         print(f"Transcribing: {audio_path}")

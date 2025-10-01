@@ -39,6 +39,18 @@ server/uploads/
 # Audio files and transcriptions
 audio-source-files/
 transcriptions/
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.flac
+*.ogg
+public/*.mp3
+public/*.wav
+public/*.m4a
+public/*.aac
+public/*.flac
+public/*.ogg
 
 # Python virtual environments
 whisper-env/
