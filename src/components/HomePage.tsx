@@ -56,7 +56,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigateToDemo, isDarkMode = fals
                 ? 'bg-gradient-to-br from-blue-900/50 to-blue-800/50 border-blue-700/50'
                 : 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200'
             }`}>
-              <div className="text-4xl mb-3">🎯</div>
+              <div className="text-2xl mb-3">🎯</div>
               <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-blue-300' : 'text-blue-800'}`}>Adaptive Speed</h3>
               <p className={`text-sm ${isDarkMode ? 'text-blue-200' : 'text-blue-700'}`}>
                 Audio automatically matches your typing pace for optimal
@@ -68,7 +68,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigateToDemo, isDarkMode = fals
                 ? 'bg-gradient-to-br from-green-900/50 to-green-800/50 border-green-700/50'
                 : 'bg-gradient-to-br from-green-50 to-green-100 border-green-200'
             }`}>
-              <div className="text-4xl mb-3">📊</div>
+              <div className="text-2xl mb-3">📊</div>
               <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-green-300' : 'text-green-800'}`}>
                 Real-time Analytics
               </h3>
@@ -81,7 +81,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigateToDemo, isDarkMode = fals
                 ? 'bg-gradient-to-br from-purple-900/50 to-purple-800/50 border-purple-700/50'
                 : 'bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200'
             }`}>
-              <div className="text-4xl mb-3">🎧</div>
+              <div className="text-2xl mb-3">🎧</div>
               <h3 className={`font-bold mb-2 ${isDarkMode ? 'text-purple-300' : 'text-purple-800'}`}>Smart Audio</h3>
               <p className={`text-sm ${isDarkMode ? 'text-purple-200' : 'text-purple-700'}`}>
                 Crystal clear speech at any speed from 0.25x to 2.0x
@@ -113,7 +113,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigateToDemo, isDarkMode = fals
           <h3 className={`text-2xl font-bold mb-6 text-center flex items-center justify-center gap-3 transition-colors duration-300 ${
             isDarkMode ? 'text-gray-200' : 'text-gray-800'
           }`}>
-            <span className="text-3xl">⚙️</span>
+            <span className="text-2xl">⚙️</span>
             How It Works
           </h3>
           <div className="grid md:grid-cols-2 gap-8">
