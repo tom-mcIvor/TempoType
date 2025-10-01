@@ -77,68 +77,186 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
   ]
 
   return (
-    <div className="fixed left-0 top-0 h-full w-80 bg-white/90 backdrop-blur-xl border-r border-gray-200/50 shadow-2xl z-50">
+    <div 
+      className="sidebar-container"
+      style={{
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        width: '320px',
+        height: '100vh',
+        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderRight: '1px solid rgba(229, 231, 235, 0.5)',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        zIndex: 1000,
+        overflowY: 'auto',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
       {/* Header */}
-      <div className="p-6 border-b border-gray-200/50">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-            <span className="text-white font-bold text-lg">T</span>
+      <div 
+        style={{
+          padding: '24px',
+          borderBottom: '1px solid rgba(229, 231, 235, 0.5)'
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div 
+            style={{
+              width: '40px',
+              height: '40px',
+              background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '18px' }}>T</span>
           </div>
           <div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 
+              style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                margin: 0
+              }}
+            >
               TempoType
             </h1>
-            <p className="text-xs text-gray-500">Adaptive Typing Practice</p>
+            <p style={{ fontSize: '12px', color: '#6b7280', margin: 0 }}>
+              Adaptive Typing Practice
+            </p>
           </div>
         </div>
       </div>
 
       {/* Navigation */}
-      <nav className="p-4 space-y-2">
-        {navigationItems.map((item) => {
-          const isActive = currentView === item.id
-          const Icon = isActive ? item.iconSolid : item.icon
+      <nav style={{ padding: '16px', flex: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {navigationItems.map((item) => {
+            const isActive = currentView === item.id
+            const Icon = isActive ? item.iconSolid : item.icon
 
-          return (
-            <button
-              key={item.id}
-              onClick={() => onViewChange(item.id)}
-              className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group ${
-                isActive
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg'
-                  : 'text-gray-600 hover:bg-gray-100/80 hover:text-gray-900'
-              }`}
-            >
-              <Icon className={`h-5 w-5 ${isActive ? 'text-white' : 'text-gray-500 group-hover:text-gray-700'}`} />
-              <div className="flex-1 text-left">
-                <div className={`font-medium ${isActive ? 'text-white' : 'text-gray-900'}`}>
-                  {item.name}
+            return (
+              <button
+                key={item.id}
+                onClick={() => onViewChange(item.id)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  background: isActive 
+                    ? 'linear-gradient(to right, #3b82f6, #8b5cf6)' 
+                    : 'transparent',
+                  color: isActive ? 'white' : '#4b5563',
+                  textAlign: 'left'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = 'rgba(243, 244, 246, 0.8)'
+                    e.currentTarget.style.color = '#1f2937'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = 'transparent'
+                    e.currentTarget.style.color = '#4b5563'
+                  }
+                }}
+              >
+                <Icon 
+                  style={{ 
+                    width: '20px', 
+                    height: '20px',
+                    color: isActive ? 'white' : '#6b7280'
+                  }} 
+                />
+                <div style={{ flex: 1, textAlign: 'left' }}>
+                  <div 
+                    style={{ 
+                      fontWeight: '500',
+                      color: isActive ? 'white' : '#1f2937'
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                  <div 
+                    style={{ 
+                      fontSize: '12px',
+                      color: isActive ? 'rgba(219, 234, 254, 0.8)' : '#6b7280'
+                    }}
+                  >
+                    {item.description}
+                  </div>
                 </div>
-                <div className={`text-xs ${isActive ? 'text-blue-100' : 'text-gray-500'}`}>
-                  {item.description}
-                </div>
-              </div>
-              {isActive && (
-                <div className="w-2 h-2 bg-white rounded-full opacity-80"></div>
-              )}
-            </button>
-          )
-        })}
+                {isActive && (
+                  <div 
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: 'white',
+                      borderRadius: '50%',
+                      opacity: 0.8
+                    }}
+                  />
+                )}
+              </button>
+            )
+          })}
+        </div>
       </nav>
 
       {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200/50">
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200/50">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center">
-              <span className="text-white text-sm">🎯</span>
+      <div 
+        style={{
+          padding: '16px',
+          borderTop: '1px solid rgba(229, 231, 235, 0.5)'
+        }}
+      >
+        <div 
+          style={{
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))',
+            borderRadius: '12px',
+            padding: '16px',
+            border: '1px solid rgba(59, 130, 246, 0.2)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+            <div 
+              style={{
+                width: '32px',
+                height: '32px',
+                background: 'linear-gradient(135deg, #10b981, #059669)',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <span style={{ fontSize: '14px' }}>🎯</span>
             </div>
             <div>
-              <div className="font-semibold text-gray-800 text-sm">Pro Tip</div>
-              <div className="text-xs text-gray-600">Practice daily for best results!</div>
+              <div style={{ fontWeight: '600', color: '#1f2937', fontSize: '14px' }}>
+                Pro Tip
+              </div>
+              <div style={{ fontSize: '12px', color: '#4b5563' }}>
+                Practice daily for best results!
+              </div>
             </div>
           </div>
-          <div className="text-xs text-gray-500">
+          <div style={{ fontSize: '12px', color: '#6b7280' }}>
             Consistent practice improves muscle memory and typing speed.
           </div>
         </div>
