@@ -32,7 +32,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
       style={{
         minHeight: '100vh',
         width: '100%',
-        background: isDarkMode
+        background: isDarkMode 
           ? 'linear-gradient(to bottom right, #111827, #1f2937, #111827)'
           : 'linear-gradient(to bottom right, #eff6ff, #f3e8ff, #fdf2f8)',
       }}
