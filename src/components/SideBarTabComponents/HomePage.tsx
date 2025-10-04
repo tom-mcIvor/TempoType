@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import TextBox from '../TextBox'
+import CardCarousel, { sampleAudioCards } from '../CardCarousel'
 
 interface TypingMetrics {
   wpm: number
@@ -50,19 +51,23 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
             TempoType
           </h1>
         </div>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
-         <br/>
+      </div>
+
+      {/* Audio Carousel Section */}
+      <div className="mb-12">
+        <div className="text-center mb-8">
+          <h2 className={`text-3xl font-bold mb-4 ${
+            isDarkMode ? 'text-gray-100' : 'text-gray-900'
+          }`}>
+            Choose Your Audio Adventure
+          </h2>
+          <p className={`text-lg ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
+            Practice typing with engaging audiobook chapters
+          </p>
+        </div>
+        <CardCarousel cards={sampleAudioCards} isDarkMode={isDarkMode} />
       </div>
 
       {/* Centered main content */}
