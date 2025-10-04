@@ -50,6 +50,19 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
             TempoType
           </h1>
         </div>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
       </div>
 
       {/* Centered main content */}

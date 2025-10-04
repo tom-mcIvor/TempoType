@@ -162,6 +162,8 @@ const TextBox: React.FC<TextBoxProps> = ({
               : 'text-gray-900 placeholder-gray-500'
           }`}
           style={{
+            border: 'none',
+            outline: 'none',
             minHeight: '120px',
             maxHeight: maxHeight,
           }}
