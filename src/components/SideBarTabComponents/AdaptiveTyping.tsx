@@ -2,7 +2,6 @@ import React, { useRef, useState, useCallback } from 'react'
 import {
   PlayIcon,
   PauseIcon,
-  SpeakerWaveIcon,
   ClockIcon,
 } from '@heroicons/react/24/solid'
 import TextBox from '../TextBox'
@@ -122,11 +121,18 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
       <div className="center-content">
         {/* Main Title */}
         <div className="text-center mb-8">
+        
           <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-            TempoType
+              Adaptive Audio Typing
           </h1>
         </div>
-
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
         {/* Header */}
         <div className="text-center mb-6">
           <div
@@ -136,69 +142,195 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 : 'bg-white/80 border border-white/20'
             }`}
           >
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Adaptive Audio Typing
-            </h2>
           </div>
         </div>
 
-        {/* Current Speed Indicator */}
+        {/* Play Audio Button - Positioned just below title */}
+        <div className="flex justify-center mb-6">
+          <button
+            onClick={isPlaying ? handlePause : handlePlay}
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium text-base"
+          >
+            {isPlaying ? (
+              <PauseIcon
+                className="h-5 w-5"
+                style={{ width: '24px', height: '24px' }}
+              />
+            ) : (
+              <PlayIcon
+                className="h-5 w-5"
+                style={{ width: '24px', height: '24px' }}
+              />
+            )}
+            <span>{isPlaying ? 'Pause' : 'Play Audio'}</span>
+          </button>
+        </div>
+
+        {/* TextBox Component */}
+        <div className="typing-area text-left mb-6">
+          <TextBox
+            placeholder={
+              isPlaying
+                ? '🎧 Type what you hear from the audio...'
+                : '🎧 Press play and start typing what you hear...'
+            }
+            targetText={transcription}
+            onTextChange={(text) => {
+              setTypedText(text)
+            }}
+            onMetricsChange={(metrics) => {
+              // Update typing stats with metrics from TextBox
+              setTypingStats({
+                wordsTyped: metrics.wordsTyped,
+                startTime: typingStats.startTime,
+                lastUpdateTime: Date.now(),
+                currentWPM: metrics.wpm,
+              })
+              // Adjust audio speed based on typing metrics
+              if (metrics.wordsTyped > 5) {
+                adjustAudioSpeed(metrics.wpm)
+              }
+            }}
+            isDarkMode={isDarkMode}
+            disabled={!isPlaying}
+            className="mb-4"
+          />
+        </div>
+
+        {/* Comprehensive Stats Table */}
         <div
-          className={`backdrop-blur-sm rounded-xl shadow-lg p-4 mb-6 transition-colors duration-300 ${
+          className={`backdrop-blur-sm rounded-xl shadow-lg p-6 mb-6 transition-colors duration-300 ${
             isDarkMode
               ? 'bg-gray-800/90 border border-gray-700/50'
               : 'bg-white/80 border border-white/20'
           }`}
         >
-          <div className="flex items-center justify-center space-x-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-1">
-                {Math.round(typingStats.currentWPM)}
-              </div>
-              <div
-                className={`text-xs font-medium transition-colors duration-300 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                }`}
-              >
-                Your Current WPM
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-1">149</div>
-              <div
-                className={`text-xs font-medium transition-colors duration-300 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                }`}
-              >
-                Original Audio WPM
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl mb-1">
-                {typingStats.currentWPM < 60 ? (
-                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🐢</span>
-                ) : typingStats.currentWPM < 100 ? (
-                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🚶</span>
-                ) : typingStats.currentWPM < 140 ? (
-                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🏃</span>
-                ) : typingStats.currentWPM < 180 ? (
-                  <span style={{ fontSize: '16px', lineHeight: 1 }}>🚀</span>
-                ) : (
-                  <span style={{ fontSize: '16px', lineHeight: 1 }}>⚡</span>
-                )}
-              </div>
-              <div
-                className={`text-xs font-medium transition-colors duration-300 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                }`}
-              >
-                Speed Level
-              </div>
-            </div>
+          <h3 className={`text-xl font-bold mb-6 text-center bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent`}>
+            Adaptive Typing Performance
+          </h3>
+
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className={`border-b-2 ${
+                  isDarkMode ? 'border-gray-600' : 'border-gray-200'
+                }`}>
+                  <th className={`text-left py-3 px-4 font-semibold ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Metric
+                  </th>
+                  <th className={`text-center py-3 px-4 font-semibold ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Value
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className={`border-b ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-100'
+                } hover:${isDarkMode ? 'bg-gray-700/30' : 'bg-gray-50'} transition-colors`}>
+                  <td className={`py-4 px-4 font-medium ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Your Typing Speed
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className="text-3xl font-bold text-blue-600">
+                      {Math.round(typingStats.currentWPM)}
+                    </span>
+                    <span className={`ml-2 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>WPM</span>
+                  </td>
+                </tr>
+                <tr className={`border-b ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-100'
+                } hover:${isDarkMode ? 'bg-gray-700/30' : 'bg-gray-50'} transition-colors`}>
+                  <td className={`py-4 px-4 font-medium ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Audio Speed
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className="text-3xl font-bold text-green-600">
+                      {Math.round(targetWPM * playbackRate)}
+                    </span>
+                    <span className={`ml-2 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>WPM</span>
+                  </td>
+                </tr>
+                <tr className={`border-b ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-100'
+                } hover:${isDarkMode ? 'bg-gray-700/30' : 'bg-gray-50'} transition-colors`}>
+                  <td className={`py-4 px-4 font-medium ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Accuracy
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className="text-3xl font-bold text-purple-600">
+                      {calculateAccuracy()}
+                    </span>
+                    <span className={`ml-1 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>%</span>
+                  </td>
+                </tr>
+                <tr className={`border-b ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-100'
+                } hover:${isDarkMode ? 'bg-gray-700/30' : 'bg-gray-50'} transition-colors`}>
+                  <td className={`py-4 px-4 font-medium ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Words Typed
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className="text-3xl font-bold text-orange-600">
+                      {typingStats.wordsTyped}
+                    </span>
+                  </td>
+                </tr>
+                <tr className={`border-b ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-100'
+                } hover:${isDarkMode ? 'bg-gray-700/30' : 'bg-gray-50'} transition-colors`}>
+                  <td className={`py-4 px-4 font-medium ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Playback Rate
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className="text-3xl font-bold text-pink-600">
+                      {playbackRate.toFixed(2)}
+                    </span>
+                    <span className={`ml-1 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>x</span>
+                  </td>
+                </tr>
+                <tr className={`hover:${isDarkMode ? 'bg-gray-700/30' : 'bg-gray-50'} transition-colors`}>
+                  <td className={`py-4 px-4 font-medium ${
+                    isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                  }`}>
+                    Audio Progress
+                  </td>
+                  <td className="py-4 px-4 text-center">
+                    <span className="text-3xl font-bold text-indigo-600">
+                      {Math.round(duration > 0 ? (currentTime / duration) * 100 : 0)}
+                    </span>
+                    <span className={`ml-1 text-sm ${
+                      isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                    }`}>%</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
-        {/* Audio Player Section */}
+        {/* Audio Player Section - Moved below TextBox */}
         <div
           className={`bg-gradient-to-br ${
             isDarkMode ? 'from-gray-800 to-gray-900' : 'from-white to-blue-50'
@@ -216,24 +348,6 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
 
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-4">
-                  <button
-                    onClick={isPlaying ? handlePause : handlePlay}
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium text-sm"
-                  >
-                    {isPlaying ? (
-                      <PauseIcon
-                        className="h-4 w-4"
-                        style={{ width: '24px', height: '24px' }}
-                      />
-                    ) : (
-                      <PlayIcon
-                        className="h-4 w-4"
-                        style={{ width: '24px', height: '24px' }}
-                      />
-                    )}
-                    <span>{isPlaying ? 'Pause' : 'Play Audio'}</span>
-                  </button>
-
                   <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-md px-3 py-1 shadow-sm">
                     <ClockIcon
                       className="h-4 w-4 text-blue-600"
@@ -246,12 +360,8 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <SpeakerWaveIcon
-                    className="h-4 w-4 text-purple-600"
-                    style={{ width: '24px', height: '24px' }}
-                  />
                   <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium px-3 py-1 rounded-md text-sm">
-                    {playbackRate.toFixed(2)}x Speed
+                    {playbackRate.toFixed(2)}x Speed ({Math.round(targetWPM * playbackRate)} WPM)
                   </div>
                 </div>
               </div>
@@ -313,36 +423,6 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 </div>
               </div>
             </div>
-
-            <div className="typing-area text-left">
-              <TextBox
-                placeholder={
-                  isPlaying
-                    ? '🎧 Type what you hear from the audio...'
-                    : '🎧 Press play and start typing what you hear...'
-                }
-                targetText={transcription}
-                onTextChange={(text) => {
-                  setTypedText(text)
-                }}
-                onMetricsChange={(metrics) => {
-                  // Update typing stats with metrics from TextBox
-                  setTypingStats({
-                    wordsTyped: metrics.wordsTyped,
-                    startTime: typingStats.startTime,
-                    lastUpdateTime: Date.now(),
-                    currentWPM: metrics.wpm,
-                  })
-                  // Adjust audio speed based on typing metrics
-                  if (metrics.wordsTyped > 5) {
-                    adjustAudioSpeed(metrics.wpm)
-                  }
-                }}
-                isDarkMode={isDarkMode}
-                disabled={!isPlaying}
-                className="mb-4"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -351,3 +431,4 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
 }
 
 export default AdaptiveTyping
+

@@ -28,7 +28,7 @@ const TextBox: React.FC<TextBoxProps> = ({
   isDarkMode = false,
   disabled = false,
   className = '',
-  maxHeight = '200px',
+  maxHeight = '400px',
 }) => {
   const [text, setText] = useState('')
   const [startTime, setStartTime] = useState<number | null>(null)
@@ -164,7 +164,7 @@ const TextBox: React.FC<TextBoxProps> = ({
           style={{
             border: 'none',
             outline: 'none',
-            minHeight: '120px',
+            minHeight: '240px',
             maxHeight: maxHeight,
           }}
           spellCheck={false}
