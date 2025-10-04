@@ -254,7 +254,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       color: isActive
                         ? 'white'
                         : isDarkMode
-                        ? '#f3f4f6'
+                        ? 'white'
                         : '#1f2937',
                     }}
                   >

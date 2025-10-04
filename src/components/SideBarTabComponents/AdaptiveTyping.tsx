@@ -2,7 +2,6 @@ import React, { useRef, useState, useCallback } from 'react'
 import {
   PlayIcon,
   PauseIcon,
-  ClockIcon,
 } from '@heroicons/react/24/solid'
 import TextBox from '../TextBox'
 
@@ -348,12 +347,12 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
 
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-md px-3 py-1 shadow-sm">
-                    <ClockIcon
-                      className="h-4 w-4 text-blue-600"
-                      style={{ width: '24px', height: '24px' }}
-                    />
-                    <span className="font-medium text-gray-700 text-sm">
+                  <div className={`flex items-center gap-2 backdrop-blur-sm rounded-md px-3 py-1 shadow-sm ${
+                    isDarkMode ? 'bg-gray-700/80' : 'bg-white/80'
+                  }`}>
+                    <span className={`font-medium text-sm ${
+                      isDarkMode ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       {formatTime(currentTime)} / {formatTime(duration)}
                     </span>
                   </div>
@@ -368,10 +367,14 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
 
               <div className="mb-4">
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-xs font-medium text-gray-600">
+                  <span className={`text-xs font-medium ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
                     Audio Progress
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className={`text-xs ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
                     {Math.round(
                       duration > 0 ? (currentTime / duration) * 100 : 0
                     )}
@@ -392,30 +395,46 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
             </div>
 
             <div className="stats-panel mb-4">
-              <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border border-blue-100 rounded-xl overflow-hidden">
+              <div className={`border rounded-xl overflow-hidden ${
+                isDarkMode
+                  ? 'bg-gradient-to-r from-gray-800/50 via-gray-700/50 to-gray-800/50 border-gray-600'
+                  : 'bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border-blue-100'
+              }`}>
                 <div className="p-4">
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="text-center bg-white/60 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                    <div className={`text-center backdrop-blur-sm rounded-lg p-3 shadow-sm ${
+                      isDarkMode ? 'bg-gray-700/60' : 'bg-white/60'
+                    }`}>
                       <div className="text-2xl font-bold text-blue-600 mb-1">
                         {Math.round(typingStats.currentWPM)}
                       </div>
-                      <div className="text-xs font-medium text-gray-600">
+                      <div className={`text-xs font-medium ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
                         Words Per Minute
                       </div>
                     </div>
-                    <div className="text-center bg-white/60 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                    <div className={`text-center backdrop-blur-sm rounded-lg p-3 shadow-sm ${
+                      isDarkMode ? 'bg-gray-700/60' : 'bg-white/60'
+                    }`}>
                       <div className="text-2xl font-bold text-green-600 mb-1">
                         {calculateAccuracy()}%
                       </div>
-                      <div className="text-xs font-medium text-gray-600">
+                      <div className={`text-xs font-medium ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
                         Accuracy
                       </div>
                     </div>
-                    <div className="text-center bg-white/60 backdrop-blur-sm rounded-lg p-3 shadow-sm">
+                    <div className={`text-center backdrop-blur-sm rounded-lg p-3 shadow-sm ${
+                      isDarkMode ? 'bg-gray-700/60' : 'bg-white/60'
+                    }`}>
                       <div className="text-2xl font-bold text-purple-600 mb-1">
                         {typingStats.wordsTyped}
                       </div>
-                      <div className="text-xs font-medium text-gray-600">
+                      <div className={`text-xs font-medium ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                      }`}>
                         Words Typed
                       </div>
                     </div>
