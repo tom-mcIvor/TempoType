@@ -31,6 +31,8 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
   const [duration, setDuration] = useState(0)
   const [typedText, setTypedText] = useState('')
   const [playbackRate, setPlaybackRate] = useState(1.0)
+  // Adaptive audio WPM = original target WPM scaled by current playback rate
+  const adaptiveAudioWPM = Math.round(targetWPM * playbackRate)
   const [typingStats, setTypingStats] = useState<TypingStats>({
     wordsTyped: 0,
     startTime: Date.now(),

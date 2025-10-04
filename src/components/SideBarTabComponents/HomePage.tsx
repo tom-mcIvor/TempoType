@@ -15,6 +15,12 @@ interface HomePageProps {
   isDarkMode?: boolean
 }
 
+interface SelectedAudio {
+  id: string
+  title: string
+  audioSrc: string
+}
+
 const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
   const [metrics, setMetrics] = useState<TypingMetrics>({
     wpm: 0,
@@ -24,6 +30,9 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
     timeElapsed: 0,
     errorsCount: 0,
   })
+
+  const [selectedAudio, setSelectedAudio] = useState<SelectedAudio | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   return (
     <div
