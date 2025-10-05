@@ -55,6 +55,10 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
             TempoType
           </h1>
         </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
       </div>
 
       <div className="mb-12">

@@ -105,12 +105,16 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
         onKeyDown={handleKeyDown}
         aria-pressed={isPlaying}
         className={`group card-hover flex items-center gap-4 p-6 rounded-xl cursor-pointer transition-all duration-200 ease-out ${
-          isDarkMode ? 'bg-gray-800/80 border border-gray-700 text-gray-100' : 'bg-white border border-gray-200 text-gray-900'
+          isDarkMode
+            ? 'bg-gray-800/80 border border-gray-700 text-gray-100'
+            : 'bg-white border border-gray-200 text-gray-900'
         }`}
         style={{
-          boxShadow: isDarkMode ? '0 10px 30px rgba(2,6,23,0.6)' : '0 8px 24px rgba(15,23,42,0.06)',
+          boxShadow: isDarkMode
+            ? '0 10px 30px rgba(2,6,23,0.6)'
+            : '0 8px 24px rgba(15,23,42,0.06)',
           backdropFilter: isDarkMode ? 'blur(6px)' : undefined,
-          borderRadius: '12px'
+          borderRadius: '12px',
         }}
       >
         {/* Left icon circle */}
@@ -128,8 +132,8 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-4">
-            <div className="min-w-0 text-center">
+          <div className="flex items-center justify-center gap-4">
+            <div className="min-w-0 card-content">
               <div
                 className={`text-base font-semibold truncate ${
                   isDarkMode ? 'text-gray-100' : 'text-gray-900'
@@ -142,34 +146,28 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
                   className={`mt-1 text-sm truncate ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-600'
                   }`}
-                  style={{ maxWidth: '28rem', margin: '0 auto' }}
+                  style={{ maxWidth: '28rem', width: '100%' }}
                 >
                   {card.description}
                 </div>
               )}
-            </div>
 
-            {/* Duration */}
-            {card.duration && (
-              <div
-                className={`text-sm ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                } whitespace-nowrap`}
-              >
-                {card.duration}
-              </div>
-            )}
+              {/* Centered duration under the description */}
+              {card.duration && (
+                <div
+                  className={`mt-2 text-sm ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}
+                  style={{ textAlign: 'center' }}
+                >
+                  {card.duration}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Footer row */}
           <div className="mt-4 flex items-center justify-between">
-            <div
-              className={`text-sm ${
-                isDarkMode ? 'text-gray-300' : 'text-gray-600'
-              }`}
-            >
-              Related link
-            </div>
             <div
               className="text-gray-400 group-hover:text-gray-600 transition-colors"
               aria-hidden

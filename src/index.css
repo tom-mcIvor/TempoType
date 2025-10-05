@@ -113,6 +113,31 @@ button:focus-visible {
   padding-top: 0;
 }
 
+/* Card content helper:
+   Ensures title + description are centered within their column even if
+   surrounding layout uses flex/space-between. Apply the class
+   `card-content` to the content wrapper (left column). */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Ensure truncated description centers within its max-width */
+.card-content .truncate {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Optional helper to move duration beneath content on very small screens */
+@media (max-width: 640px) {
+  .card-duration-stack {
+    display: block !important;
+    margin-top: 0.5rem;
+  }
+}
+
 /* Card hover helper for stronger, consistent hover effect */
 .card-hover {
   transition: transform 200ms ease-out, box-shadow 200ms ease-out;
