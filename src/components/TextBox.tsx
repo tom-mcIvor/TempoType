@@ -18,6 +18,7 @@ interface TextBoxProps {
   disabled?: boolean
   className?: string
   maxHeight?: string
+  autoFocus?: boolean
 }
 
 const TextBox: React.FC<TextBoxProps> = ({
@@ -29,11 +30,23 @@ const TextBox: React.FC<TextBoxProps> = ({
   disabled = false,
   className = '',
   maxHeight = '400px',
+  autoFocus = false,
 }) => {
   const [text, setText] = useState('')
   const [startTime, setStartTime] = useState<number | null>(null)
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+
+  // focus textarea when autoFocus becomes true
+  useEffect(() => {
+    if (autoFocus && textareaRef.current) {
+      // small timeout to ensure element is rendered and visible
+      const t = setTimeout(() => textareaRef.current?.focus(), 0)
+      return () => clearTimeout(t)
+    }
+    return
+  }, [autoFocus])
 
   // Calculate typing metrics
   const calculateMetrics = useCallback(
@@ -152,6 +165,7 @@ const TextBox: React.FC<TextBoxProps> = ({
         }`}
       >
         <textarea
+          ref={textareaRef}
           value={text}
           onChange={handleTextChange}
           placeholder={placeholder}
@@ -171,7 +185,7 @@ const TextBox: React.FC<TextBoxProps> = ({
           autoComplete="off"
           autoCorrect="off"
           autoCapitalize="off"
-        />
+          />
       </div>
     </div>
   )

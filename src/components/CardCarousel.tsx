@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 
 interface Card {
   id: string
@@ -13,28 +13,79 @@ interface Card {
 interface CardCarouselProps {
   cards: Card[]
   isDarkMode?: boolean
+  onCardClick?: () => void
 }
 
 const CardCarousel: React.FC<CardCarouselProps> = ({
   cards,
   isDarkMode = false,
+  onCardClick,
 }) => {
   const card = cards && cards.length > 0 ? cards[0] : null
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [countdown, setCountdown] = useState<number | null>(null)
+  const countdownRef = useRef<number | null>(null)
+
+  // cleanup on unmount to avoid leaking intervals
+  useEffect(() => {
+    return () => {
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current as number)
+        countdownRef.current = null
+      }
+    }
+  }, [])
 
   if (!card) return null
 
   const togglePlay = () => {
+    // Notify parent that the card was clicked (shows the textbox)
+    onCardClick?.()
+
+    // If a countdown is already running, cancel it (toggle)
+    if (countdown !== null) {
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current as number)
+        countdownRef.current = null
+      }
+      setCountdown(null)
+      return
+    }
+
     if (!audioRef.current) return
+
     if (audioRef.current.paused) {
-      audioRef.current
-        .play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {})
+      // start a 3..1 countdown before playing
+      setCountdown(3)
+      countdownRef.current = window.setInterval(() => {
+        setCountdown((prev) => {
+          if (prev === null) return null
+          if (prev <= 1) {
+            // time to play
+            if (countdownRef.current) {
+              clearInterval(countdownRef.current as number)
+              countdownRef.current = null
+            }
+            setCountdown(null)
+            audioRef
+              .current!.play()
+              .then(() => setIsPlaying(true))
+              .catch(() => {})
+            return null
+          }
+          return prev - 1
+        })
+      }, 1000)
     } else {
+      // if playing, pause and clear any countdown
       audioRef.current.pause()
       setIsPlaying(false)
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current as number)
+        countdownRef.current = null
+      }
+      setCountdown(null)
     }
   }
 
@@ -124,19 +175,29 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
               className="text-gray-400 group-hover:text-gray-600 transition-colors"
               aria-hidden
             >
-              {/* play icon (smaller) */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-1 h-1 text-gray-500"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden
-              >
-                <path d="M5 3v18l15-9L5 3z" />
-              </svg>
+              {/* show pause (stop) icon when playing, otherwise play icon */}
+              {isPlaying ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-red-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <rect x="6" y="5" width="4" height="14" rx="1" />
+                  <rect x="14" y="5" width="4" height="14" rx="1" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-gray-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M5 3v18l15-9L5 3z" />
+                </svg>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Countdown overlay (shows while counting down) */}
+        {countdown !== null && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="rounded-full bg-black/60 text-white font-bold text-4xl w-20 h-20 flex items-center justify-center">
+              {countdown}
+            </div>
+          </div>
+        )}
 
         {/* Hidden audio element controlled by the card click */}
         {card.audioSrc && (

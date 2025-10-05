@@ -26,6 +26,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
     timeElapsed: 0,
     errorsCount: 0,
   })
+  const [showTextBox, setShowTextBox] = useState(false)
 
 
   return (
@@ -57,27 +58,32 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
       </div>
 
       <div className="mb-12">
-        <CardCarousel cards={sampleAudioCards} isDarkMode={isDarkMode} />
+        <CardCarousel
+          cards={sampleAudioCards}
+          isDarkMode={isDarkMode}
+          onCardClick={() => setShowTextBox(true)}
+        />
       </div>
 
       {/* Centered main content */}
       <div className="flex-1 flex flex-col justify-center">
-        {/* Practice Text Box */}
-        <div
-          className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 transition-colors duration-300 ${
-            isDarkMode
-              ? 'bg-gray-800/90 border border-gray-700/50'
-              : 'bg-white/80 border border-white/20'
-          }`}
-        >
-          <TextBox
-            placeholder="Start typing"
-            targetText="The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet and is perfect for typing practice."
-            isDarkMode={isDarkMode}
-            onMetricsChange={setMetrics}
-            className="max-w-4xl mx-auto"
-          />
-        </div>
+        {/* Practice Text Box - hidden until a card is clicked */}
+        {showTextBox && (
+          <div
+            className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 transition-colors duration-300 ${
+              isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+            }`}
+          >
+            <TextBox
+              placeholder="Start typing what you hear"
+              targetText="The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet and is perfect for typing practice."
+              isDarkMode={isDarkMode}
+              autoFocus={true}
+              onMetricsChange={setMetrics}
+              className="max-w-4xl mx-auto"
+            />
+          </div>
+        )}
 
         {/* Metrics Display - Outside TextBox */}
         <div
