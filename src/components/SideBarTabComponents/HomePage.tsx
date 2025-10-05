@@ -70,7 +70,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
         {/* Practice Text Box - hidden until a card is clicked */}
         {showTextBox && (
           <div
-            className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 transition-colors duration-300 ${
+            className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 transition-colors duration-300 max-w-4xl mx-auto ${
               isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
             }`}
           >
@@ -80,7 +80,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
               isDarkMode={isDarkMode}
               autoFocus={true}
               onMetricsChange={setMetrics}
-              className="max-w-4xl mx-auto"
+              className="w-full"
             />
           </div>
         )}

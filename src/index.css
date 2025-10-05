@@ -112,3 +112,13 @@ button:focus-visible {
   width: 100%;
   padding-top: 0;
 }
+
+/* Card hover helper for stronger, consistent hover effect */
+.card-hover {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+  will-change: transform;
+}
+.card-hover:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(2,6,23,0.12), 0 6px 12px rgba(2,6,23,0.06);
+}

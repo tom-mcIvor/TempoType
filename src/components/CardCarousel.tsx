@@ -104,15 +104,13 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
         onClick={togglePlay}
         onKeyDown={handleKeyDown}
         aria-pressed={isPlaying}
-        className={`group flex items-start gap-4 p-4 rounded-lg cursor-pointer transition-shadow duration-200 ${
-          isDarkMode
-            ? 'shadow-md hover:shadow-xl bg-gray-900'
-            : 'bg-white shadow-sm hover:shadow-md'
+        className={`group card-hover flex items-center gap-4 p-6 rounded-xl cursor-pointer transition-all duration-200 ease-out ${
+          isDarkMode ? 'bg-gray-800/80 border border-gray-700 text-gray-100' : 'bg-white border border-gray-200 text-gray-900'
         }`}
         style={{
-          border: isDarkMode
-            ? '1px solid rgba(255,255,255,0.06)'
-            : '1px solid rgba(0,0,0,0.08)',
+          boxShadow: isDarkMode ? '0 10px 30px rgba(2,6,23,0.6)' : '0 8px 24px rgba(15,23,42,0.06)',
+          backdropFilter: isDarkMode ? 'blur(6px)' : undefined,
+          borderRadius: '12px'
         }}
       >
         {/* Left icon circle */}
@@ -130,8 +128,8 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0">
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0 text-center">
               <div
                 className={`text-base font-semibold truncate ${
                   isDarkMode ? 'text-gray-100' : 'text-gray-900'
@@ -144,6 +142,7 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
                   className={`mt-1 text-sm truncate ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-600'
                   }`}
+                  style={{ maxWidth: '28rem', margin: '0 auto' }}
                 >
                   {card.description}
                 </div>
@@ -177,12 +176,32 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
             >
               {/* show pause (stop) icon when playing, otherwise play icon */}
               {isPlaying ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-red-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-1 h-1 text-red-500"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden
+                  style={{
+                    transform: 'scale(0.25)',
+                    transformOrigin: 'center',
+                  }}
+                >
                   <rect x="6" y="5" width="4" height="14" rx="1" />
                   <rect x="14" y="5" width="4" height="14" rx="1" />
                 </svg>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 text-gray-500" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-1 h-1 text-gray-500"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden
+                  style={{
+                    transform: 'scale(0.25)',
+                    transformOrigin: 'center',
+                  }}
+                >
                   <path d="M5 3v18l15-9L5 3z" />
                 </svg>
               )}
