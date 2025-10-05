@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import TextBox from '../TextBox'
-import CardCarousel, { sampleAudioCards } from '../CardCarousel'
+import CardCarousel from '../CardCarousel'
+import { sampleAudioCards } from '../../data/sampleAudioCards'
 
 interface TypingMetrics {
   wpm: number
@@ -15,11 +16,6 @@ interface HomePageProps {
   isDarkMode?: boolean
 }
 
-interface SelectedAudio {
-  id: string
-  title: string
-  audioSrc: string
-}
 
 const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
   const [metrics, setMetrics] = useState<TypingMetrics>({
@@ -31,8 +27,6 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
     errorsCount: 0,
   })
 
-  const [selectedAudio, setSelectedAudio] = useState<SelectedAudio | null>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
 
   return (
     <div
@@ -62,20 +56,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
         </div>
       </div>
 
-      {/* Audio Carousel Section */}
       <div className="mb-12">
-        <div className="text-center mb-8">
-          <h2 className={`text-3xl font-bold mb-4 ${
-            isDarkMode ? 'text-gray-100' : 'text-gray-900'
-          }`}>
-            Choose Your Audio Adventure
-          </h2>
-          <p className={`text-lg ${
-            isDarkMode ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Practice typing with engaging audiobook chapters
-          </p>
-        </div>
         <CardCarousel cards={sampleAudioCards} isDarkMode={isDarkMode} />
       </div>
 
