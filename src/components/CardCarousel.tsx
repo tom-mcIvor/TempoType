@@ -27,15 +27,51 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
   const [countdown, setCountdown] = useState<number | null>(null)
   const countdownRef = useRef<number | null>(null)
 
-  // cleanup on unmount to avoid leaking intervals
+  // cleanup on unmount to avoid leaking intervals and stop any playing audio
   useEffect(() => {
     return () => {
       if (countdownRef.current) {
         clearInterval(countdownRef.current as number)
         countdownRef.current = null
       }
+      if (audioRef.current) {
+        try {
+          audioRef.current.pause()
+          audioRef.current.src = ''
+        } catch (err) {
+          // best-effort cleanup failure — not critical for runtime
+          // keep a debug log to satisfy linters and aid troubleshooting
+          // eslint-disable-next-line no-console
+          console.debug('audio cleanup error', err)
+        }
+      }
     }
   }, [])
+
+  // keep audio element in sync when the card's audioSrc changes
+  useEffect(() => {
+    if (!audioRef.current) return
+    if (!card?.audioSrc) {
+      // if card has no audio, ensure element is cleared
+      audioRef.current.src = ''
+      return
+    }
+    // Only change src if it's different (avoid interrupting playback)
+    try {
+      const absoluteSrc = new URL(card.audioSrc, window.location.href).href
+      if (audioRef.current.src !== absoluteSrc) {
+        audioRef.current.src = card.audioSrc
+        // load the new source so play() works reliably
+        audioRef.current.load()
+      }
+    } catch {
+      // fall back to assigning directly if URL construction fails
+      if (audioRef.current.src !== card.audioSrc) {
+        audioRef.current.src = card.audioSrc
+        audioRef.current.load()
+      }
+    }
+  }, [card?.audioSrc])
 
   if (!card) return null
 
@@ -68,10 +104,23 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
               countdownRef.current = null
             }
             setCountdown(null)
-            audioRef
-              .current!.play()
-              .then(() => setIsPlaying(true))
-              .catch(() => {})
+
+            // Ensure the audio element is ready; attempt to unmute and play.
+            try {
+              audioRef.current!.muted = false
+              audioRef.current!.volume = 1
+              // reload in case the src was freshly assigned
+              audioRef.current!.load()
+              audioRef.current!
+                .play()
+                .then(() => setIsPlaying(true))
+                .catch(() => {
+                  // play may be blocked by browser autoplay policies; fail silently
+                })
+            } catch {
+              // ignore errors to avoid uncaught exceptions
+            }
+
             return null
           }
           return prev - 1
@@ -222,7 +271,9 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
             ref={audioRef}
             src={card.audioSrc}
             preload="none"
-            style={{ display: 'none' }}
+            // keep the element present but offscreen; some browsers handle play()
+            // better when the element exists in layout rather than display:none
+            style={{ position: 'absolute', left: -9999, width: 0, height: 0 }}
             onEnded={() => setIsPlaying(false)}
           />
         )}

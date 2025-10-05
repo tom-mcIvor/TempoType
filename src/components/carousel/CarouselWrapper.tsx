@@ -1,14 +1,14 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
 import CardCarousel from '../CardCarousel'
-import { Card, CardContent, Typography } from '@mui/material'
 
 export interface Slide {
   id: string
   title: string
   description?: string
   image?: string
-  meta?: string
+  audioSrc?: string
+  duration?: string
 }
 
 interface CarouselWrapperProps {
@@ -35,6 +35,7 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
   autoPlay = false,
   interval = 4000,
   navButtonsAlwaysVisible = false,
+  onItemClick,
 }) => {
   if (!items || items.length === 0) return null
 
@@ -49,7 +50,7 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
         <Carousel
           autoPlay={autoPlay}
           interval={interval}
-          navButtonsAlwaysVisible={true}
+          navButtonsAlwaysVisible={navButtonsAlwaysVisible}
           animation="slide"
           indicators={true}
         >
@@ -65,11 +66,12 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
                       description: item.description || '',
                       icon: '📖',
                       color: 'blue',
-                      audioSrc: undefined,
-                      duration: item.meta,
+                      audioSrc: item.audioSrc,
+                      duration: item.duration,
                     },
                   ]}
                   isDarkMode={isDarkMode}
+                  onCardClick={() => onItemClick?.(item.id)}
                 />
               </div>
             </div>

@@ -66,11 +66,12 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
             title: c.title,
             description: c.description,
             image: undefined,
-            meta: c.duration,
+            audioSrc: c.audioSrc,
+            duration: c.duration,
           }))}
           isDarkMode={isDarkMode}
           autoPlay={false}
-          navButtonsAlwaysVisible={false}
+          navButtonsAlwaysVisible={true}
           onItemClick={() => setShowTextBox(true)}
         />
       </div>
