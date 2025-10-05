@@ -23,8 +23,12 @@
     "test:all": "npm run test:coverage && npm run test:e2e"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@heroicons/react": "^2.2.0",
     "@material-tailwind/react": "^2.1.10",
+    "@mui/icons-material": "^7.3.4",
+    "@mui/material": "^7.3.4",
     "@tailwindcss/vite": "^4.1.13",
     "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
@@ -38,6 +42,7 @@
     "multer": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-material-ui-carousel": "^3.4.2",
     "tailwindcss": "^4.1.13"
   },
   "devDependencies": {

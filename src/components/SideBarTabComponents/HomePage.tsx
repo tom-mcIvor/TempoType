@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import TextBox from '../TextBox'
-import CardCarousel from '../CardCarousel'
+import CarouselWrapper from '../carousel/CarouselWrapper'
 import { sampleAudioCards } from '../../data/sampleAudioCards'
 
 interface TypingMetrics {
@@ -16,7 +16,6 @@ interface HomePageProps {
   isDarkMode?: boolean
 }
 
-
 const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
   const [metrics, setMetrics] = useState<TypingMetrics>({
     wpm: 0,
@@ -28,7 +27,6 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
   })
   const [showTextBox, setShowTextBox] = useState(false)
 
-
   return (
     <div
       className={`HomePage sidebar-tab-content homepage-content transition-colors duration-300 ${
@@ -37,7 +35,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
       style={{
         minHeight: '100vh',
         width: '100%',
-        background: isDarkMode 
+        background: isDarkMode
           ? 'linear-gradient(to bottom right, #111827, #1f2937, #111827)'
           : 'linear-gradient(to bottom right, #eff6ff, #f3e8ff, #fdf2f8)',
       }}
@@ -55,17 +53,25 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
             TempoType
           </h1>
         </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
 
       <div className="mb-12">
-        <CardCarousel
-          cards={sampleAudioCards}
+        <CarouselWrapper
+          items={sampleAudioCards.map((c) => ({
+            id: c.id,
+            title: c.title,
+            description: c.description,
+            image: undefined,
+            meta: c.duration,
+          }))}
           isDarkMode={isDarkMode}
-          onCardClick={() => setShowTextBox(true)}
+          autoPlay={false}
+          navButtonsAlwaysVisible={false}
+          onItemClick={() => setShowTextBox(true)}
         />
       </div>
 
@@ -75,7 +81,9 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
         {showTextBox && (
           <div
             className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 mb-8 transition-colors duration-300 max-w-4xl mx-auto ${
-              isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              isDarkMode
+                ? 'bg-gray-800/90 border border-gray-700/50'
+                : 'bg-white/80 border border-white/20'
             }`}
           >
             <TextBox
