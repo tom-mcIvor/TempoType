@@ -41,7 +41,7 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
         } catch (err) {
           // best-effort cleanup failure — not critical for runtime
           // keep a debug log to satisfy linters and aid troubleshooting
-          // eslint-disable-next-line no-console
+
           console.debug('audio cleanup error', err)
         }
       }
@@ -111,8 +111,8 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
               audioRef.current!.volume = 1
               // reload in case the src was freshly assigned
               audioRef.current!.load()
-              audioRef.current!
-                .play()
+              audioRef
+                .current!.play()
                 .then(() => setIsPlaying(true))
                 .catch(() => {
                   // play may be blocked by browser autoplay policies; fail silently
@@ -147,6 +147,14 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
 
   return (
     <div className="max-w-4xl mx-auto px-4">
+      <h2
+        className={`text-2xl md:text-3xl font-extrabold text-center mb-4 ${
+          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+        }`}
+        style={{ lineHeight: 1.1 }}
+      >
+        120 wmp
+      </h2>
       <div
         role="button"
         tabIndex={0}

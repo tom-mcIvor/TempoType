@@ -167,3 +167,29 @@ button:focus-visible {
   justify-content: center;
   text-align: center;
 }
+/* TempoType: compact carousel override — force carousel wrapper to compact width (max-w-md ~ 28rem) */
+.w-full.flex.justify-center > .w-full.max-w-md.mx-auto {
+  max-width: 28rem !important;
+  padding: 0.5rem !important; /* slightly reduce wrapper padding */
+  box-sizing: border-box;
+}
+
+/* Slightly reduce slide inner padding so multiple carousels fit better */
+.w-full.flex.justify-center > .w-full.max-w-md.mx-auto .mx-2 {
+  margin-left: 0.25rem !important;
+  margin-right: 0.25rem !important;
+}
+
+/* Ensure CardCarousel content uses the available width */
+.w-full.flex.justify-center > .w-full.max-w-md.mx-auto .w-full {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+/* TempoType: ensure carousel has a minimum width so it doesn't collapse */
+.w-full.flex.justify-center > .w-full.max-w-md.mx-auto {
+  min-width: 20rem !important; /* ~320px */
+  /* keep the existing max-width so carousels stay compact */
+  max-width: 28rem !important;
+}
+
+/* If you want a smaller or larger min-width, change 20rem above to the desired value */

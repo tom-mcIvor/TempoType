@@ -41,11 +41,16 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
 
   return (
     <div className="w-full flex justify-center">
-      {/* debug wrapper so the carousel area is visually obvious while troubleshooting */}
-      <div className="w-full max-w-4xl" style={{ border: '1px dashed rgba(0,0,0,0.08)', padding: 8, background: isDarkMode ? 'rgba(255,255,255,0.02)' : undefined }}>
-        <div style={{ textAlign: 'center', marginBottom: 8, fontSize: 12, color: isDarkMode ? '#ddd' : '#444' }}>
-          Carousel (debug) — if you cannot see slides below, increase window width or check CSS
-        </div>
+      {/* wrapper for the carousel area (smaller to allow multiple carousels side-by-side) */}
+      <div
+        className="w-full max-w-md mx-auto"
+        style={{
+          border: '1px dashed rgba(0,0,0,0.08)',
+          padding: 8,
+          background: isDarkMode ? 'rgba(255,255,255,0.02)' : undefined,
+        }}
+      >
+       
 
         <Carousel
           autoPlay={autoPlay}
@@ -56,7 +61,16 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
         >
           {items.map((item) => (
             // ensure each slide has visible height and border so it's obvious in UI
-            <div key={item.id} className="mx-2" style={{ minHeight: 180, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div
+              key={item.id}
+              className="mx-2"
+              style={{
+                minHeight: 180,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <div style={{ width: '100%' }}>
                 <CardCarousel
                   cards={[
