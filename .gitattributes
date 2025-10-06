@@ -1,0 +1,27 @@
+# GitHub Linguist overrides to improve repository language statistics.
+# Mark generated reports, build artifacts and vendored dependencies so they
+# are excluded from language detection and don't cause the repo to appear
+# dominated by HTML or other generated file types.
+
+# Coverage reports and HTML reports (generated)
+coverage/** linguist-generated
+coverage/* linguist-generated
+coverage/lcov-report/** linguist-generated
+
+# Playwright / test reports
+playwright-report/** linguist-generated
+playwright-report/* linguist-generated
+
+# Browser-facing public assets that may include many HTML files
+public/** linguist-generated
+
+# Vendored packages and virtual envs
+node_modules/** linguist-vendored
+whisper-env/** linguist-vendored
+
+# Common build / output folders
+dist/** linguist-generated
+build/** linguist-generated
+
+# Optional: any other auto-generated report folders you create
+# e.g. reports/** linguist-generated

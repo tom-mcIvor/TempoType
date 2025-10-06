@@ -86,6 +86,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 ? 'bg-gray-800/90 border border-gray-700/50'
                 : 'bg-white/80 border border-white/20'
             }`}
+            style={{ width: '60vw', margin: '0 auto', maxWidth: '1200px' }}
           >
             <TextBox
               placeholder="Start typing what you hear"
@@ -98,13 +99,14 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
           </div>
         )}
 
-        {/* Metrics Display - Outside TextBox */}
+        {/* Metrics Display - Outside TextBox (centered to match TextBox width) */}
         <div
-          className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 transition-colors duration-300 ${
+          className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 transition-colors duration-300 text-center ${
             isDarkMode
               ? 'bg-gray-800/90 border border-gray-700/50'
               : 'bg-white/80 border border-white/20'
           }`}
+          style={{ width: '60vw', margin: '0 auto', maxWidth: '1200px' }}
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="metric-item text-center">
