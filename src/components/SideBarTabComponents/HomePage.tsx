@@ -60,20 +60,65 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
       </div>
 
       <div className="mb-12">
-        <CarouselWrapper
-          items={sampleAudioCards.map((c) => ({
-            id: c.id,
-            title: c.title,
-            description: c.description,
-            image: undefined,
-            audioSrc: c.audioSrc,
-            duration: c.duration,
-          }))}
-          isDarkMode={isDarkMode}
-          autoPlay={false}
-          navButtonsAlwaysVisible={true}
-          onItemClick={() => setShowTextBox(true)}
-        />
+        <div className="four-grid mx-auto">
+          {/* Slot 1: existing carousel */}
+          <div className="w-full">
+            <div style={{ aspectRatio: '1 / 1', minHeight: '220px' }} className="w-full h-full">
+              <div className="w-full h-full">
+                <CarouselWrapper
+                  items={sampleAudioCards.map((c) => ({
+                    id: c.id,
+                    title: c.title,
+                    description: c.description,
+                    image: undefined,
+                    audioSrc: c.audioSrc,
+                    duration: c.duration,
+                  }))}
+                  isDarkMode={isDarkMode}
+                  autoPlay={false}
+                  navButtonsAlwaysVisible={true}
+                  onItemClick={() => setShowTextBox(true)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Slot 2 */}
+          <div>
+            <div
+              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
+              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 ${
+                isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              }`}
+            >
+              <span className={isDarkMode ? 'text-gray-200' : 'text-gray-600'}>Empty carousel slot</span>
+            </div>
+          </div>
+
+          {/* Slot 3 */}
+          <div>
+            <div
+              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
+              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 ${
+                isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              }`}
+            >
+              <span className={isDarkMode ? 'text-gray-200' : 'text-gray-600'}>Empty carousel slot</span>
+            </div>
+          </div>
+
+          {/* Slot 4 */}
+          <div>
+            <div
+              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
+              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 ${
+                isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              }`}
+            >
+              <span className={isDarkMode ? 'text-gray-200' : 'text-gray-600'}>Empty carousel slot</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Centered main content */}

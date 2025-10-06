@@ -193,3 +193,21 @@ button:focus-visible {
 }
 
 /* If you want a smaller or larger min-width, change 20rem above to the desired value */
+/* HomePage 2x2 grid helper: ensure two columns x two rows and equal-height squares */
+.four-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Ensure direct children fill their grid cell */
+.four-grid > * {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}

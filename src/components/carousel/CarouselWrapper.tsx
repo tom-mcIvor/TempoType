@@ -41,16 +41,17 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
 
   return (
     <div className="w-full flex justify-center">
-      {/* wrapper for the carousel area (smaller to allow multiple carousels side-by-side) */}
+      {/* wrapper for the carousel area (fills the grid cell) */}
       <div
-        className="w-full max-w-md mx-auto"
+        className="w-full h-full"
         style={{
           border: '1px dashed rgba(0,0,0,0.08)',
           padding: 8,
           background: isDarkMode ? 'rgba(255,255,255,0.02)' : undefined,
+          boxSizing: 'border-box',
         }}
       >
-       
+        
 
         <Carousel
           autoPlay={autoPlay}
@@ -63,7 +64,7 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
             // ensure each slide has visible height and border so it's obvious in UI
             <div
               key={item.id}
-              className="mx-2"
+              className="mx-2 w-full h-full"
               style={{
                 minHeight: 180,
                 display: 'flex',
@@ -71,7 +72,7 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
                 justifyContent: 'center',
               }}
             >
-              <div style={{ width: '100%' }}>
+              <div style={{ width: '100%', height: '100%' }} className="w-full h-full">
                 <CardCarousel
                   cards={[
                     {
