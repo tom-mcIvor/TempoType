@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import TextBox from '../TextBox'
 import CarouselWrapper from '../carousel/CarouselWrapper'
 import { audio120Wpm } from '../../data/audio120Wpm'
+import audioService, { SourceFile } from '../../services/api/audioService'
 
 interface TypingMetrics {
   wpm: number
@@ -26,15 +27,12 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
     errorsCount: 0,
   })
   const [showTextBox, setShowTextBox] = useState(false)
-
-  // Files read from the server-side audio-source-files directory (dev/demo)
-  type SourceFile = { filename: string; url: string }
   const [sourceFiles, setSourceFiles] = useState<SourceFile[]>([])
 
   useEffect(() => {
     let mounted = true
-    fetch('/api/audio/source-files')
-      .then((res) => res.json())
+    audioService
+      .getSourceFiles()
       .then((data) => {
         if (!mounted) return
         setSourceFiles(Array.isArray(data.files) ? data.files : [])
