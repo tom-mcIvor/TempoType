@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextBox from '../TextBox'
 import CarouselWrapper from '../carousel/CarouselWrapper'
-import { sampleAudioCards } from '../../data/sampleAudioCards'
+import { audio120Wpm } from '../../data/audio120Wpm'
 
 interface TypingMetrics {
   wpm: number
@@ -26,6 +26,27 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
     errorsCount: 0,
   })
   const [showTextBox, setShowTextBox] = useState(false)
+
+  // Files read from the server-side audio-source-files directory (dev/demo)
+  type SourceFile = { filename: string; url: string }
+  const [sourceFiles, setSourceFiles] = useState<SourceFile[]>([])
+
+  useEffect(() => {
+    let mounted = true
+    fetch('/api/audio/source-files')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!mounted) return
+        setSourceFiles(Array.isArray(data.files) ? data.files : [])
+      })
+      .catch(() => {
+        if (!mounted) return
+        setSourceFiles([])
+      })
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   return (
     <div
@@ -63,10 +84,22 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
         <div className="four-grid mx-auto">
           {/* Slot 1: existing carousel */}
           <div className="w-full">
-            <div style={{ aspectRatio: '1 / 1', minHeight: '220px' }} className="w-full h-full">
+            <div className="mb-4 text-left">
+              <h3
+                className={`text-xl font-semibold ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}
+              >
+                Advanced (120 wpm)
+              </h3>
+            </div>
+            <div
+              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
+              className="w-full h-full carousel-slot"
+            >
               <div className="w-full h-full">
                 <CarouselWrapper
-                  items={sampleAudioCards.map((c) => ({
+                  items={audio120Wpm.map((c) => ({
                     id: c.id,
                     title: c.title,
                     description: c.description,
@@ -85,37 +118,115 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
           {/* Slot 2 */}
           <div>
+            <div className="mb-4 text-left">
+              <h3
+                className={`text-xl font-semibold ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}
+              >
+                Beginner (20 wpm)
+              </h3>
+            </div>
             <div
               style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 ${
-                isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 carousel-slot ${
+                isDarkMode
+                  ? 'bg-gray-800/90 border border-gray-700/50'
+                  : 'bg-white/80 border border-white/20'
               }`}
             >
-              <span className={isDarkMode ? 'text-gray-200' : 'text-gray-600'}>Empty carousel slot</span>
+              <div className="w-full h-full">
+                <CarouselWrapper
+                  items={sourceFiles.map((f: SourceFile) => ({
+                    id: f.filename,
+                    title: f.filename,
+                    description: undefined,
+                    image: undefined,
+                    audioSrc: f.url,
+                    duration: 'Unknown',
+                  }))}
+                  isDarkMode={isDarkMode}
+                  autoPlay={false}
+                  navButtonsAlwaysVisible={true}
+                  onItemClick={() => setShowTextBox(true)}
+                />
+              </div>
             </div>
           </div>
 
           {/* Slot 3 */}
           <div>
+            <div className="mb-4 text-left">
+              <h3
+                className={`text-xl font-semibold ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}
+              >
+                Intermediate (40 wpm)
+              </h3>
+            </div>
             <div
               style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 ${
-                isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 carousel-slot ${
+                isDarkMode
+                  ? 'bg-gray-800/90 border border-gray-700/50'
+                  : 'bg-white/80 border border-white/20'
               }`}
             >
-              <span className={isDarkMode ? 'text-gray-200' : 'text-gray-600'}>Empty carousel slot</span>
+              <div className="w-full h-full">
+                <CarouselWrapper
+                  items={sourceFiles.map((f: SourceFile) => ({
+                    id: f.filename,
+                    title: f.filename,
+                    description: undefined,
+                    image: undefined,
+                    audioSrc: f.url,
+                    duration: 'Unknown',
+                  }))}
+                  isDarkMode={isDarkMode}
+                  autoPlay={false}
+                  navButtonsAlwaysVisible={true}
+                  onItemClick={() => setShowTextBox(true)}
+                />
+              </div>
             </div>
           </div>
 
           {/* Slot 4 */}
           <div>
+            <div className="mb-4 text-left">
+              <h3
+                className={`text-xl font-semibold ${
+                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
+                }`}
+              >
+                Advanced/intermediate (50 wpm)
+              </h3>
+            </div>
             <div
               style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 ${
-                isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 carousel-slot ${
+                isDarkMode
+                  ? 'bg-gray-800/90 border border-gray-700/50'
+                  : 'bg-white/80 border border-white/20'
               }`}
             >
-              <span className={isDarkMode ? 'text-gray-200' : 'text-gray-600'}>Empty carousel slot</span>
+              <div className="w-full h-full">
+                <CarouselWrapper
+                  items={sourceFiles.map((f: SourceFile) => ({
+                    id: f.filename,
+                    title: f.filename,
+                    description: undefined,
+                    image: undefined,
+                    audioSrc: f.url,
+                    duration: 'Unknown',
+                  }))}
+                  isDarkMode={isDarkMode}
+                  autoPlay={false}
+                  navButtonsAlwaysVisible={true}
+                  onItemClick={() => setShowTextBox(true)}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
-import CardCarousel from '../CardCarousel'
+import CardCarousel from '../SideBarTabComponents/cardCarousels/CardCarousel'
 
 export interface Slide {
   id: string
@@ -43,55 +43,61 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
     <div className="w-full flex justify-center">
       {/* wrapper for the carousel area (fills the grid cell) */}
       <div
-        className="w-full h-full"
+        className="w-full"
         style={{
+          minHeight: 220,
+          display: 'flex',
+          flexDirection: 'column',
           border: '1px dashed rgba(0,0,0,0.08)',
           padding: 8,
           background: isDarkMode ? 'rgba(255,255,255,0.02)' : undefined,
           boxSizing: 'border-box',
         }}
       >
-        
-
-        <Carousel
-          autoPlay={autoPlay}
-          interval={interval}
-          navButtonsAlwaysVisible={navButtonsAlwaysVisible}
-          animation="slide"
-          indicators={true}
-        >
-          {items.map((item) => (
-            // ensure each slide has visible height and border so it's obvious in UI
-            <div
-              key={item.id}
-              className="mx-2 w-full h-full"
-              style={{
-                minHeight: 180,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <div style={{ width: '100%', height: '100%' }} className="w-full h-full">
-                <CardCarousel
-                  cards={[
-                    {
-                      id: item.id,
-                      title: item.title,
-                      description: item.description || '',
-                      icon: '📖',
-                      color: 'blue',
-                      audioSrc: item.audioSrc,
-                      duration: item.duration,
-                    },
-                  ]}
-                  isDarkMode={isDarkMode}
-                  onCardClick={() => onItemClick?.(item.id)}
-                />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <Carousel
+            autoPlay={autoPlay}
+            interval={interval}
+            navButtonsAlwaysVisible={navButtonsAlwaysVisible}
+            animation="slide"
+            indicators={true}
+          >
+            {items.map((item) => (
+              // ensure each slide has visible height and border so it's obvious in UI
+              <div
+                key={item.id}
+                className="mx-2 w-full h-full"
+                style={{
+                  minHeight: 180,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <div
+                  style={{ width: '100%', height: '100%' }}
+                  className="w-full h-full"
+                >
+                  <CardCarousel
+                    cards={[
+                      {
+                        id: item.id,
+                        title: item.title,
+                        description: item.description || '',
+                        icon: '📖',
+                        color: 'blue',
+                        audioSrc: item.audioSrc,
+                        duration: item.duration,
+                      },
+                    ]}
+                    isDarkMode={isDarkMode}
+                    onCardClick={() => onItemClick?.(item.id)}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </Carousel>
+            ))}
+          </Carousel>
+        </div>
       </div>
     </div>
   )

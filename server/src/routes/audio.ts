@@ -172,6 +172,99 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
   }
 })
 
+// Read audio files directly from the local audio-source-files directory and return a simple JSON manifest.
+// This endpoint is intended for development/demo usage where audio files live on disk (not in DB).
+router.get(
+  '/source-files',
+  optionalAuth,
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const sourceDir = path.join(__dirname, '../../audio-source-files')
+
+      if (!fs.existsSync(sourceDir)) {
+        res.json({ files: [] })
+        return
+      }
+
+      const files = fs
+        .readdirSync(sourceDir)
+        .filter((f) => f.toLowerCase().endsWith('.mp3'))
+        .map((filename) => ({
+          filename,
+          // Stream URL that the frontend can use to fetch/stream the file
+          url: `/api/audio/source-files/stream/${encodeURIComponent(filename)}`,
+        }))
+
+      res.json({ files })
+    } catch (error) {
+      console.error('List source files error:', error)
+      res.status(500).json({
+        error: 'Failed to list source files',
+        message: 'An error occurred while listing audio source files',
+      })
+    }
+  }
+)
+
+// Stream a file directly from audio-source-files (supports range requests)
+router.get(
+  '/source-files/stream/:filename',
+  optionalAuth,
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { filename } = req.params
+      const decoded = decodeURIComponent(filename)
+      const filePath = path.join(__dirname, '../../audio-source-files', decoded)
+
+      if (!fs.existsSync(filePath)) {
+        res.status(404).json({
+          error: 'File not found',
+          message: 'Requested audio file does not exist on disk',
+        })
+        return
+      }
+
+      const stat = fs.statSync(filePath)
+      const fileSize = stat.size
+      const range = req.headers.range
+
+      // Default to audio/mpeg for mp3 files; fallback to octet-stream if unsure
+      const contentType = decoded.toLowerCase().endsWith('.mp3')
+        ? 'audio/mpeg'
+        : 'application/octet-stream'
+
+      if (range) {
+        const parts = range.replace(/bytes=/, '').split('-')
+        const start = parseInt(parts[0], 10)
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
+        const chunksize = end - start + 1
+        const file = fs.createReadStream(filePath, { start, end })
+        const head = {
+          'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunksize,
+          'Content-Type': contentType,
+        }
+        res.writeHead(206, head)
+        file.pipe(res)
+      } else {
+        const head = {
+          'Content-Length': fileSize,
+          'Content-Type': contentType,
+        }
+        res.writeHead(200, head)
+        fs.createReadStream(filePath).pipe(res)
+      }
+    } catch (error) {
+      console.error('Stream source file error:', error)
+      res.status(500).json({
+        error: 'Failed to stream file',
+        message: 'An error occurred while streaming the audio file',
+      })
+    }
+  }
+)
+
 // Get specific audio file details
 router.get(
   '/:id',
