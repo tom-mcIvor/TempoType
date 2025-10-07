@@ -1,6 +1,6 @@
 import React from 'react'
 import Carousel from 'react-material-ui-carousel'
-import CardCarousel from '../SideBarTabComponents/cardCarousels/CardCarousel'
+import CardCarousel from './AudioCards'
 
 export interface Slide {
   id: string

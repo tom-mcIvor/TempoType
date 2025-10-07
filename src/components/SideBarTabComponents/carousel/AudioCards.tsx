@@ -168,15 +168,16 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
         aria-pressed={isPlaying}
         className={`group card-hover flex items-center gap-4 p-6 rounded-xl cursor-pointer transition-all duration-200 ease-out ${
           isDarkMode
-            ? 'bg-gray-800/80 border border-gray-700 text-gray-100'
-            : 'bg-white border border-gray-200 text-gray-900'
+            ? 'border-2 border-gray-600 text-gray-100 hover:border-gray-500'
+            : 'border-2 border-gray-300 text-gray-900 hover:border-gray-400'
         }`}
         style={{
+          backgroundColor: isDarkMode ? 'rgba(31, 41, 55, 0.9)' : '#faf9f6',
           boxShadow: isDarkMode
-            ? '0 10px 30px rgba(2,6,23,0.6)'
-            : '0 8px 24px rgba(15,23,42,0.06)',
+            ? '0 4px 20px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2)'
+            : '0 4px 20px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.05)',
           backdropFilter: isDarkMode ? 'blur(6px)' : undefined,
-          borderRadius: '12px',
+          borderRadius: '16px',
         }}
       >
         {/* Left icon circle */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import TextBox from '../TextBox'
-import CarouselWrapper from '../carousel/CarouselWrapper'
+import CarouselWrapper from './carousel/CardCarousel'
 import { audio120Wpm } from '../../data/audio120Wpm'
 import { audio20Wpm } from '../../data/audio20Wpm'
 import { audio40Wpm } from '../../data/audio40Wpm'
@@ -85,15 +85,14 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
         <div className="four-grid mx-auto">
           {/* Slot 1: existing carousel */}
           <div className="w-full">
-            <div className="mb-4 text-left">
-              <h3
-                className={`text-xl font-semibold ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-              >
-                Advanced (120 wpm)
-              </h3>
-            </div>
+            <h3
+              className={`mb-4 text-xl font-semibold w-full ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-800'
+              }`}
+              style={{ textAlign: 'center' }}
+            >
+              Advanced (120 wpm)
+            </h3>
             <div
               style={{ minHeight: '220px' }}
               className="w-full carousel-slot"
@@ -117,15 +116,14 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
           {/* Slot 2 */}
           <div className="w-full">
-            <div className="mb-4 text-left">
-              <h3
-                className={`text-xl font-semibold ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-              >
-                Beginner (20 wpm)
-              </h3>
-            </div>
+            <h3
+              className={`mb-4 text-xl font-semibold w-full ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-800'
+              }`}
+              style={{ textAlign: 'center' }}
+            >
+              Beginner (20 wpm)
+            </h3>
             <div
               style={{ minHeight: '220px' }}
               className="w-full carousel-slot"
@@ -149,15 +147,14 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
           {/* Slot 3 */}
           <div className="w-full">
-            <div className="mb-4 text-left">
-              <h3
-                className={`text-xl font-semibold ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-              >
-                Intermediate (40 wpm)
-              </h3>
-            </div>
+            <h3
+              className={`mb-4 text-xl font-semibold w-full ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-800'
+              }`}
+              style={{ textAlign: 'center' }}
+            >
+              Intermediate (40 wpm)
+            </h3>
             <div
               style={{ minHeight: '220px' }}
               className="w-full carousel-slot"
@@ -181,15 +178,14 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
           {/* Slot 4 */}
           <div className="w-full">
-            <div className="mb-4 text-left">
-              <h3
-                className={`text-xl font-semibold ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-              >
-                Advanced/intermediate (50 wpm)
-              </h3>
-            </div>
+            <h3
+              className={`mb-4 text-xl font-semibold w-full ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-800'
+              }`}
+              style={{ textAlign: 'center' }}
+            >
+              Advanced/intermediate (50 wpm)
+            </h3>
             <div
               style={{ minHeight: '220px' }}
               className="w-full carousel-slot"
@@ -214,7 +210,10 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
       </div>
 
       {/* Centered main content */}
-      <div className="flex-1 flex flex-col justify-center" style={{ marginTop: '4rem' }}>
+      <div
+        className="flex-1 flex flex-col justify-center"
+        style={{ marginTop: '4rem' }}
+      >
         {/* Practice Text Box - hidden until a card is clicked */}
         {showTextBox && (
           <div
