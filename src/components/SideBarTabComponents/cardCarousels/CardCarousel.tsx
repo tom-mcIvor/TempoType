@@ -107,18 +107,31 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
 
             // Ensure the audio element is ready; attempt to unmute and play.
             try {
-              audioRef.current!.muted = false
-              audioRef.current!.volume = 1
-              // reload in case the src was freshly assigned
-              audioRef.current!.load()
-              audioRef
-                .current!.play()
-                .then(() => setIsPlaying(true))
-                .catch(() => {
-                  // play may be blocked by browser autoplay policies; fail silently
+              const audio = audioRef.current!
+              console.log('Attempting to play audio:', card.audioSrc)
+              console.log('Audio element src:', audio.src)
+              console.log('Audio element readyState:', audio.readyState)
+              console.log('Audio element networkState:', audio.networkState)
+
+              audio.muted = false
+              audio.volume = 1
+              audio.currentTime = 0
+
+              audio
+                .play()
+                .then(() => {
+                  console.log('Audio playing successfully!')
+                  setIsPlaying(true)
                 })
-            } catch {
-              // ignore errors to avoid uncaught exceptions
+                .catch((err) => {
+                  console.error('Audio play failed:', err)
+                  console.log('Error name:', err.name)
+                  console.log('Error message:', err.message)
+                  alert('Audio failed to play: ' + err.name + ' - ' + err.message)
+                })
+            } catch (err) {
+              console.error('Audio play error:', err)
+              alert('Audio error: ' + (err as Error).message)
             }
 
             return null
@@ -270,7 +283,7 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
           <audio
             ref={audioRef}
             src={card.audioSrc}
-            preload="none"
+            preload="auto"
             // keep the element present but offscreen; some browsers handle play()
             // better when the element exists in layout rather than display:none
             style={{ position: 'absolute', left: -9999, width: 0, height: 0 }}

@@ -6,7 +6,7 @@ export const audio120Wpm = [
     description: 'Start your journey with the opening chapter of the Fate of Fenella',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_01_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_01_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -16,7 +16,7 @@ export const audio120Wpm = [
     description: 'Continue the adventure in chapter two',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_02_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_02_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -26,7 +26,7 @@ export const audio120Wpm = [
     description: 'Uncover hidden truths in chapter three',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_03_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_03_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -36,7 +36,7 @@ export const audio120Wpm = [
     description: 'Follow the story deeper into mystery',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_04_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_04_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -46,7 +46,7 @@ export const audio120Wpm = [
     description: 'Explore new revelations in the tale',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_05_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_05_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -56,7 +56,7 @@ export const audio120Wpm = [
     description: 'Continue your typing practice journey',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_06_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_06_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -66,7 +66,7 @@ export const audio120Wpm = [
     description: 'The story unfolds with new twists',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_07_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_07_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -76,7 +76,7 @@ export const audio120Wpm = [
     description: 'Experience pivotal moments in the narrative',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_08_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_08_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -86,7 +86,7 @@ export const audio120Wpm = [
     description: 'Push forward through the adventure',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_09_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_09_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -96,7 +96,7 @@ export const audio120Wpm = [
     description: 'Reach the story\'s critical juncture',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_10_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_10_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -106,7 +106,7 @@ export const audio120Wpm = [
     description: 'Explore fresh perspectives in the tale',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_11_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_11_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -116,7 +116,7 @@ export const audio120Wpm = [
     description: 'Watch as pieces come together',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_12_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_12_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -126,7 +126,7 @@ export const audio120Wpm = [
     description: 'Navigate through increasing complexity',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_13_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_13_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -136,7 +136,7 @@ export const audio120Wpm = [
     description: 'Feel the tension build in the story',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_14_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_14_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -146,7 +146,7 @@ export const audio120Wpm = [
     description: 'Move toward the story\'s peak moments',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_15_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_15_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -156,7 +156,7 @@ export const audio120Wpm = [
     description: 'Experience key turning points',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_16_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_16_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -166,7 +166,7 @@ export const audio120Wpm = [
     description: 'Feel the pressure intensify',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_17_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_17_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -176,7 +176,7 @@ export const audio120Wpm = [
     description: 'Approach the final revelations',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_18_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_18_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -186,7 +186,7 @@ export const audio120Wpm = [
     description: 'Build toward the grand finale',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_19_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_19_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -196,7 +196,7 @@ export const audio120Wpm = [
     description: 'Experience the story\'s peak intensity',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_20_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_20_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -206,7 +206,7 @@ export const audio120Wpm = [
     description: 'See how pieces settle into place',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_21_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_21_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -216,7 +216,7 @@ export const audio120Wpm = [
     description: 'Move toward the story\'s conclusion',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_22_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_22_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -226,7 +226,7 @@ export const audio120Wpm = [
     description: 'Discover the ultimate truths',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_23_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_23_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   },
@@ -236,7 +236,7 @@ export const audio120Wpm = [
     description: 'Complete your journey through the tale',
     icon: '📖',
     color: 'blue',
-    audioSrc: '/fateoffenella_24_various_64kb.mp3',
+    audioSrc: '/api/audio/source-files/stream/fateoffenella_24_various_64kb.mp3',
     duration: '15 min',
     difficulty: 'Advanced'
   }

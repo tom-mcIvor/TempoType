@@ -179,7 +179,7 @@ router.get(
   optionalAuth,
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const sourceDir = path.join(__dirname, '../../audio-source-files')
+      const sourceDir = path.join(__dirname, '../../../audio-source-files')
 
       if (!fs.existsSync(sourceDir)) {
         res.json({ files: [] })
@@ -214,7 +214,7 @@ router.get(
     try {
       const { filename } = req.params
       const decoded = decodeURIComponent(filename)
-      const filePath = path.join(__dirname, '../../audio-source-files', decoded)
+      const filePath = path.join(__dirname, '../../../audio-source-files', decoded)
 
       if (!fs.existsSync(filePath)) {
         res.status(404).json({
