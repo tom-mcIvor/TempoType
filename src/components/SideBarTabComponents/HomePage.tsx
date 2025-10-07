@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import TextBox from '../TextBox'
 import CarouselWrapper from '../carousel/CarouselWrapper'
 import { audio120Wpm } from '../../data/audio120Wpm'
+import { audio20Wpm } from '../../data/audio20Wpm'
+import { audio40Wpm } from '../../data/audio40Wpm'
+import { audio50Wpm } from '../../data/audio50Wpm'
 import audioService, { SourceFile } from '../../services/api/audioService'
 
 interface TypingMetrics {
@@ -92,30 +95,28 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
               </h3>
             </div>
             <div
-              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className="w-full h-full carousel-slot"
+              style={{ minHeight: '220px' }}
+              className="w-full carousel-slot"
             >
-              <div className="w-full h-full">
-                <CarouselWrapper
-                  items={audio120Wpm.map((c) => ({
-                    id: c.id,
-                    title: c.title,
-                    description: c.description,
-                    image: undefined,
-                    audioSrc: c.audioSrc,
-                    duration: c.duration,
-                  }))}
-                  isDarkMode={isDarkMode}
-                  autoPlay={false}
-                  navButtonsAlwaysVisible={true}
-                  onItemClick={() => setShowTextBox(true)}
-                />
-              </div>
+              <CarouselWrapper
+                items={audio120Wpm.map((c) => ({
+                  id: c.id,
+                  title: c.title,
+                  description: c.description,
+                  image: undefined,
+                  audioSrc: c.audioSrc,
+                  duration: c.duration,
+                }))}
+                isDarkMode={isDarkMode}
+                autoPlay={false}
+                navButtonsAlwaysVisible={true}
+                onItemClick={() => setShowTextBox(true)}
+              />
             </div>
           </div>
 
           {/* Slot 2 */}
-          <div>
+          <div className="w-full">
             <div className="mb-4 text-left">
               <h3
                 className={`text-xl font-semibold ${
@@ -126,34 +127,28 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
               </h3>
             </div>
             <div
-              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 carousel-slot ${
-                isDarkMode
-                  ? 'bg-gray-800/90 border border-gray-700/50'
-                  : 'bg-white/80 border border-white/20'
-              }`}
+              style={{ minHeight: '220px' }}
+              className="w-full carousel-slot"
             >
-              <div className="w-full h-full">
-                <CarouselWrapper
-                  items={sourceFiles.map((f: SourceFile) => ({
-                    id: f.filename,
-                    title: f.filename,
-                    description: undefined,
-                    image: undefined,
-                    audioSrc: f.url,
-                    duration: 'Unknown',
-                  }))}
-                  isDarkMode={isDarkMode}
-                  autoPlay={false}
-                  navButtonsAlwaysVisible={true}
-                  onItemClick={() => setShowTextBox(true)}
-                />
-              </div>
+              <CarouselWrapper
+                items={audio20Wpm.map((c) => ({
+                  id: c.id,
+                  title: c.title,
+                  description: c.description,
+                  image: undefined,
+                  audioSrc: c.audioSrc,
+                  duration: c.duration,
+                }))}
+                isDarkMode={isDarkMode}
+                autoPlay={false}
+                navButtonsAlwaysVisible={true}
+                onItemClick={() => setShowTextBox(true)}
+              />
             </div>
           </div>
 
           {/* Slot 3 */}
-          <div>
+          <div className="w-full">
             <div className="mb-4 text-left">
               <h3
                 className={`text-xl font-semibold ${
@@ -164,34 +159,28 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
               </h3>
             </div>
             <div
-              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 carousel-slot ${
-                isDarkMode
-                  ? 'bg-gray-800/90 border border-gray-700/50'
-                  : 'bg-white/80 border border-white/20'
-              }`}
+              style={{ minHeight: '220px' }}
+              className="w-full carousel-slot"
             >
-              <div className="w-full h-full">
-                <CarouselWrapper
-                  items={sourceFiles.map((f: SourceFile) => ({
-                    id: f.filename,
-                    title: f.filename,
-                    description: undefined,
-                    image: undefined,
-                    audioSrc: f.url,
-                    duration: 'Unknown',
-                  }))}
-                  isDarkMode={isDarkMode}
-                  autoPlay={false}
-                  navButtonsAlwaysVisible={true}
-                  onItemClick={() => setShowTextBox(true)}
-                />
-              </div>
+              <CarouselWrapper
+                items={audio40Wpm.map((c) => ({
+                  id: c.id,
+                  title: c.title,
+                  description: c.description,
+                  image: undefined,
+                  audioSrc: c.audioSrc,
+                  duration: c.duration,
+                }))}
+                isDarkMode={isDarkMode}
+                autoPlay={false}
+                navButtonsAlwaysVisible={true}
+                onItemClick={() => setShowTextBox(true)}
+              />
             </div>
           </div>
 
           {/* Slot 4 */}
-          <div>
+          <div className="w-full">
             <div className="mb-4 text-left">
               <h3
                 className={`text-xl font-semibold ${
@@ -202,36 +191,30 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
               </h3>
             </div>
             <div
-              style={{ aspectRatio: '1 / 1', minHeight: '220px' }}
-              className={`backdrop-blur-sm rounded-3xl shadow-2xl p-6 flex items-center justify-center transition-colors duration-300 carousel-slot ${
-                isDarkMode
-                  ? 'bg-gray-800/90 border border-gray-700/50'
-                  : 'bg-white/80 border border-white/20'
-              }`}
+              style={{ minHeight: '220px' }}
+              className="w-full carousel-slot"
             >
-              <div className="w-full h-full">
-                <CarouselWrapper
-                  items={sourceFiles.map((f: SourceFile) => ({
-                    id: f.filename,
-                    title: f.filename,
-                    description: undefined,
-                    image: undefined,
-                    audioSrc: f.url,
-                    duration: 'Unknown',
-                  }))}
-                  isDarkMode={isDarkMode}
-                  autoPlay={false}
-                  navButtonsAlwaysVisible={true}
-                  onItemClick={() => setShowTextBox(true)}
-                />
-              </div>
+              <CarouselWrapper
+                items={audio50Wpm.map((c) => ({
+                  id: c.id,
+                  title: c.title,
+                  description: c.description,
+                  image: undefined,
+                  audioSrc: c.audioSrc,
+                  duration: c.duration,
+                }))}
+                isDarkMode={isDarkMode}
+                autoPlay={false}
+                navButtonsAlwaysVisible={true}
+                onItemClick={() => setShowTextBox(true)}
+              />
             </div>
           </div>
         </div>
       </div>
 
       {/* Centered main content */}
-      <div className="flex-1 flex flex-col justify-center">
+      <div className="flex-1 flex flex-col justify-center" style={{ marginTop: '4rem' }}>
         {/* Practice Text Box - hidden until a card is clicked */}
         {showTextBox && (
           <div
@@ -240,7 +223,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 ? 'bg-gray-800/90 border border-gray-700/50'
                 : 'bg-white/80 border border-white/20'
             }`}
-            style={{ width: '60vw', margin: '0 auto', maxWidth: '1200px' }}
+            style={{ width: '60vw', margin: '0 auto 2rem', maxWidth: '1200px' }}
           >
             <TextBox
               placeholder="Start typing what you hear"
