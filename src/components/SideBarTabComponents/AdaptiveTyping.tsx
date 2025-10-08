@@ -61,6 +61,23 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
     [targetWPM]
   )
 
+  const handleTextChange = useCallback((text: string) => {
+    setTypedText(text)
+  }, [])
+
+  const handleMetricsChange = useCallback((metrics: any) => {
+    setTypingStats(prev => ({
+      wordsTyped: metrics.wordsTyped,
+      startTime: prev.startTime,
+      lastUpdateTime: Date.now(),
+      currentWPM: metrics.wpm,
+    }))
+    // Adjust audio speed based on typing metrics
+    if (metrics.wordsTyped > 5) {
+      adjustAudioSpeed(metrics.wpm)
+    }
+  }, [adjustAudioSpeed])
+
   const handlePlay = () => {
     if (audioRef.current) {
       audioRef.current.play()
@@ -176,22 +193,8 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
                 : '🎧 Press play and start typing what you hear...'
             }
             targetText={transcription}
-            onTextChange={(text) => {
-              setTypedText(text)
-            }}
-            onMetricsChange={(metrics) => {
-              // Update typing stats with metrics from TextBox
-              setTypingStats({
-                wordsTyped: metrics.wordsTyped,
-                startTime: typingStats.startTime,
-                lastUpdateTime: Date.now(),
-                currentWPM: metrics.wpm,
-              })
-              // Adjust audio speed based on typing metrics
-              if (metrics.wordsTyped > 5) {
-                adjustAudioSpeed(metrics.wpm)
-              }
-            }}
+            onTextChange={handleTextChange}
+            onMetricsChange={handleMetricsChange}
             isDarkMode={isDarkMode}
             disabled={!isPlaying}
             className="mb-4"

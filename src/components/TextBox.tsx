@@ -37,6 +37,7 @@ const TextBox: React.FC<TextBoxProps> = ({
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+  const startTimeRef = useRef<number | null>(null)
 
   // focus textarea when autoFocus becomes true
   useEffect(() => {
@@ -106,19 +107,16 @@ const TextBox: React.FC<TextBoxProps> = ({
       onTextChange?.(newText)
 
       // Start timer on first character
-      if (!startTime && newText.length === 1) {
-        setStartTime(Date.now())
-      }
-
-      // Calculate metrics if typing has started
-      if (startTime && newText.length > 0) {
-        const newMetrics = calculateMetrics(newText, startTime)
-        onMetricsChange?.(newMetrics)
+      if (!startTimeRef.current && newText.length === 1) {
+        const now = Date.now()
+        setStartTime(now)
+        startTimeRef.current = now
       }
 
       // Reset if text is cleared
       if (newText.length === 0) {
         setStartTime(null)
+        startTimeRef.current = null
         const resetMetrics = {
           wpm: 0,
           accuracy: 100,
@@ -130,16 +128,18 @@ const TextBox: React.FC<TextBoxProps> = ({
         onMetricsChange?.(resetMetrics)
       }
     },
-    [startTime, calculateMetrics, onTextChange, onMetricsChange]
+    [onTextChange, onMetricsChange]
   )
 
-  // Update metrics every second while typing
+  // Update metrics every 500ms while typing (reduced frequency)
   useEffect(() => {
     if (startTime && text.length > 0) {
       intervalRef.current = setInterval(() => {
-        const newMetrics = calculateMetrics(text, startTime)
-        onMetricsChange?.(newMetrics)
-      }, 1000)
+        if (startTimeRef.current) {
+          const newMetrics = calculateMetrics(text, startTimeRef.current)
+          onMetricsChange?.(newMetrics)
+        }
+      }, 500)
     } else {
       if (intervalRef.current) {
         clearInterval(intervalRef.current)
