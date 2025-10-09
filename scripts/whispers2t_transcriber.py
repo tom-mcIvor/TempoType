@@ -56,30 +56,78 @@ def transcribe_file(audio_path, model_size="medium", output_dir="transcriptions"
         return None
 
 def batch_transcribe(audio_dir="audio-source-files", model_size="medium", output_dir="transcriptions"):
-    """Batch transcribe all MP3 files in a directory"""
+    """Batch transcribe audio files from multiple WPM directories"""
     audio_path = Path(audio_dir)
     
     if not audio_path.exists():
         print(f"❌ Audio directory not found: {audio_dir}")
         return
     
-    # Find all MP3 files
-    mp3_files = list(audio_path.glob("*.mp3"))
+    # Define WPM directories to process
+    wpm_directories = ["20wpm", "40wpm", "50wpm"]
     
-    if not mp3_files:
-        print(f"❌ No MP3 files found in {audio_dir}")
+    # Collect all audio files from different sources
+    all_audio_files = []
+    
+    # Add fateoffenella files (120wpm) from root directory
+    fateoffenella_files = list(audio_path.glob("fateoffenella_*.mp3"))
+    all_audio_files.extend(fateoffenella_files)
+    print(f"📁 Found {len(fateoffenella_files)} fateoffenella files (120wpm)")
+    
+    # Add files from WPM directories
+    for wpm_dir in wpm_directories:
+        wpm_path = audio_path / wpm_dir
+        if wpm_path.exists():
+            wpm_files = list(wpm_path.glob("*.mp3"))
+            all_audio_files.extend(wpm_files)
+            print(f"📁 Found {len(wpm_files)} files in {wpm_dir}/")
+        else:
+            print(f"⚠️  Directory not found: {wpm_dir}/")
+    
+    if not all_audio_files:
+        print(f"❌ No audio files found in {audio_dir}")
         return
     
-    print(f"🎵 Found {len(mp3_files)} audio files")
+    # Sort files for consistent processing order
+    all_audio_files.sort(key=lambda x: str(x))
+    
+    # Check which files are already transcribed
+    transcriptions_path = Path(output_dir)
+    existing_transcripts = set()
+    if transcriptions_path.exists():
+        for txt_file in transcriptions_path.glob("*.txt"):
+            existing_transcripts.add(txt_file.stem)
+    
+    # Filter out already transcribed files
+    remaining_files = []
+    for audio_file in all_audio_files:
+        if audio_file.stem not in existing_transcripts:
+            remaining_files.append(audio_file)
+    
+    if not remaining_files:
+        print("✅ All audio files are already transcribed!")
+        return
+    
+    mp3_files = remaining_files  # Use only remaining files
+    
+    print(f"🎵 Found {len(all_audio_files)} total audio files")
+    print(f"✅ Already transcribed: {len(existing_transcripts)}")
+    print(f"🎵 Remaining to transcribe: {len(mp3_files)}")
     print(f"📝 Using {model_size} model")
     print(f"💾 Output directory: {output_dir}")
-    print("-" * 50)
+    print("-" * 70)
     
     successful = 0
     total_time = 0
     
     for i, audio_file in enumerate(mp3_files, 1):
-        print(f"\n[{i}/{len(mp3_files)}] Processing: {audio_file.name}")
+        # Show which directory the file is from
+        if audio_file.parent.name in wpm_directories:
+            file_info = f"{audio_file.parent.name}/{audio_file.name}"
+        else:
+            file_info = f"{audio_file.name} (120wpm)"
+        
+        print(f"\n[{i}/{len(mp3_files)}] Processing: {file_info}")
         
         start_time = time.time()
         result = transcribe_file(str(audio_file), model_size, output_dir)
@@ -97,7 +145,7 @@ def batch_transcribe(audio_dir="audio-source-files", model_size="medium", output
             
             print(f"⏱️  Time: {file_time:.1f}s | ETA: {eta/60:.1f}m")
     
-    print("\n" + "=" * 50)
+    print("\n" + "=" * 70)
     print(f"🎉 Batch transcription complete!")
     print(f"✅ Successful: {successful}/{len(mp3_files)}")
     print(f"⏱️  Total time: {total_time/60:.1f} minutes")
@@ -105,8 +153,8 @@ def batch_transcribe(audio_dir="audio-source-files", model_size="medium", output
 
 def main():
     """Main function"""
-    print("🎙️  WhisperS2T Transcriber for TempoType")
-    print("=" * 50)
+    print("🎙️  WhisperS2T Transcriber for TempoType (20wpm, 40wpm, 50wpm, 120wpm)")
+    print("=" * 70)
     
     # Check dependencies
     if not check_dependencies():
