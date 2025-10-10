@@ -15,6 +15,8 @@ interface CardCarouselProps {
   isDarkMode?: boolean
   onCardClick?: () => void
   onAudioEnded?: () => void
+  currentAudioId?: string | null
+  onAudioStart?: (audioId: string) => void
 }
 
 const CardCarousel: React.FC<CardCarouselProps> = ({
@@ -22,12 +24,29 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
   isDarkMode = false,
   onCardClick,
   onAudioEnded,
+  currentAudioId,
+  onAudioStart,
 }) => {
   const card = cards && cards.length > 0 ? cards[0] : null
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [countdown, setCountdown] = useState<number | null>(null)
   const countdownRef = useRef<number | null>(null)
+
+  // Stop this audio if another one is playing
+  useEffect(() => {
+    if (currentAudioId && currentAudioId !== card?.id && isPlaying) {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        setIsPlaying(false)
+      }
+      if (countdownRef.current) {
+        clearInterval(countdownRef.current as number)
+        countdownRef.current = null
+      }
+      setCountdown(null)
+    }
+  }, [currentAudioId, card?.id, isPlaying])
 
   // cleanup on unmount to avoid leaking intervals and stop any playing audio
   useEffect(() => {
@@ -124,6 +143,10 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
                 .then(() => {
                   console.log('Audio playing successfully!')
                   setIsPlaying(true)
+                  // Notify parent that this audio started playing
+                  if (card?.id) {
+                    onAudioStart?.(card.id)
+                  }
                 })
                 .catch((err) => {
                   console.error('Audio play failed:', err)

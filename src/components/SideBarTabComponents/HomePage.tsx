@@ -35,10 +35,15 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
   const [userTypedText, setUserTypedText] = useState('')
   const [currentTargetText, setCurrentTargetText] = useState('')
   const [audioStopped, setAudioStopped] = useState(false)
+  const [currentAudioId, setCurrentAudioId] = useState<string | null>(null)
 
   const handleAudioEnded = () => {
     setAudioStopped(true)
     setShowResults(true)
+  }
+
+  const handleAudioStart = (audioId: string) => {
+    setCurrentAudioId(audioId)
   }
 
   const handleCloseResults = () => {
@@ -133,6 +138,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 navButtonsAlwaysVisible={true}
                 onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
                 onAudioEnded={handleAudioEnded}
+                currentAudioId={currentAudioId}
+                onAudioStart={handleAudioStart}
               />
             </div>
           </div>
@@ -165,6 +172,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 navButtonsAlwaysVisible={true}
                 onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
                 onAudioEnded={handleAudioEnded}
+                currentAudioId={currentAudioId}
+                onAudioStart={handleAudioStart}
               />
             </div>
           </div>
@@ -197,6 +206,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 navButtonsAlwaysVisible={true}
                 onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
                 onAudioEnded={handleAudioEnded}
+                currentAudioId={currentAudioId}
+                onAudioStart={handleAudioStart}
               />
             </div>
           </div>
@@ -229,6 +240,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 navButtonsAlwaysVisible={true}
                 onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
                 onAudioEnded={handleAudioEnded}
+                currentAudioId={currentAudioId}
+                onAudioStart={handleAudioStart}
               />
             </div>
           </div>

@@ -20,6 +20,8 @@ interface CarouselWrapperProps {
   navButtonsAlwaysVisible?: boolean
   onItemClick?: (id: string, audioSrc?: string) => void
   onAudioEnded?: () => void
+  currentAudioId?: string | null
+  onAudioStart?: (audioId: string) => void
 }
 
 /**
@@ -38,6 +40,8 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
   navButtonsAlwaysVisible = false,
   onItemClick,
   onAudioEnded,
+  currentAudioId,
+  onAudioStart,
 }) => {
   if (!items || items.length === 0) return null
 
@@ -95,6 +99,8 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
                     isDarkMode={isDarkMode}
                     onCardClick={() => onItemClick?.(item.id, item.audioSrc)}
                     onAudioEnded={onAudioEnded}
+                    currentAudioId={currentAudioId}
+                    onAudioStart={onAudioStart}
                   />
                 </div>
               </div>
