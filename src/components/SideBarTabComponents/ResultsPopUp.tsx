@@ -30,8 +30,16 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
     const normalizeWord = (word: string) =>
       word.toLowerCase().replace(/[^\w]/g, '')
 
-    const userWords = userText.trim().split(/\s+/).map(normalizeWord).filter(w => w.length > 0)
-    const targetWords = targetText.trim().split(/\s+/).map(normalizeWord).filter(w => w.length > 0)
+    const userWords = userText
+      .trim()
+      .split(/\s+/)
+      .map(normalizeWord)
+      .filter((w) => w.length > 0)
+    const targetWords = targetText
+      .trim()
+      .split(/\s+/)
+      .map(normalizeWord)
+      .filter((w) => w.length > 0)
     const minLength = Math.min(userWords.length, targetWords.length)
 
     // Count words that match at the same position
@@ -50,14 +58,17 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
       }
     }
 
-    const wordAccuracyPercent = userWords.length > 0
-      ? Math.round((wordsFoundInTarget / userWords.length) * 100)
-      : 100
+    const wordAccuracyPercent =
+      userWords.length > 0
+        ? Math.round((wordsFoundInTarget / userWords.length) * 100)
+        : 100
 
     return {
       correctWords: correctWordsAtPosition,
       totalTargetWords: targetWords.length,
-      completionPercentage: Math.round((userWords.length / targetWords.length) * 100),
+      completionPercentage: Math.round(
+        (userWords.length / targetWords.length) * 100
+      ),
       wordAccuracyPercent,
       wordsFoundInTarget,
     }
@@ -67,18 +78,18 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 bg-black/30 backdrop-blur-sm"
       style={{ zIndex: 9999 }}
       onClick={onClose}
     >
       <div
-        className={`relative max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto transition-colors duration-300 ${
+        className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-2xl w-full mx-4 transition-colors duration-300 ${
           isDarkMode ? 'text-gray-100' : 'text-gray-900'
         }`}
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`backdrop-blur-sm rounded-3xl shadow-2xl p-8 transition-colors duration-300 ${
+          className={`backdrop-blur-sm rounded-2xl shadow-2xl p-6 transition-colors duration-300 ${
             isDarkMode
               ? 'bg-gray-800/95 border border-gray-700/50'
               : 'bg-white/95 border border-white/20'
@@ -110,14 +121,14 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
           </button>
 
           {/* Title */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               Typing Results
             </h1>
           </div>
 
           {/* Metrics Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="text-center">
               <div
                 className={`text-sm font-medium mb-2 ${
@@ -126,7 +137,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
               >
                 Words Per Minute
               </div>
-              <div className="text-4xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-blue-600">
                 {metrics.wpm}
               </div>
             </div>
@@ -140,7 +151,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
                 Accuracy
               </div>
               <div
-                className={`text-4xl font-bold ${
+                className={`text-2xl font-bold ${
                   metrics.accuracy >= 95
                     ? 'text-green-600'
                     : metrics.accuracy >= 85
@@ -160,7 +171,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
               >
                 Words Typed
               </div>
-              <div className="text-4xl font-bold text-purple-600">
+              <div className="text-2xl font-bold text-purple-600">
                 {metrics.wordsTyped}
               </div>
             </div>
@@ -173,7 +184,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
               >
                 Time Elapsed
               </div>
-              <div className="text-4xl font-bold text-orange-600">
+              <div className="text-2xl font-bold text-orange-600">
                 {Math.floor(metrics.timeElapsed / 60)}:
                 {(metrics.timeElapsed % 60).toString().padStart(2, '0')}
               </div>
@@ -187,7 +198,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
               >
                 Errors
               </div>
-              <div className="text-4xl font-bold text-red-600">
+              <div className="text-2xl font-bold text-red-600">
                 {metrics.errorsCount}
               </div>
             </div>
@@ -200,7 +211,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
               >
                 Completion
               </div>
-              <div className="text-4xl font-bold text-indigo-600">
+              <div className="text-2xl font-bold text-indigo-600">
                 {comparison.completionPercentage}%
               </div>
             </div>
@@ -208,18 +219,18 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
 
           {/* Comparison Section */}
           <div
-            className={`rounded-2xl p-6 mb-6 ${
+            className={`rounded-xl p-4 mb-4 ${
               isDarkMode ? 'bg-gray-700/50' : 'bg-gray-50'
             }`}
           >
             <h3
-              className={`text-lg font-semibold mb-4 ${
+              className={`text-base font-semibold mb-3 ${
                 isDarkMode ? 'text-gray-200' : 'text-gray-800'
               }`}
             >
               Comparison
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span
                   className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}
@@ -237,7 +248,8 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
                   Valid Words Typed:
                 </span>
                 <span className="font-bold text-blue-600">
-                  {comparison.wordsFoundInTarget} / {metrics.wordsTyped} ({comparison.wordAccuracyPercent}%)
+                  {comparison.wordsFoundInTarget} / {metrics.wordsTyped} (
+                  {comparison.wordAccuracyPercent}%)
                 </span>
               </div>
               <div className="flex justify-between">
@@ -257,7 +269,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
           <div className="text-center">
             <button
               onClick={onClose}
-              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
+              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium text-sm"
             >
               Close Results
             </button>
