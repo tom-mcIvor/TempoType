@@ -179,6 +179,23 @@ class AudioService {
 
     return response.json()
   }
+
+  async getTranscription(audioFilename: string): Promise<string> {
+    // Extract the base filename from the audio URL
+    // e.g., "20wpm%2FJC1%2020%20WPM.mp3" -> "JC1 20 WPM"
+    const decodedFilename = decodeURIComponent(audioFilename)
+    const baseFilename = decodedFilename.split('/').pop()?.replace(/\.(mp3|wav|ogg)$/i, '') || ''
+
+    const response = await fetch(`/transcriptions/${encodeURIComponent(baseFilename)}.txt`, {
+      method: 'GET',
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch transcription for ${baseFilename}`)
+    }
+
+    return response.text()
+  }
 }
 
 export default new AudioService()

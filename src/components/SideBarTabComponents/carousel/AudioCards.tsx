@@ -14,12 +14,14 @@ interface CardCarouselProps {
   cards: Card[]
   isDarkMode?: boolean
   onCardClick?: () => void
+  onAudioEnded?: () => void
 }
 
 const CardCarousel: React.FC<CardCarouselProps> = ({
   cards,
   isDarkMode = false,
   onCardClick,
+  onAudioEnded,
 }) => {
   const card = cards && cards.length > 0 ? cards[0] : null
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -288,7 +290,10 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
             // keep the element present but offscreen; some browsers handle play()
             // better when the element exists in layout rather than display:none
             style={{ position: 'absolute', left: -9999, width: 0, height: 0 }}
-            onEnded={() => setIsPlaying(false)}
+            onEnded={() => {
+              setIsPlaying(false)
+              onAudioEnded?.()
+            }}
           />
         )}
       </div>

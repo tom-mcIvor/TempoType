@@ -18,7 +18,8 @@ interface CarouselWrapperProps {
   autoPlay?: boolean
   interval?: number
   navButtonsAlwaysVisible?: boolean
-  onItemClick?: (id: string) => void
+  onItemClick?: (id: string, audioSrc?: string) => void
+  onAudioEnded?: () => void
 }
 
 /**
@@ -36,6 +37,7 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
   interval = 4000,
   navButtonsAlwaysVisible = false,
   onItemClick,
+  onAudioEnded,
 }) => {
   if (!items || items.length === 0) return null
 
@@ -91,7 +93,8 @@ const CarouselWrapper: React.FC<CarouselWrapperProps> = ({
                       },
                     ]}
                     isDarkMode={isDarkMode}
-                    onCardClick={() => onItemClick?.(item.id)}
+                    onCardClick={() => onItemClick?.(item.id, item.audioSrc)}
+                    onAudioEnded={onAudioEnded}
                   />
                 </div>
               </div>

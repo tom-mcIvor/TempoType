@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import TextBox from '../TextBox'
 import CarouselWrapper from './carousel/CardCarousel'
+import ResultsPopUp from './ResultsPopUp'
 import { audio120Wpm } from '../../data/audio120Wpm'
 import { audio20Wpm } from '../../data/audio20Wpm'
 import { audio40Wpm } from '../../data/audio40Wpm'
 import { audio50Wpm } from '../../data/audio50Wpm'
-import audioService, { SourceFile } from '../../services/api/audioService'
+import audioService from '../../services/api/audioService'
 
 interface TypingMetrics {
   wpm: number
@@ -30,38 +31,59 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
     errorsCount: 0,
   })
   const [showTextBox, setShowTextBox] = useState(false)
-  const [sourceFiles, setSourceFiles] = useState<SourceFile[]>([])
+  const [showResults, setShowResults] = useState(false)
+  const [userTypedText, setUserTypedText] = useState('')
+  const [currentTargetText, setCurrentTargetText] = useState('')
+  const [audioStopped, setAudioStopped] = useState(false)
 
-  useEffect(() => {
-    let mounted = true
-    audioService
-      .getSourceFiles()
-      .then((data) => {
-        if (!mounted) return
-        setSourceFiles(Array.isArray(data.files) ? data.files : [])
-      })
-      .catch(() => {
-        if (!mounted) return
-        setSourceFiles([])
-      })
-    return () => {
-      mounted = false
+  const handleAudioEnded = () => {
+    setAudioStopped(true)
+    setShowResults(true)
+  }
+
+  const handleCloseResults = () => {
+    setShowResults(false)
+    setUserTypedText('')
+    setAudioStopped(false)
+    setMetrics({
+      wpm: 0,
+      accuracy: 100,
+      charactersTyped: 0,
+      wordsTyped: 0,
+      timeElapsed: 0,
+      errorsCount: 0,
+    })
+  }
+
+  const handleTextChange = (text: string) => {
+    setUserTypedText(text)
+  }
+
+  const handleCardClick = async (audioSrc: string) => {
+    setShowTextBox(true)
+    try {
+      const transcription = await audioService.getTranscription(audioSrc)
+      setCurrentTargetText(transcription)
+    } catch (error) {
+      console.error('Failed to load transcription:', error)
+      setCurrentTargetText('Transcription not available for this audio file.')
     }
-  }, [])
+  }
 
   return (
-    <div
-      className={`HomePage sidebar-tab-content homepage-content transition-colors duration-300 ${
-        isDarkMode ? 'text-gray-100' : 'text-gray-900'
-      }`}
-      style={{
-        minHeight: '100vh',
-        width: '100%',
-        background: isDarkMode
-          ? 'linear-gradient(to bottom right, #111827, #1f2937, #111827)'
-          : 'linear-gradient(to bottom right, #eff6ff, #f3e8ff, #fdf2f8)',
-      }}
-    >
+    <>
+      <div
+        className={`HomePage sidebar-tab-content homepage-content transition-colors duration-300 ${
+          isDarkMode ? 'text-gray-100' : 'text-gray-900'
+        }`}
+        style={{
+          minHeight: '100vh',
+          width: '100%',
+          background: isDarkMode
+            ? 'linear-gradient(to bottom right, #111827, #1f2937, #111827)'
+            : 'linear-gradient(to bottom right, #eff6ff, #f3e8ff, #fdf2f8)',
+        }}
+      >
       {/* Title at the top */}
       <div className="text-center mb-12">
         <div
@@ -109,7 +131,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 isDarkMode={isDarkMode}
                 autoPlay={false}
                 navButtonsAlwaysVisible={true}
-                onItemClick={() => setShowTextBox(true)}
+                onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
+                onAudioEnded={handleAudioEnded}
               />
             </div>
           </div>
@@ -140,7 +163,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 isDarkMode={isDarkMode}
                 autoPlay={false}
                 navButtonsAlwaysVisible={true}
-                onItemClick={() => setShowTextBox(true)}
+                onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
+                onAudioEnded={handleAudioEnded}
               />
             </div>
           </div>
@@ -171,7 +195,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 isDarkMode={isDarkMode}
                 autoPlay={false}
                 navButtonsAlwaysVisible={true}
-                onItemClick={() => setShowTextBox(true)}
+                onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
+                onAudioEnded={handleAudioEnded}
               />
             </div>
           </div>
@@ -202,7 +227,8 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 isDarkMode={isDarkMode}
                 autoPlay={false}
                 navButtonsAlwaysVisible={true}
-                onItemClick={() => setShowTextBox(true)}
+                onItemClick={(_id, audioSrc) => audioSrc && handleCardClick(audioSrc)}
+                onAudioEnded={handleAudioEnded}
               />
             </div>
           </div>
@@ -226,10 +252,13 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
           >
             <TextBox
               placeholder="Start typing what you hear"
-              targetText="The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet and is perfect for typing practice."
+              targetText={currentTargetText}
               isDarkMode={isDarkMode}
               autoFocus={true}
               onMetricsChange={setMetrics}
+              onTextChange={handleTextChange}
+              value={userTypedText}
+              stopped={audioStopped}
               className="w-full"
             />
           </div>
@@ -308,7 +337,19 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+
+      {/* Results Popup - Modal Overlay - Outside main container */}
+      {showResults && (
+        <ResultsPopUp
+          isDarkMode={isDarkMode}
+          metrics={metrics}
+          userText={userTypedText}
+          targetText={currentTargetText}
+          onClose={handleCloseResults}
+        />
+      )}
+    </>
   )
 }
 

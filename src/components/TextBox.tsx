@@ -19,6 +19,8 @@ interface TextBoxProps {
   className?: string
   maxHeight?: string
   autoFocus?: boolean
+  value?: string
+  stopped?: boolean
 }
 
 const TextBox: React.FC<TextBoxProps> = ({
@@ -31,13 +33,22 @@ const TextBox: React.FC<TextBoxProps> = ({
   className = '',
   maxHeight = '400px',
   autoFocus = false,
+  value,
+  stopped = false,
 }) => {
-  const [text, setText] = useState('')
+  const [text, setText] = useState(value || '')
   const [startTime, setStartTime] = useState<number | null>(null)
 
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const startTimeRef = useRef<number | null>(null)
+
+  // Sync with external value prop
+  useEffect(() => {
+    if (value !== undefined) {
+      setText(value)
+    }
+  }, [value])
 
   // focus textarea when autoFocus becomes true
   useEffect(() => {
@@ -66,24 +77,42 @@ const TextBox: React.FC<TextBoxProps> = ({
       const wpm =
         timeElapsedMinutes > 0 ? Math.round(wordsTyped / timeElapsedMinutes) : 0
 
-      // Calculate accuracy if target text is provided
+      // Calculate word-level accuracy if target text is provided
       let accuracy = 100
       let errorsCount = 0
 
       if (targetText && currentText.length > 0) {
-        let correctChars = 0
+        // Normalize words: lowercase and remove punctuation
+        const normalizeWord = (word: string) =>
+          word.toLowerCase().replace(/[^\w]/g, '')
 
-        for (let i = 0; i < currentText.length; i++) {
-          if (i < targetText.length && currentText[i] === targetText[i]) {
-            correctChars++
-          } else {
-            errorsCount++
+        const userWords = currentText
+          .trim()
+          .split(/\s+/)
+          .map(normalizeWord)
+          .filter((w) => w.length > 0)
+
+        const targetWords = targetText
+          .trim()
+          .split(/\s+/)
+          .map(normalizeWord)
+          .filter((w) => w.length > 0)
+
+        // Count words that appear in the target text
+        let correctWords = 0
+        for (const userWord of userWords) {
+          if (targetWords.includes(userWord)) {
+            correctWords++
           }
         }
 
+        // Calculate errors as words NOT found in target
+        errorsCount = userWords.length - correctWords
+
+        // Calculate word-level accuracy
         accuracy =
-          currentText.length > 0
-            ? Math.round((correctChars / currentText.length) * 100)
+          userWords.length > 0
+            ? Math.round((correctWords / userWords.length) * 100)
             : 100
       }
 
@@ -133,7 +162,7 @@ const TextBox: React.FC<TextBoxProps> = ({
 
   // Update metrics every 500ms while typing (reduced frequency)
   useEffect(() => {
-    if (startTime && text.length > 0) {
+    if (startTime && text.length > 0 && !stopped) {
       intervalRef.current = setInterval(() => {
         if (startTimeRef.current) {
           const newMetrics = calculateMetrics(text, startTimeRef.current)
@@ -152,7 +181,7 @@ const TextBox: React.FC<TextBoxProps> = ({
         clearInterval(intervalRef.current)
       }
     }
-  }, [startTime, text, calculateMetrics, onMetricsChange])
+  }, [startTime, text, calculateMetrics, onMetricsChange, stopped])
 
   return (
     <div
