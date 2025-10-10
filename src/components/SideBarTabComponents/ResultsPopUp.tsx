@@ -78,7 +78,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/30 backdrop-blur-sm"
+      className="absolute inset-0 bg-black/30 backdrop-blur-sm"
       style={{ zIndex: 9999 }}
       onClick={onClose}
     >

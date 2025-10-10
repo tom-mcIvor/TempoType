@@ -22,8 +22,10 @@ function App() {
     errorsCount: 8,
   }
 
-  const sampleUserText = "The quick brown fox jumps over the lazy dog. This is a sample typing test to demonstrate the results popup with various metrics and accuracy calculations."
-  const sampleTargetText = "The quick brown fox jumps over the lazy dog. This is a sample typing test to demonstrate the results popup with various metrics and accuracy calculations for testing purposes."
+  const sampleUserText =
+    'The quick brown fox jumps over the lazy dog. This is a sample typing test to demonstrate the results popup with various metrics and accuracy calculations.'
+  const sampleTargetText =
+    'The quick brown fox jumps over the lazy dog. This is a sample typing test to demonstrate the results popup with various metrics and accuracy calculations for testing purposes.'
 
   return (
     <div
@@ -54,11 +56,13 @@ function App() {
         onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
-      <div className={`sidebar-tab-container transition-colors duration-300 ${
-        isDarkMode
-          ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100'
-          : 'bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 text-gray-900'
-      }`}>
+      <div
+        className={`sidebar-tab-container transition-colors duration-300 relative ${
+          isDarkMode
+            ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100'
+            : 'bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 text-gray-900'
+        }`}
+      >
         {currentView === 'adaptiveTyping' ? (
           <AdaptiveTyping
             audioSrc="/fateoffenella_01_various_64kb.mp3"
@@ -71,22 +75,20 @@ function App() {
         ) : currentView === 'audioLibraryPage' ? (
           <AudioLibraryPage isDarkMode={isDarkMode} />
         ) : (
-          <HomePage
+          <HomePage isDarkMode={isDarkMode} />
+        )}
+
+        {/* ResultsPopUp - conditionally rendered inside sidebar-tab-container */}
+        {showResultsPopup && (
+          <ResultsPopUp
             isDarkMode={isDarkMode}
+            metrics={sampleMetrics}
+            userText={sampleUserText}
+            targetText={sampleTargetText}
+            onClose={() => setShowResultsPopup(false)}
           />
         )}
       </div>
-
-      {/* ResultsPopUp - conditionally rendered */}
-      {showResultsPopup && (
-        <ResultsPopUp
-          isDarkMode={isDarkMode}
-          metrics={sampleMetrics}
-          userText={sampleUserText}
-          targetText={sampleTargetText}
-          onClose={() => setShowResultsPopup(false)}
-        />
-      )}
     </div>
   )
 }
