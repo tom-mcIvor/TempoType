@@ -52,7 +52,7 @@ def main():
         return
     
     # Define WPM directories to process
-    wpm_directories = ["20wpm", "40wpm", "50wpm"]
+    wpm_directories = ["20wpm", "40wpm", "50wpm", "60wpm", "80wpm", "100wpm", "120wpm"]
     
     # Collect all audio files from different sources
     all_audio_files = []
