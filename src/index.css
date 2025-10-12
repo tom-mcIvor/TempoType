@@ -266,23 +266,27 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: white !important;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .results-popup-overlay .close-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.9) !important;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .results-popup-overlay.text-gray-100 .close-button {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: black !important;
+  border: 2px solid rgba(0, 0, 0, 0.2);
 }
 
 .results-popup-overlay.text-gray-100 .close-button:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 1) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
