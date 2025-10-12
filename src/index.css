@@ -260,33 +260,48 @@ button:focus-visible {
   top: 1rem !important;
   right: 1rem !important;
   z-index: 10000 !important;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.7) !important;
+  background: rgba(239, 68, 68, 0.9) !important;
   color: white !important;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(239, 68, 68, 1);
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.results-popup-overlay .close-button::before {
+  content: "×";
+  font-size: 1.5rem;
+  line-height: 1;
+  color: white;
+}
+
+.results-popup-overlay .close-button svg {
+  display: none !important;
 }
 
 .results-popup-overlay .close-button:hover {
-  background: rgba(0, 0, 0, 0.9) !important;
-  transform: scale(1.1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  background: rgba(220, 38, 38, 1) !important;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .results-popup-overlay.text-gray-100 .close-button {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: black !important;
-  border: 2px solid rgba(0, 0, 0, 0.2);
+  background: rgba(239, 68, 68, 0.9) !important;
+  border: 1px solid rgba(239, 68, 68, 1);
+}
+
+.results-popup-overlay.text-gray-100 .close-button::before {
+  color: white;
 }
 
 .results-popup-overlay.text-gray-100 .close-button:hover {
-  background: rgba(255, 255, 255, 1) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: rgba(220, 38, 38, 1) !important;
 }
