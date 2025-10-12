@@ -133,12 +133,9 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
           {/* Close button */}
           <button
             onClick={onClose}
-            className={`absolute top-4 right-4 p-2 rounded-full transition-colors duration-200 z-10 ${
-              isDarkMode
-                ? 'hover:bg-gray-700 text-gray-300 hover:text-white'
-                : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900'
+            className={`close-button ${
+              isDarkMode ? 'text-white' : 'text-gray-800'
             }`}
-            style={{ position: 'absolute', top: '1rem', right: '1rem' }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

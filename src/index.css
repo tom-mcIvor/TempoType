@@ -253,3 +253,36 @@ button:focus-visible {
   background: rgba(31, 41, 55, 0.95);
   border: 1px solid rgba(75, 85, 99, 0.5);
 }
+
+/* Ensure close button is visible and properly positioned */
+.results-popup-overlay .close-button {
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  z-index: 10000 !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.results-popup-overlay .close-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.results-popup-overlay.text-gray-100 .close-button {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.results-popup-overlay.text-gray-100 .close-button:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
