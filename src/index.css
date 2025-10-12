@@ -236,6 +236,8 @@ button:focus-visible {
   transform: translateX(-50%);
   width: 40vw; /* Reduced from 60vw to 40vw */
   max-width: 800px; /* Reduced from 1200px to 800px */
+  max-height: 80vh; /* Limit height to 80% of viewport */
+  overflow-y: auto; /* Add vertical scroll */
   z-index: 9999;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.95);

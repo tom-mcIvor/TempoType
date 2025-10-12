@@ -9,11 +9,23 @@ interface TypingMetrics {
   errorsCount: number
 }
 
+interface AudioDetails {
+  id: string
+  title: string
+  description: string
+  icon: string
+  color: string
+  audioSrc: string
+  duration: string
+  difficulty: string
+}
+
 interface ResultsPopUpProps {
   isDarkMode?: boolean
   metrics: TypingMetrics
   userText: string
   targetText: string
+  audioDetails?: AudioDetails | null
   onClose: () => void
 }
 
@@ -22,6 +34,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
   metrics,
   userText,
   targetText,
+  audioDetails,
   onClose,
 }) => {
   // Calculate detailed comparison
@@ -42,12 +55,33 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
       .filter((w) => w.length > 0)
     const minLength = Math.min(userWords.length, targetWords.length)
 
-    // Count words that match at the same position
+    // Count words that match at the same position and identify wrong words
     let correctWordsAtPosition = 0
+    const wrongWords: Array<{
+      typed: string
+      expected: string
+      position: number
+    }> = []
+
     for (let i = 0; i < minLength; i++) {
       if (userWords[i] === targetWords[i]) {
         correctWordsAtPosition++
+      } else {
+        wrongWords.push({
+          typed: userWords[i] || '(missing)',
+          expected: targetWords[i],
+          position: i + 1,
+        })
       }
+    }
+
+    // Add missing words at the end if target is longer
+    for (let i = minLength; i < targetWords.length; i++) {
+      wrongWords.push({
+        typed: '(missing)',
+        expected: targetWords[i],
+        position: i + 1,
+      })
     }
 
     // Also calculate overall word accuracy (how many user words appear in target)
@@ -71,6 +105,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
       ),
       wordAccuracyPercent,
       wordsFoundInTarget,
+      wrongWords,
     }
   }
 
@@ -89,7 +124,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`backdrop-blur-sm rounded-2xl shadow-2xl p-6 transition-colors duration-300 ${
+          className={`backdrop-blur-sm rounded-2xl shadow-2xl p-6 transition-colors duration-300 max-h-[80vh] overflow-y-auto ${
             isDarkMode
               ? 'bg-gray-800/95 border border-gray-700/50'
               : 'bg-white/95 border border-white/20'
@@ -98,11 +133,12 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
           {/* Close button */}
           <button
             onClick={onClose}
-            className={`absolute top-4 right-4 p-2 rounded-full transition-colors duration-200 ${
+            className={`absolute top-4 right-4 p-2 rounded-full transition-colors duration-200 z-10 ${
               isDarkMode
                 ? 'hover:bg-gray-700 text-gray-300 hover:text-white'
                 : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900'
             }`}
+            style={{ position: 'absolute', top: '1rem', right: '1rem' }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -125,6 +161,24 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               Typing Results
             </h1>
+            {audioDetails && (
+              <div
+                className={`mt-3 text-sm ${
+                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                }`}
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <span>{audioDetails.icon}</span>
+                  <span className="font-medium">{audioDetails.title}</span>
+                  <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                    {audioDetails.difficulty} - {audioDetails.duration}
+                  </span>
+                </div>
+                <div className="mt-1 text-xs opacity-75">
+                  {audioDetails.description}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Metrics Grid */}
@@ -264,6 +318,66 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
               </div>
             </div>
           </div>
+
+          {/* Wrong Words Section */}
+          {comparison.wrongWords.length > 0 && (
+            <div
+              className={`rounded-xl p-4 mb-4 ${
+                isDarkMode
+                  ? 'bg-red-900/20 border border-red-800/30'
+                  : 'bg-red-50 border border-red-200'
+              }`}
+            >
+              <h3
+                className={`text-base font-semibold mb-3 ${
+                  isDarkMode ? 'text-red-300' : 'text-red-800'
+                }`}
+              >
+                Wrong Words ({comparison.wrongWords.length})
+              </h3>
+              <div className="max-h-32 overflow-y-auto">
+                <div className="space-y-2 text-sm">
+                  {comparison.wrongWords.map((error, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center"
+                    >
+                      <span
+                        className={`text-xs ${
+                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                        }`}
+                      >
+                        #{error.position}
+                      </span>
+                      <div className="flex-1 mx-3">
+                        <span
+                          className={`font-medium ${
+                            isDarkMode ? 'text-red-300' : 'text-red-700'
+                          }`}
+                        >
+                          {error.typed}
+                        </span>
+                        <span
+                          className={`mx-2 ${
+                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                          }`}
+                        >
+                          →
+                        </span>
+                        <span
+                          className={`font-medium ${
+                            isDarkMode ? 'text-green-300' : 'text-green-700'
+                          }`}
+                        >
+                          {error.expected}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Action Button */}
           <div className="text-center">
