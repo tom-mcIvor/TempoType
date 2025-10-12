@@ -83,7 +83,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
       onClick={onClose}
     >
       <div
-        className={`absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-2xl w-full mx-4 transition-colors duration-300 ${
+        className={`results-popup-overlay ${
           isDarkMode ? 'text-gray-100' : 'text-gray-900'
         }`}
         onClick={(e) => e.stopPropagation()}

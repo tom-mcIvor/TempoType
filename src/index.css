@@ -191,12 +191,15 @@ button:focus-visible {
 }
 
 /* If you want a smaller or larger min-width, change 20rem above to the desired value */
-/* HomePage 2x2 grid helper: ensure two columns.
+/* HomePage 2x2 grid helper: ensure two columns on larger screens, single column on smaller screens.
    Prevent collapsing by enforcing a minimum row height while allowing rows to grow. */
 .four-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: minmax(280px, auto); /* increased from 220px to give more space */
+  grid-auto-rows: minmax(
+    280px,
+    auto
+  ); /* increased from 220px to give more space */
   gap: 3rem 3rem; /* horizontal and vertical gap */
   row-gap: 5rem; /* extra vertical spacing between rows */
   width: 100%;
@@ -204,4 +207,47 @@ button:focus-visible {
   margin: 0 auto 4rem; /* added bottom margin to separate from content below */
   box-sizing: border-box;
   align-items: stretch;
+}
+
+/* Responsive: single column layout on smaller screens */
+@media (max-width: 768px) {
+  .four-grid {
+    grid-template-columns: 1fr; /* Single column */
+    gap: 2rem; /* Reduce gap for mobile */
+    row-gap: 3rem; /* Reduce vertical spacing */
+    padding: 0 1rem; /* Add some padding on sides */
+  }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .four-grid {
+    gap: 1.5rem;
+    row-gap: 2rem;
+    grid-auto-rows: minmax(240px, auto); /* Slightly smaller minimum height */
+  }
+}
+
+/* Results Popup Positioning - Position over text box */
+.results-popup-overlay {
+  position: fixed;
+  top: 60vh; /* Position lower to match text box location */
+  left: 65%; /* Move to the left from 80% to 65% */
+  transform: translateX(-50%);
+  width: 40vw; /* Reduced from 60vw to 40vw */
+  max-width: 800px; /* Reduced from 1200px to 800px */
+  z-index: 9999;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+}
+
+/* Dark mode background for results popup */
+.results-popup-overlay.text-gray-100 {
+  background: rgba(31, 41, 55, 0.95);
+  border: 1px solid rgba(75, 85, 99, 0.5);
 }
