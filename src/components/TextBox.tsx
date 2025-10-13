@@ -201,7 +201,7 @@ const TextBox: React.FC<TextBoxProps> = ({
           disabled={disabled}
           className={`w-full p-4 bg-transparent border-none outline-none resize-none font-mono text-sm leading-relaxed transition-colors duration-300 ${
             isDarkMode
-              ? 'text-gray-100 placeholder-gray-400'
+              ? '!text-white placeholder-gray-400'
               : 'text-gray-900 placeholder-gray-500'
           }`}
           style={{
@@ -209,6 +209,7 @@ const TextBox: React.FC<TextBoxProps> = ({
             outline: 'none',
             minHeight: '240px',
             maxHeight: maxHeight,
+            color: isDarkMode ? '#ffffff' : '#111827',
           }}
           spellCheck={false}
           autoComplete="off"
