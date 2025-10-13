@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Typography } from '@mui/material'
 import TextBox from '../TextBox'
 import CarouselWrapper from './carousel/CardCarousel'
 import { audio120Wpm } from '../../data/audio120Wpm'
@@ -107,7 +108,13 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 : 'bg-white/80 border border-white/20'
             }`}
           >
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1
+              className={`text-5xl font-bold ${
+                isDarkMode
+                  ? 'text-white'
+                  : 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent'
+              }`}
+            >
               TempoType
             </h1>
           </div>
@@ -121,14 +128,23 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
           <div className="four-grid mx-auto">
             {/* Slot 1: existing carousel */}
             <div className="w-full">
-              <h3
-                className={`mb-4 text-xl font-semibold w-full ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-                style={{ textAlign: 'center' }}
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{
+                  mb: 2,
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  textShadow: isDarkMode ? '0 2px 4px rgba(0,0,0,0.3)' : '0 2px 4px rgba(0,0,0,0.1)',
+                  letterSpacing: '0.5px',
+                }}
               >
                 Advanced (120 wpm)
-              </h3>
+              </Typography>
               <div
                 style={{ minHeight: '220px' }}
                 className="w-full carousel-slot"
@@ -157,14 +173,23 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
             {/* Slot 2 */}
             <div className="w-full">
-              <h3
-                className={`mb-4 text-xl font-semibold w-full ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-                style={{ textAlign: 'center' }}
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{
+                  mb: 2,
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  textShadow: isDarkMode ? '0 2px 4px rgba(0,0,0,0.3)' : '0 2px 4px rgba(0,0,0,0.1)',
+                  letterSpacing: '0.5px',
+                }}
               >
                 Beginner (20 wpm)
-              </h3>
+              </Typography>
               <div
                 style={{ minHeight: '220px' }}
                 className="w-full carousel-slot"
@@ -193,14 +218,23 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
             {/* Slot 3 */}
             <div className="w-full">
-              <h3
-                className={`mb-4 text-xl font-semibold w-full ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-                style={{ textAlign: 'center' }}
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{
+                  mb: 2,
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  textShadow: isDarkMode ? '0 2px 4px rgba(0,0,0,0.3)' : '0 2px 4px rgba(0,0,0,0.1)',
+                  letterSpacing: '0.5px',
+                }}
               >
                 Intermediate (40 wpm)
-              </h3>
+              </Typography>
               <div
                 style={{ minHeight: '220px' }}
                 className="w-full carousel-slot"
@@ -229,14 +263,23 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
 
             {/* Slot 4 */}
             <div className="w-full">
-              <h3
-                className={`mb-4 text-xl font-semibold w-full ${
-                  isDarkMode ? 'text-gray-100' : 'text-gray-800'
-                }`}
-                style={{ textAlign: 'center' }}
+              <Typography
+                variant="h5"
+                component="h3"
+                sx={{
+                  mb: 2,
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  textShadow: isDarkMode ? '0 2px 4px rgba(0,0,0,0.3)' : '0 2px 4px rgba(0,0,0,0.1)',
+                  letterSpacing: '0.5px',
+                }}
               >
                 Advanced/intermediate (50 wpm)
-              </h3>
+              </Typography>
               <div
                 style={{ minHeight: '220px' }}
                 className="w-full carousel-slot"
