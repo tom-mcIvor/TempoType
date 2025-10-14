@@ -1,4 +1,5 @@
 import React from 'react'
+import { matchWords } from '../../utils/wordMatching'
 
 interface TypingMetrics {
   wpm: number
@@ -37,7 +38,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
   audioDetails,
   onClose,
 }) => {
-  // Calculate detailed comparison
+  // Calculate detailed comparison using flexible word matching
   const calculateComparison = () => {
     // Normalize text: lowercase and remove punctuation for comparison
     const normalizeWord = (word: string) =>
@@ -53,58 +54,61 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
       .split(/\s+/)
       .map(normalizeWord)
       .filter((w) => w.length > 0)
-    const minLength = Math.min(userWords.length, targetWords.length)
 
-    // Count words that match at the same position and identify wrong words
-    let correctWordsAtPosition = 0
+    // Use flexible word matching that handles out-of-order words
+    const matchResult = matchWords(userWords, targetWords)
+
+    // Build list of incorrect words (words that didn't match at all)
+    const matchedTargetWords = new Set(matchResult.matchedIndices)
     const wrongWords: Array<{
       typed: string
       expected: string
       position: number
     }> = []
 
-    for (let i = 0; i < minLength; i++) {
-      if (userWords[i] === targetWords[i]) {
-        correctWordsAtPosition++
-      } else {
+    // Find unmatched words from user's typing
+    for (let i = 0; i < userWords.length; i++) {
+      const userWord = userWords[i]
+      let foundMatch = false
+
+      // Check if this word matched any target word
+      for (let j = 0; j < targetWords.length; j++) {
+        if (userWord === targetWords[j] && matchedTargetWords.has(j)) {
+          foundMatch = true
+          break
+        }
+      }
+
+      if (!foundMatch) {
         wrongWords.push({
-          typed: userWords[i] || '(missing)',
+          typed: userWord,
+          expected: '(not in target)',
+          position: i + 1,
+        })
+      }
+    }
+
+    // Add missing words from target that weren't typed
+    for (let i = 0; i < targetWords.length; i++) {
+      if (!matchedTargetWords.has(i)) {
+        wrongWords.push({
+          typed: '(missing)',
           expected: targetWords[i],
           position: i + 1,
         })
       }
     }
 
-    // Add missing words at the end if target is longer
-    for (let i = minLength; i < targetWords.length; i++) {
-      wrongWords.push({
-        typed: '(missing)',
-        expected: targetWords[i],
-        position: i + 1,
-      })
-    }
-
-    // Also calculate overall word accuracy (how many user words appear in target)
-    let wordsFoundInTarget = 0
-    for (const userWord of userWords) {
-      if (targetWords.includes(userWord)) {
-        wordsFoundInTarget++
-      }
-    }
-
-    const wordAccuracyPercent =
-      userWords.length > 0
-        ? Math.round((wordsFoundInTarget / userWords.length) * 100)
-        : 100
-
     return {
-      correctWords: correctWordsAtPosition,
+      correctWords: matchResult.correctWords,
+      inOrderMatches: matchResult.inOrderMatches,
+      outOfOrderMatches: matchResult.outOfOrderMatches,
       totalTargetWords: targetWords.length,
       completionPercentage: Math.round(
         (userWords.length / targetWords.length) * 100
       ),
-      wordAccuracyPercent,
-      wordsFoundInTarget,
+      wordAccuracyPercent: matchResult.accuracy,
+      wordsFoundInTarget: matchResult.correctWords,
       wrongWords,
     }
   }
@@ -279,28 +283,47 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
                 isDarkMode ? 'text-gray-200' : 'text-gray-800'
               }`}
             >
-              Comparison
+              Word Analysis
             </h3>
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span
                   className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}
                 >
-                  Words in Correct Position:
+                  Correct Words Matched:
                 </span>
                 <span className="font-bold text-green-600">
                   {comparison.correctWords} / {comparison.totalTargetWords}
+                </span>
+              </div>
+              <div className="flex justify-between pl-4">
+                <span
+                  className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}
+                >
+                  ↳ In correct order:
+                </span>
+                <span className="font-medium text-green-500">
+                  {comparison.inOrderMatches}
+                </span>
+              </div>
+              <div className="flex justify-between pl-4">
+                <span
+                  className={isDarkMode ? 'text-gray-400' : 'text-gray-500'}
+                >
+                  ↳ Out of order:
+                </span>
+                <span className="font-medium text-yellow-500">
+                  {comparison.outOfOrderMatches}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span
                   className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}
                 >
-                  Valid Words Typed:
+                  Completion:
                 </span>
                 <span className="font-bold text-blue-600">
-                  {comparison.wordsFoundInTarget} / {metrics.wordsTyped} (
-                  {comparison.wordAccuracyPercent}%)
+                  {metrics.wordsTyped} / {comparison.totalTargetWords} words ({comparison.completionPercentage}%)
                 </span>
               </div>
               <div className="flex justify-between">
