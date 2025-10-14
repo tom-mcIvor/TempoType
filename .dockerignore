@@ -1,0 +1,90 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist
+dist-ssr
+build
+.next
+out
+
+# Development files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+server/.env
+server/.env.*
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+README.md
+LICENSE
+docs/
+project-documentation/
+
+# Testing
+coverage
+.nyc_output
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+test/
+tests/
+__tests__/
+
+# Logs
+logs
+*.log
+
+# Uploads (use volumes instead)
+uploads/
+server/uploads/
+
+# Audio files
+audio-source-files/
+transcriptions/
+*.mp3
+*.wav
+*.m4a
+*.aac
+*.flac
+*.ogg
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+azure-pipelines.yml
+
+# Misc
+tmp
+temp
+.cache

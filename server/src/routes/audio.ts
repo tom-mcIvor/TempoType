@@ -214,14 +214,34 @@ router.get(
     try {
       const { filename } = req.params
       const decoded = decodeURIComponent(filename)
-      const filePath = path.join(__dirname, '../../../audio-source-files', decoded)
+      const sourceDir = path.join(__dirname, '../../../audio-source-files')
+      let filePath = path.join(sourceDir, decoded)
 
+      // If file doesn't exist at root level, search in subdirectories
       if (!fs.existsSync(filePath)) {
-        res.status(404).json({
-          error: 'File not found',
-          message: 'Requested audio file does not exist on disk',
+        const subdirs = fs.readdirSync(sourceDir).filter(item => {
+          const itemPath = path.join(sourceDir, item)
+          return fs.statSync(itemPath).isDirectory()
         })
-        return
+
+        // Search for file in each subdirectory
+        let found = false
+        for (const subdir of subdirs) {
+          const testPath = path.join(sourceDir, subdir, decoded)
+          if (fs.existsSync(testPath)) {
+            filePath = testPath
+            found = true
+            break
+          }
+        }
+
+        if (!found) {
+          res.status(404).json({
+            error: 'File not found',
+            message: 'Requested audio file does not exist on disk',
+          })
+          return
+        }
       }
 
       const stat = fs.statSync(filePath)

@@ -155,6 +155,12 @@ button:focus-visible {
   max-width: calc(100vw - 40vw);
   margin: 0 auto;
   box-sizing: border-box;
+  font-size: 30px !important;
+}
+
+/* Ensure TempoType title is white when text-white class is applied */
+h1.text-white {
+  color: #ffffff !important;
 }
 
 /* Simplified selector: target the common card wrapper when it needs centered content */

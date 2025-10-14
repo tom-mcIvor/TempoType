@@ -199,7 +199,7 @@ const TextBox: React.FC<TextBoxProps> = ({
           onChange={handleTextChange}
           placeholder={placeholder}
           disabled={disabled}
-          className={`w-full p-4 bg-transparent border-none outline-none resize-none font-mono text-2xl leading-relaxed transition-colors duration-300 ${
+          className={`w-full p-4 bg-transparent border-none outline-none resize-none font-mono text-3xl leading-relaxed transition-colors duration-300 ${
             isDarkMode
               ? '!text-white placeholder-gray-400'
               : 'text-gray-900 placeholder-gray-500'
