@@ -42,13 +42,15 @@ const TextBox: React.FC<TextBoxProps> = ({
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
   const startTimeRef = useRef<number | null>(null)
+  const textRef = useRef(text)
 
-  // Sync with external value prop
-  useEffect(() => {
-    if (value !== undefined) {
-      setText(value)
-    }
-  }, [value])
+  // Sync with external value prop ONLY on mount
+  // Remove this to prevent re-renders on every keystroke from parent
+  // useEffect(() => {
+  //   if (value !== undefined) {
+  //     setText(value)
+  //   }
+  // }, [value])
 
   // focus textarea when autoFocus becomes true
   useEffect(() => {
@@ -82,38 +84,20 @@ const TextBox: React.FC<TextBoxProps> = ({
       let errorsCount = 0
 
       if (targetText && currentText.length > 0) {
-        // Normalize words: lowercase and remove punctuation
-        const normalizeWord = (word: string) =>
-          word.toLowerCase().replace(/[^\w]/g, '')
+        // Simple character-based accuracy (much faster than word-based)
+        const minLength = Math.min(currentText.length, targetText.length)
+        let correctChars = 0
 
-        const userWords = currentText
-          .trim()
-          .split(/\s+/)
-          .map(normalizeWord)
-          .filter((w) => w.length > 0)
-
-        const targetWords = targetText
-          .trim()
-          .split(/\s+/)
-          .map(normalizeWord)
-          .filter((w) => w.length > 0)
-
-        // Count words that appear in the target text
-        let correctWords = 0
-        for (const userWord of userWords) {
-          if (targetWords.includes(userWord)) {
-            correctWords++
+        for (let i = 0; i < minLength; i++) {
+          if (currentText[i] === targetText[i]) {
+            correctChars++
           }
         }
 
-        // Calculate errors as words NOT found in target
-        errorsCount = userWords.length - correctWords
-
-        // Calculate word-level accuracy
-        accuracy =
-          userWords.length > 0
-            ? Math.round((correctWords / userWords.length) * 100)
-            : 100
+        errorsCount = currentText.length - correctChars
+        accuracy = currentText.length > 0
+          ? Math.round((correctChars / currentText.length) * 100)
+          : 100
       }
 
       return {
@@ -128,95 +112,90 @@ const TextBox: React.FC<TextBoxProps> = ({
     [targetText]
   )
 
-  // Handle text change
-  const handleTextChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const newText = e.target.value
-      setText(newText)
-      onTextChange?.(newText)
+  // Handle text change - Optimized with debounced parent notification
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newText = e.target.value
+    setText(newText)
 
-      // Start timer on first character
-      if (!startTimeRef.current && newText.length === 1) {
-        const now = Date.now()
-        setStartTime(now)
-        startTimeRef.current = now
-      }
+    // Start timer on first character
+    if (!startTimeRef.current && newText.length === 1) {
+      const now = Date.now()
+      setStartTime(now)
+      startTimeRef.current = now
+    }
 
-      // Reset if text is cleared
-      if (newText.length === 0) {
-        setStartTime(null)
-        startTimeRef.current = null
-        const resetMetrics = {
-          wpm: 0,
-          accuracy: 100,
-          charactersTyped: 0,
-          wordsTyped: 0,
-          timeElapsed: 0,
-          errorsCount: 0,
-        }
-        onMetricsChange?.(resetMetrics)
-      }
-    },
-    [onTextChange, onMetricsChange]
-  )
+    // Reset if text is cleared
+    if (newText.length === 0) {
+      setStartTime(null)
+      startTimeRef.current = null
+      onMetricsChange?.({
+        wpm: 0,
+        accuracy: 100,
+        charactersTyped: 0,
+        wordsTyped: 0,
+        timeElapsed: 0,
+        errorsCount: 0,
+      })
+    }
+  }
 
-  // Update metrics every 500ms while typing (reduced frequency)
+  // Debounced parent notification - only after user stops typing
   useEffect(() => {
-    if (startTime && text.length > 0 && !stopped) {
-      intervalRef.current = setInterval(() => {
-        if (startTimeRef.current) {
-          const newMetrics = calculateMetrics(text, startTimeRef.current)
-          onMetricsChange?.(newMetrics)
-        }
-      }, 500)
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
-        intervalRef.current = null
-      }
-    }
+    const timer = setTimeout(() => {
+      onTextChange?.(text)
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [text, onTextChange])
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current)
+  // Keep textRef in sync with text state
+  useEffect(() => {
+    textRef.current = text
+  }, [text])
+
+  // Debounced metrics calculation - only update after user stops typing
+  useEffect(() => {
+    if (!startTime || text.length === 0 || stopped) return
+
+    // Debounce: wait 500ms after user stops typing before calculating
+    const debounceTimer = setTimeout(() => {
+      if (startTimeRef.current) {
+        const newMetrics = calculateMetrics(text, startTimeRef.current)
+        onMetricsChange?.(newMetrics)
       }
-    }
-  }, [startTime, text, calculateMetrics, onMetricsChange, stopped])
+    }, 500)
+
+    return () => clearTimeout(debounceTimer)
+  }, [text, startTime, calculateMetrics, onMetricsChange, stopped])
 
   return (
-    <div
-      className={className}
-      style={{ border: '6px solid #3b82f6', borderRadius: '8px' }}
-    >
-      <div
-        className={`typing-area rounded-lg transition-all duration-300 ${
-          isDarkMode ? 'bg-gray-800/90' : 'bg-white/90'
-        }`}
-      >
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={handleTextChange}
-          placeholder={placeholder}
-          disabled={disabled}
-          className={`w-full p-4 bg-transparent border-none outline-none resize-none font-mono text-3xl leading-relaxed transition-colors duration-300 ${
-            isDarkMode
-              ? '!text-white placeholder-gray-400'
-              : 'text-gray-900 placeholder-gray-500'
-          }`}
-          style={{
-            border: 'none',
-            outline: 'none',
-            minHeight: '240px',
-            maxHeight: maxHeight,
-            color: isDarkMode ? '#ffffff' : '#111827',
-          }}
-          spellCheck={false}
-          autoComplete="off"
-          autoCorrect="off"
-          autoCapitalize="off"
-          />
-      </div>
+    <div className={className}>
+      <textarea
+        ref={textareaRef}
+        value={text}
+        onChange={handleTextChange}
+        placeholder={placeholder}
+        disabled={disabled}
+        style={{
+          width: '100%',
+          padding: '16px',
+          fontSize: '24px', // Larger but not huge
+          fontFamily: 'monospace',
+          lineHeight: '1.6',
+          border: '3px solid #3b82f6',
+          borderRadius: '8px',
+          minHeight: '240px',
+          maxHeight: maxHeight,
+          backgroundColor: isDarkMode ? '#1f2937' : '#ffffff',
+          color: isDarkMode ? '#ffffff' : '#111827',
+          outline: 'none',
+          resize: 'none',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+        }}
+        spellCheck={false}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+      />
     </div>
   )
 }
