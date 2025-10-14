@@ -356,45 +356,7 @@ const ResultsPopUp: React.FC<ResultsPopUpProps> = ({
                 Wrong Words ({comparison.wrongWords.length})
               </h3>
               <div className="max-h-32 overflow-y-auto">
-                <div className="space-y-2 text-sm">
-                  {comparison.wrongWords.map((error, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center"
-                    >
-                      <span
-                        className={`text-xs ${
-                          isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                        }`}
-                      >
-                        #{error.position}
-                      </span>
-                      <div className="flex-1 mx-3">
-                        <span
-                          className={`font-medium ${
-                            isDarkMode ? 'text-red-300' : 'text-red-700'
-                          }`}
-                        >
-                          {error.typed}
-                        </span>
-                        <span
-                          className={`mx-2 ${
-                            isDarkMode ? 'text-gray-400' : 'text-gray-500'
-                          }`}
-                        >
-                          →
-                        </span>
-                        <span
-                          className={`font-medium ${
-                            isDarkMode ? 'text-green-300' : 'text-green-700'
-                          }`}
-                        >
-                          {error.expected}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <div className="space-y-2 text-sm"></div>
               </div>
             </div>
           )}
