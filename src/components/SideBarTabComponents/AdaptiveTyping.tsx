@@ -4,6 +4,7 @@ import {
   PauseIcon,
 } from '@heroicons/react/24/solid'
 import TextBox from '../TextBox'
+import { matchWords } from '../../utils/wordMatching'
 
 interface AdaptiveTypingProps {
   audioSrc: string
@@ -31,8 +32,6 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
   const [duration, setDuration] = useState(0)
   const [typedText, setTypedText] = useState('')
   const [playbackRate, setPlaybackRate] = useState(1.0)
-  // Adaptive audio WPM = original target WPM scaled by current playback rate
-  const adaptiveAudioWPM = Math.round(targetWPM * playbackRate)
   const [typingStats, setTypingStats] = useState<TypingStats>({
     wordsTyped: 0,
     startTime: Date.now(),
@@ -118,16 +117,12 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
 
   const calculateAccuracy = (): number => {
     if (!typedText.trim()) return 100
-    const typedWords = typedText.trim().toLowerCase().split(/\s+/)
-    const targetWords = transcription.trim().toLowerCase().split(/\s+/)
-    let correct = 0
-    const minLength = Math.min(typedWords.length, targetWords.length)
-    for (let i = 0; i < minLength; i++) {
-      if (typedWords[i] === targetWords[i]) {
-        correct++
-      }
-    }
-    return minLength > 0 ? Math.round((correct / minLength) * 100) : 100
+    const typedWords = typedText.trim().split(/\s+/).filter(w => w.length > 0)
+    const targetWords = transcription.trim().split(/\s+/).filter(w => w.length > 0)
+
+    // Use flexible word matching that handles out-of-order words
+    const matchResult = matchWords(typedWords, targetWords)
+    return matchResult.accuracy
   }
 
   return (
