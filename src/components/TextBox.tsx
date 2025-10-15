@@ -21,6 +21,7 @@ interface TextBoxProps {
   autoFocus?: boolean
   value?: string
   stopped?: boolean
+  currentAudioId?: string | null
 }
 
 const TextBox: React.FC<TextBoxProps> = ({
@@ -35,6 +36,7 @@ const TextBox: React.FC<TextBoxProps> = ({
   autoFocus = false,
   value,
   stopped = false,
+  currentAudioId = null,
 }) => {
   const [text, setText] = useState(value || '')
   const [startTime, setStartTime] = useState<number | null>(null)
@@ -61,6 +63,15 @@ const TextBox: React.FC<TextBoxProps> = ({
     }
     return
   }, [autoFocus])
+
+  // Reset text when a new audio is selected
+  useEffect(() => {
+    if (currentAudioId) {
+      setText('')
+      setStartTime(null)
+      startTimeRef.current = null
+    }
+  }, [currentAudioId])
 
   // Calculate typing metrics
   const calculateMetrics = useCallback(

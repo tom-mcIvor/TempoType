@@ -333,6 +333,7 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 onTextChange={handleTextChange}
                 value={userTypedText}
                 stopped={audioStopped}
+                currentAudioId={currentAudioId}
                 className="w-full"
               />
             </div>
