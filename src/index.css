@@ -311,3 +311,27 @@ h1.text-white {
 .results-popup-overlay.text-gray-100 .close-button:hover {
   background: rgba(220, 38, 38, 1) !important;
 }
+
+/* Audio Card Countdown Overlay - Force center positioning */
+.card-hover {
+  position: relative !important;
+}
+
+.card-hover > div[class*="absolute"][class*="inset-0"] {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10 !important;
+}
+
+.card-hover > div[class*="absolute"] > div[class*="rounded-full"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
