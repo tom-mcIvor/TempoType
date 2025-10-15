@@ -191,7 +191,7 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
         onClick={togglePlay}
         onKeyDown={handleKeyDown}
         aria-pressed={isPlaying}
-        className={`group card-hover flex items-center gap-4 p-6 rounded-xl cursor-pointer transition-all duration-200 ease-out ${
+        className={`group card-hover relative flex items-center gap-4 p-6 rounded-xl cursor-pointer transition-all duration-200 ease-out ${
           isDarkMode
             ? 'border-2 border-gray-600 text-gray-100 hover:border-gray-500'
             : 'border-2 border-gray-300 text-gray-900 hover:border-gray-400'
@@ -297,8 +297,8 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
 
         {/* Countdown overlay (shows while counting down) */}
         {countdown !== null && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="rounded-full bg-black/60 text-white font-bold text-4xl w-20 h-20 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+            <div className="rounded-full bg-black/80 text-white font-bold text-6xl w-32 h-32 flex items-center justify-center shadow-2xl">
               {countdown}
             </div>
           </div>
