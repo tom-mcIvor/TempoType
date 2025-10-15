@@ -312,12 +312,8 @@ h1.text-white {
   background: rgba(220, 38, 38, 1) !important;
 }
 
-/* Audio Card Countdown Overlay - Force center positioning */
-.card-hover {
-  position: relative !important;
-}
-
-.card-hover > div[class*="absolute"][class*="inset-0"] {
+/* Audio Card Countdown Overlay - Force center positioning - Only target countdown specifically */
+.card-hover > div[class*="absolute"][class*="inset-0"][class*="pointer-events-none"] {
   position: absolute !important;
   top: 0 !important;
   right: 0 !important;
@@ -329,7 +325,7 @@ h1.text-white {
   z-index: 10 !important;
 }
 
-.card-hover > div[class*="absolute"] > div[class*="rounded-full"] {
+.card-hover > div[class*="absolute"][class*="pointer-events-none"] > div[class*="rounded-full"][class*="bg-black"] {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
