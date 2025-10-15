@@ -22,7 +22,7 @@ const typingTextSchema = new Schema<ITypingText>({
     type: String,
     required: [true, 'Content is required'],
     minlength: [50, 'Content must be at least 50 characters long'],
-    maxlength: [5000, 'Content cannot exceed 5000 characters']
+    maxlength: [50000, 'Content cannot exceed 50000 characters']
   },
   difficulty: {
     type: String,

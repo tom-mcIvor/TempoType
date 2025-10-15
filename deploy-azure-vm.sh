@@ -7,7 +7,7 @@ set -e
 
 # Configuration
 RESOURCE_GROUP="tempotype-rg"
-LOCATION="westus"  # US West - B1s available with Spot pricing
+LOCATION="eastus"  # US East (Virginia) - B1s available
 VM_NAME="tempotype-vm"
 VM_SIZE="Standard_B1s"  # Cheapest: ~$7.59/month (1 vCPU, 1GB RAM)
 # VM_SIZE="Standard_B2s"  # Better: ~$30/month (2 vCPUs, 4GB RAM)
@@ -82,6 +82,7 @@ echo "🌐 Creating public IP address..."
 az network public-ip create \
   --resource-group $RESOURCE_GROUP \
   --name $PUBLIC_IP_NAME \
+  --location $LOCATION \
   --allocation-method Static \
   --sku Standard
 
