@@ -70,6 +70,10 @@ const TextBox: React.FC<TextBoxProps> = ({
       setText('')
       setStartTime(null)
       startTimeRef.current = null
+      // Focus the textarea after resetting
+      if (textareaRef.current) {
+        setTimeout(() => textareaRef.current?.focus(), 0)
+      }
     }
   }, [currentAudioId])
 
