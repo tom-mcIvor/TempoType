@@ -350,21 +350,28 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="metric-item text-center">
-                <div className="text-2xl font-bold text-blue-600 mb-1">
-                  {metrics.wpm}
-                </div>
                 <div
-                  className={`text-xs font-medium ${
+                  className={`text-xs font-medium mb-1 ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-600'
                   }`}
                 >
                   WPM
                 </div>
+                <div className="text-2xl font-bold text-blue-600">
+                  {metrics.wpm}
+                </div>
               </div>
 
               <div className="metric-item text-center">
                 <div
-                  className={`text-2xl font-bold mb-1 ${
+                  className={`text-xs font-medium mb-1 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}
+                >
+                  Accuracy
+                </div>
+                <div
+                  className={`text-2xl font-bold ${
                     metrics.accuracy >= 95
                       ? 'text-green-600'
                       : metrics.accuracy >= 85
@@ -374,39 +381,32 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
                 >
                   {metrics.accuracy}%
                 </div>
-                <div
-                  className={`text-xs font-medium ${
-                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                  }`}
-                >
-                  Accuracy
-                </div>
               </div>
 
               <div className="metric-item text-center">
-                <div className="text-2xl font-bold text-purple-600 mb-1">
-                  {metrics.charactersTyped}
-                </div>
                 <div
-                  className={`text-xs font-medium ${
+                  className={`text-xs font-medium mb-1 ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-600'
                   }`}
                 >
                   Characters
                 </div>
+                <div className="text-2xl font-bold text-purple-600">
+                  {metrics.charactersTyped}
+                </div>
               </div>
 
               <div className="metric-item text-center">
-                <div className="text-2xl font-bold text-orange-600 mb-1">
-                  {Math.floor(metrics.timeElapsed / 60)}:
-                  {(metrics.timeElapsed % 60).toString().padStart(2, '0')}
-                </div>
                 <div
-                  className={`text-xs font-medium ${
+                  className={`text-xs font-medium mb-1 ${
                     isDarkMode ? 'text-gray-300' : 'text-gray-600'
                   }`}
                 >
                   Time
+                </div>
+                <div className="text-2xl font-bold text-orange-600">
+                  {Math.floor(metrics.timeElapsed / 60)}:
+                  {(metrics.timeElapsed % 60).toString().padStart(2, '0')}
                 </div>
               </div>
             </div>
