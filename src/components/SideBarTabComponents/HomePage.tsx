@@ -413,13 +413,13 @@ const HomePage: React.FC<HomePageProps> = ({ isDarkMode = false }) => {
           </div>
 
           {/* Developer Button to trigger ResultsPopUp */}
-          <button
+          {/* <button
             onClick={() => setShowResultsPopup(true)}
             className="fixed bottom-4 right-4 z-50 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-4 py-2 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"
             title="Show Results Popup (Developer)"
           >
             Dev: Show Results
-          </button>
+          </button> */}
 
           {/* ResultsPopUp - conditionally rendered for both dev button and audio end */}
           {showResultsPopup && (
