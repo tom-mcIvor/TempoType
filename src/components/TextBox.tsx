@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
+import { matchWords } from '../utils/wordMatching'
 
 interface TypingMetrics {
   wpm: number
@@ -99,20 +100,13 @@ const TextBox: React.FC<TextBoxProps> = ({
       let errorsCount = 0
 
       if (targetText && currentText.length > 0) {
-        // Simple character-based accuracy (much faster than word-based)
-        const minLength = Math.min(currentText.length, targetText.length)
-        let correctChars = 0
+        // Use word-based accuracy for better measurement
+        const typedWords = currentText.trim().split(/\s+/).filter(w => w.length > 0)
+        const targetWords = targetText.trim().split(/\s+/).filter(w => w.length > 0)
 
-        for (let i = 0; i < minLength; i++) {
-          if (currentText[i] === targetText[i]) {
-            correctChars++
-          }
-        }
-
-        errorsCount = currentText.length - correctChars
-        accuracy = currentText.length > 0
-          ? Math.round((correctChars / currentText.length) * 100)
-          : 100
+        const matchResult = matchWords(typedWords, targetWords)
+        accuracy = matchResult.accuracy
+        errorsCount = matchResult.incorrectWords
       }
 
       return {
