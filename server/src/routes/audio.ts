@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
+import mongoose from 'mongoose'
 import { AudioFile } from '../models/AudioFile'
 import { auth, optionalAuth } from '../middleware/auth'
 
@@ -206,7 +207,7 @@ router.get(
   }
 )
 
-// Stream a file directly from audio-source-files (supports range requests)
+// Stream a file from GridFS or fallback to filesystem (supports range requests)
 router.get(
   '/source-files/stream/:filename',
   optionalAuth,
@@ -214,6 +215,67 @@ router.get(
     try {
       const { filename } = req.params
       const decoded = decodeURIComponent(filename)
+
+      // First, try to stream from GridFS
+      const db = mongoose.connection.db
+      if (db) {
+        const bucket = new mongoose.mongo.GridFSBucket(db, {
+          bucketName: 'audioFiles'
+        })
+
+        try {
+          // Check if file exists in GridFS
+          const files = await bucket.find({ filename: decoded }).toArray()
+
+          if (files.length > 0) {
+            const file = files[0]
+            const fileSize = file.length
+            const range = req.headers.range
+
+            const contentType = decoded.toLowerCase().endsWith('.mp3')
+              ? 'audio/mpeg'
+              : 'application/octet-stream'
+
+            if (range) {
+              // Support for range requests (seeking)
+              const parts = range.replace(/bytes=/, '').split('-')
+              const start = parseInt(parts[0], 10)
+              const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
+              const chunksize = end - start + 1
+
+              const downloadStream = bucket.openDownloadStreamByName(decoded, {
+                start,
+                end: end + 1
+              })
+
+              const head = {
+                'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                'Accept-Ranges': 'bytes',
+                'Content-Length': chunksize,
+                'Content-Type': contentType,
+              }
+              res.writeHead(206, head)
+              downloadStream.pipe(res)
+              return
+            } else {
+              // Full file
+              const downloadStream = bucket.openDownloadStreamByName(decoded)
+              const head = {
+                'Content-Length': fileSize,
+                'Content-Type': contentType,
+                'Accept-Ranges': 'bytes',
+              }
+              res.writeHead(200, head)
+              downloadStream.pipe(res)
+              return
+            }
+          }
+        } catch (gridfsError) {
+          console.log('File not in GridFS, trying filesystem:', decoded)
+        }
+      }
+
+      // Fallback to filesystem if not in GridFS
       const sourceDir = path.join(__dirname, '../../../audio-source-files')
       let filePath = path.join(sourceDir, decoded)
 
@@ -238,7 +300,7 @@ router.get(
         if (!found) {
           res.status(404).json({
             error: 'File not found',
-            message: 'Requested audio file does not exist on disk',
+            message: 'Requested audio file does not exist in GridFS or on disk',
           })
           return
         }
@@ -248,7 +310,6 @@ router.get(
       const fileSize = stat.size
       const range = req.headers.range
 
-      // Default to audio/mpeg for mp3 files; fallback to octet-stream if unsure
       const contentType = decoded.toLowerCase().endsWith('.mp3')
         ? 'audio/mpeg'
         : 'application/octet-stream'
