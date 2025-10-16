@@ -42,13 +42,23 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
   const adjustAudioSpeed = useCallback(
     (userWPM: number) => {
       if (!audioRef.current) return
-      const speedRatio = userWPM / targetWPM
+      // Apply a 1.15x multiplier to user WPM to make it easier to speed up
+      const adjustedUserWPM = userWPM * 1.15
+      const speedRatio = adjustedUserWPM / targetWPM
       let newRate = Math.max(0.25, Math.min(2.0, speedRatio))
       const currentRate = audioRef.current.playbackRate
       const rateDifference = Math.abs(newRate - currentRate)
 
-      if (rateDifference > 0.1) {
-        const adjustmentStep = rateDifference > 0.3 ? 0.1 : 0.05
+      // Lower threshold and use larger steps for speeding up
+      if (rateDifference > 0.05) {
+        let adjustmentStep: number
+        if (newRate > currentRate) {
+          // Speeding up: use larger steps
+          adjustmentStep = rateDifference > 0.3 ? 0.15 : 0.1
+        } else {
+          // Slowing down: use smaller steps for smoother deceleration
+          adjustmentStep = rateDifference > 0.3 ? 0.08 : 0.05
+        }
         newRate =
           newRate > currentRate
             ? Math.min(newRate, currentRate + adjustmentStep)
@@ -109,6 +119,29 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
     }
   }
 
+  const handleSpeedIncrease = () => {
+    if (audioRef.current) {
+      const newRate = Math.min(2.0, playbackRate + 0.1)
+      audioRef.current.playbackRate = newRate
+      setPlaybackRate(newRate)
+    }
+  }
+
+  const handleSpeedDecrease = () => {
+    if (audioRef.current) {
+      const newRate = Math.max(0.25, playbackRate - 0.1)
+      audioRef.current.playbackRate = newRate
+      setPlaybackRate(newRate)
+    }
+  }
+
+  const handleSpeedReset = () => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = 1.0
+      setPlaybackRate(1.0)
+    }
+  }
+
   const formatTime = (time: number): string => {
     const minutes = Math.floor(time / 60)
     const seconds = Math.floor(time % 60)
@@ -158,8 +191,8 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
           </div>
         </div>
 
-        {/* Play Audio Button - Positioned just below title */}
-        <div className="flex justify-center mb-6">
+        {/* Play Audio Button and Speed Controls */}
+        <div className="flex justify-center items-center gap-4 mb-6">
           <button
             onClick={isPlaying ? handlePause : handlePlay}
             className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 font-medium text-base"
@@ -177,6 +210,48 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
             )}
             <span>{isPlaying ? 'Pause' : 'Play Audio'}</span>
           </button>
+
+          {/* Manual Speed Controls */}
+          <div className={`flex items-center gap-2 backdrop-blur-sm rounded-lg px-3 py-2 shadow-md ${
+            isDarkMode ? 'bg-gray-800/90 border border-gray-700/50' : 'bg-white/80 border border-white/20'
+          }`}>
+            <button
+              onClick={handleSpeedDecrease}
+              disabled={playbackRate <= 0.25}
+              className={`px-3 py-1 rounded font-bold text-lg ${
+                playbackRate <= 0.25
+                  ? 'bg-gray-400 cursor-not-allowed text-gray-600'
+                  : 'bg-red-500 hover:bg-red-600 text-white'
+              } transition-colors`}
+              title="Decrease speed by 0.1x"
+            >
+              −
+            </button>
+            <span className={`font-semibold min-w-[60px] text-center ${
+              isDarkMode ? 'text-gray-200' : 'text-gray-700'
+            }`}>
+              {playbackRate.toFixed(2)}x
+            </span>
+            <button
+              onClick={handleSpeedIncrease}
+              disabled={playbackRate >= 2.0}
+              className={`px-3 py-1 rounded font-bold text-lg ${
+                playbackRate >= 2.0
+                  ? 'bg-gray-400 cursor-not-allowed text-gray-600'
+                  : 'bg-green-500 hover:bg-green-600 text-white'
+              } transition-colors`}
+              title="Increase speed by 0.1x"
+            >
+              +
+            </button>
+            <button
+              onClick={handleSpeedReset}
+              className="ml-2 px-3 py-1 rounded text-sm bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+              title="Reset to 1.0x speed"
+            >
+              Reset
+            </button>
+          </div>
         </div>
 
         {/* TextBox Component */}
