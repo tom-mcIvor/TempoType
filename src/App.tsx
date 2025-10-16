@@ -4,6 +4,7 @@ import HomePage from './components/SideBarTabComponents/HomePage'
 import { AdaptiveTyping } from './components/SideBarTabComponents/AdaptiveTyping'
 import StatsPage from './components/SideBarTabComponents/StatsPage'
 import AudioLibraryPage from './components/SideBarTabComponents/AudioLibraryPage'
+import audioService from './services/api/audioService'
 
 function App() {
   console.log('App rendered')
@@ -39,7 +40,7 @@ function App() {
       >
         {currentView === 'adaptiveTyping' ? (
           <AdaptiveTyping
-            audioSrc="/fateoffenella_01_various_64kb.mp3"
+            audioSrc={audioService.getSourceFileStreamUrl('120wpm/fateoffenella_01_various_64kb.mp3')}
             transcription={''}
             targetWPM={148.8}
             isDarkMode={isDarkMode}
