@@ -42,27 +42,37 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
   const adjustAudioSpeed = useCallback(
     (userWPM: number) => {
       if (!audioRef.current) return
-      // Apply a 1.15x multiplier to user WPM to make it easier to speed up
-      const adjustedUserWPM = userWPM * 1.15
-      const speedRatio = adjustedUserWPM / targetWPM
-      let newRate = Math.max(0.25, Math.min(2.0, speedRatio))
       const currentRate = audioRef.current.playbackRate
-      const rateDifference = Math.abs(newRate - currentRate)
+      const currentAudioWPM = targetWPM * currentRate
 
-      // Lower threshold and use larger steps for speeding up
-      if (rateDifference > 0.05) {
-        let adjustmentStep: number
-        if (newRate > currentRate) {
-          // Speeding up: use larger steps
-          adjustmentStep = rateDifference > 0.3 ? 0.15 : 0.1
-        } else {
-          // Slowing down: use smaller steps for smoother deceleration
-          adjustmentStep = rateDifference > 0.3 ? 0.08 : 0.05
-        }
-        newRate =
-          newRate > currentRate
-            ? Math.min(newRate, currentRate + adjustmentStep)
-            : Math.max(newRate, currentRate - adjustmentStep)
+      // Compare user's WPM to current audio speed
+      // Different multipliers for speeding up vs slowing down
+      const speedUpMultiplier = 1.3  // Bonus for speeding up
+      const slowDownMultiplier = 1.0 // No bonus for slowing down (fair comparison)
+
+      let newRate = currentRate
+
+      // Check if user is keeping pace (use bonus multiplier)
+      const adjustedUserWPMForSpeedUp = userWPM * speedUpMultiplier
+      const performanceRatioForSpeedUp = adjustedUserWPMForSpeedUp / currentAudioWPM
+
+      // Check if user is falling behind (use fair multiplier)
+      const adjustedUserWPMForSlowDown = userWPM * slowDownMultiplier
+      const performanceRatioForSlowDown = adjustedUserWPMForSlowDown / currentAudioWPM
+
+      // Speed up if keeping pace at 85%+ (with bonus)
+      if (performanceRatioForSpeedUp >= 0.85) {
+        const speedUpAmount = performanceRatioForSpeedUp > 1.0 ? 0.06 : 0.04
+        newRate = Math.min(2.0, currentRate + speedUpAmount)
+      }
+      // Slow down if falling behind at 75% or less (no bonus)
+      else if (performanceRatioForSlowDown < 0.75) {
+        const slowDownAmount = performanceRatioForSlowDown < 0.5 ? 0.06 : 0.04
+        newRate = Math.max(0.25, currentRate - slowDownAmount)
+      }
+      // Otherwise maintain current speed
+
+      if (Math.abs(newRate - currentRate) > 0.01) {
         audioRef.current.playbackRate = newRate
         setPlaybackRate(newRate)
       }
