@@ -15,8 +15,8 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the frontend
-RUN npm run build:frontend
+# Build the frontend (vite handles TypeScript internally)
+RUN npx vite build
 
 # Production stage - serve with nginx
 FROM nginx:alpine
