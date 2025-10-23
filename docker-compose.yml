@@ -34,11 +34,14 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3001
-      MONGODB_URI: mongodb+srv://ttmcivor:REDACTED_PASSWORD@cluster0.kjwztxa.mongodb.net/tempotype?retryWrites=true&w=majority&appName=Cluster0
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/tempotype?authSource=admin
       JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
       FRONTEND_URL: http://localhost:80
     volumes:
       - ./uploads:/app/uploads
+    depends_on:
+      mongodb:
+        condition: service_healthy
     networks:
       - tempotype-network
     healthcheck:
