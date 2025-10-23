@@ -309,7 +309,7 @@ const CardCarousel: React.FC<CardCarouselProps> = ({
           <audio
             ref={audioRef}
             src={card.audioSrc}
-            preload="auto"
+            preload="none"
             // keep the element present but offscreen; some browsers handle play()
             // better when the element exists in layout rather than display:none
             style={{ position: 'absolute', left: -9999, width: 0, height: 0 }}
