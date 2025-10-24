@@ -425,6 +425,7 @@ export const AdaptiveTyping: React.FC<AdaptiveTypingProps> = ({
               <audio
                 ref={audioRef}
                 src={audioSrc}
+                preload="none"
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
                 className="hidden"

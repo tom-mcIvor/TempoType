@@ -224,8 +224,15 @@ router.get(
         })
 
         try {
+          // Strip directory prefix from filename for GridFS search
+          // Frontend requests: "20wpm/JC1 20 WPM.mp3"
+          // GridFS stores as: "JC1 20 WPM.mp3"
+          const filenameWithoutDir = decoded.includes('/')
+            ? decoded.split('/').pop() || decoded
+            : decoded
+
           // Check if file exists in GridFS
-          const files = await bucket.find({ filename: decoded }).toArray()
+          const files = await bucket.find({ filename: filenameWithoutDir }).toArray()
 
           if (files.length > 0) {
             const file = files[0]
@@ -243,7 +250,7 @@ router.get(
               const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1
               const chunksize = end - start + 1
 
-              const downloadStream = bucket.openDownloadStreamByName(decoded, {
+              const downloadStream = bucket.openDownloadStreamByName(filenameWithoutDir, {
                 start,
                 end: end + 1
               })
@@ -259,7 +266,7 @@ router.get(
               return
             } else {
               // Full file
-              const downloadStream = bucket.openDownloadStreamByName(decoded)
+              const downloadStream = bucket.openDownloadStreamByName(filenameWithoutDir)
               const head = {
                 'Content-Length': fileSize,
                 'Content-Type': contentType,
