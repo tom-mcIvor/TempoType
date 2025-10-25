@@ -181,17 +181,17 @@ class AudioService {
   }
 
   async getTranscription(audioFilename: string): Promise<string> {
-    // Extract the base filename from the audio URL
-    // e.g., "20wpm%2FJC1%2020%20WPM.mp3" -> "JC1 20 WPM"
+    // Extract the filename from the audio URL
+    // e.g., "20wpm%2FJC1%2020%20WPM.mp3" -> "20wpm/JC1 20 WPM.mp3"
     const decodedFilename = decodeURIComponent(audioFilename)
-    const baseFilename = decodedFilename.split('/').pop()?.replace(/\.(mp3|wav|ogg)$/i, '') || ''
 
-    const response = await fetch(`/transcriptions/${encodeURIComponent(baseFilename)}.txt`, {
+    // Call the backend API to get transcription from MongoDB
+    const response = await fetch(`/api/typing/transcription/${encodeURIComponent(decodedFilename)}`, {
       method: 'GET',
     })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch transcription for ${baseFilename}`)
+      throw new Error(`Failed to fetch transcription for ${decodedFilename}`)
     }
 
     return response.text()

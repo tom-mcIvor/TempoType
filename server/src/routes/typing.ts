@@ -72,6 +72,50 @@ router.get('/texts/:id', optionalAuth, async (req: Request, res: Response): Prom
   }
 });
 
+// Get transcription by audio filename
+router.get('/transcription/:filename', optionalAuth, async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { filename } = req.params;
+
+    // Decode and extract base filename (e.g., "20wpm/JC1 20 WPM.mp3" -> "JC1 20 WPM.mp3")
+    const decodedFilename = decodeURIComponent(filename);
+    const baseFilename = decodedFilename.split('/').pop() || '';
+
+    // Apply the same title generation logic as the seeding script
+    let title = baseFilename.replace('.mp3', '');
+    title = title
+      .replace(/_/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/^\d{3}\s*/, '') // Remove leading numbers like "020 "
+      .trim();
+
+    console.log(`Looking for transcription with title: "${title}"`);
+
+    // Find typing text by exact title match (case-insensitive)
+    const text = await TypingText.findOne({
+      title: new RegExp(`^${title}$`, 'i'),
+      isActive: true
+    }).select('content');
+
+    if (!text) {
+      res.status(404).json({
+        error: 'Transcription not found',
+        message: `No transcription found for: ${title}`
+      });
+      return;
+    }
+
+    // Return just the content as plain text
+    res.type('text/plain').send(text.content);
+  } catch (error) {
+    console.error('Get transcription error:', error);
+    res.status(500).json({
+      error: 'Failed to fetch transcription',
+      message: 'An error occurred while fetching the transcription'
+    });
+  }
+});
+
 // Get random typing text (any difficulty)
 router.get('/texts/random', optionalAuth, async (req: Request, res: Response): Promise<void> => {
   try {
